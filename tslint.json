@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-immutable"],
+  "extends": ["tslint:latest", "tslint-immutable"],
   "rules": {
     "interface-name": [true, "never-prefix"],
     // TODO: allow devDependencies only in **/*.spec.ts files:
@@ -21,14 +21,18 @@
     "no-method-signature": true,
 
     // Functional style rules
-    "no-this": true,
-    "no-class": true,
     "no-mixed-interface": true,
     "no-expression-statement": [
       true,
       { "ignore-prefix": ["console.", "process.exit"] }
     ],
-    "no-if-statement": true
+    "no-if-statement": true,
     /* end tslint-immutable rules */
+
+    /* Custom project's rules */
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "no-expression-statement": [true, {"ignore-prefix": ["this.", "console."]}],
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"]
   }
 }

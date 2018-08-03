@@ -2,6 +2,8 @@
 
 Switcheo Library
 
+https://github.com/bitjson/typescript-starter
+
 ### Develop
 - `npm run info`: "Display information about the package scripts",
 - `npm run watch`: "Watch and rebuild the project on save, then rerun relevant tests",
