@@ -1,4 +1,4 @@
-import { u, wallet } from '@cityofzion/neon-js'
+import { tx, u, wallet } from '@cityofzion/neon-js'
 import stringify from 'json-stable-stringify'
 import { mapKeys, snakeCase } from 'lodash'
 
@@ -11,6 +11,11 @@ const encodeMessage = (message) => {
   const messageLengthHex = (messageHex.length / 2).toString(16).padStart(2, '0')
   const encodedMessage = `010001f0${messageLengthHex}${messageHex}0000`
   return encodedMessage
+}
+
+export const signTransaction = (transaction, privateKey) => {
+  const serializedTxn = tx.serializeTransaction(transaction, false)
+  return signMessage(serializedTxn, privateKey)
 }
 
 const convertKeysToSnakeCase = (obj) => {

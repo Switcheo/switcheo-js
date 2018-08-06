@@ -1,12 +1,12 @@
 import { post } from '../../api/helpers'
 import { signParams } from '../../utils'
 
-export const planOrders = (s, {
+export const planOrder = (s, {
   pair, blockchain, side, price, wantAmount,
   useNativeTokens, orderType, timestamp,
 }) => {
   const contractHash =  s.config.contractHash
-  const address = s.account.addressHash
+  const address = s.account.scriptHash
   const privateKey = s.account.privateKey
 
   const signableParams = {

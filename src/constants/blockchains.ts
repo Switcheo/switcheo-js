@@ -1,2 +1,2 @@
-export const NEO = 'neo'
-export const ETH = 'eth'
+export const NEO: Blockchain = 'neo'
+export const ETH: Blockchain = 'eth'

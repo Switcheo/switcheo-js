@@ -1,0 +1,1 @@
+type Net = 'MainNet' | 'TestNet'

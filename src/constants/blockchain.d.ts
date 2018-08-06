@@ -1,0 +1,1 @@
+type Blockchain = 'neo' | 'eth'
