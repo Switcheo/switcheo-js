@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:latest", "tslint-immutable"],
+  "extends": ["tslint:latest", "tslint-immutable", "tslint-config-airbnb"],
   "rules": {
     "interface-name": [true, "never-prefix"],
     // TODO: allow devDependencies only in **/*.spec.ts files:
@@ -15,24 +15,19 @@
     // Immutability rules
     "readonly-keyword": true,
     "readonly-array": true,
-    "no-let": true,
     "no-object-mutation": true,
     "no-delete": true,
     "no-method-signature": true,
 
     // Functional style rules
     "no-mixed-interface": true,
-    "no-expression-statement": [
-      true,
-      { "ignore-prefix": ["console.", "process.exit"] }
-    ],
-    "no-if-statement": true,
     /* end tslint-immutable rules */
 
     /* Custom project's rules */
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
-    "no-expression-statement": [true, {"ignore-prefix": ["this.", "console."]}],
     "quotemark": [true, "single"],
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+    "object-shorthand-properties-first": false,
+    "import-name": false
   }
 }

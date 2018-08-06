@@ -51,6 +51,9 @@
   },
   "dependencies": {
     "@cityofzion/neon-js": "^3.9.2",
+    "json-stable-stringify": "^1.0.1",
+    "lodash": "^4.17.10",
+    "node-fetch": "^2.2.0",
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
@@ -64,9 +67,11 @@
     "standard-version": "^4.4.0",
     "trash-cli": "^1.4.0",
     "tslint": "^5.10.0",
+    "tslint-config-airbnb": "^5.9.2",
     "tslint-immutable": "^4.5.4",
     "typedoc": "^0.11.1",
-    "typescript": "^2.9.1"
+    "typescript": "^2.9.1",
+    "typescript-eslint-parser": "^17.0.1"
   },
   "ava": {
     "failFast": true,

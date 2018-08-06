@@ -1,9 +1,12 @@
 import { wallet } from '@cityofzion/neon-js'
+import { getTimestamp } from '../../api/common'
+import { planOrders } from '../../api/orders'
 import { CONTRACT_HASHES, NEO as BLOCKCHAIN_NEO } from '../../constants'
 
 interface Account {
   readonly privateKey: string,
   readonly address: string,
+  readonly addressHash: string,
 }
 
 interface Config {
@@ -23,6 +26,7 @@ class Switcheo {
 
     this.account = {
       address: _account.address,
+      addressHash: wallet.getScriptHashFromAddress(_account.address),
       privateKey: _account.privateKey,
     }
 
@@ -55,6 +59,12 @@ class Switcheo {
   public printMsg(): void {
     // tslint:disable-next-line no-console
     console.log('hello world')
+  }
+
+  public async planOrder(orderParams): Promise<object> {
+    const timestamp = await getTimestamp(this)
+    const resp = await planOrders(this, { ...orderParams, timestamp })
+    return resp
   }
 }
 
