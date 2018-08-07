@@ -26,7 +26,7 @@ Getting started - Create an order
 import { Switcheo } from 'switcheo-js'
 
 // defaults mode to 0:privatekey
-const config = { blockchain: 'neo', privateKey: 'privatekey', net: 'TestNet' }
+const config = { blockchain: 'neo', key: 'privatekey', net: 'TestNet' }
 
 // initialise switcheo instance with account
 const switcheo = new Switcheo()
@@ -83,9 +83,11 @@ const orderParams = {
 }
 
 // creates an order
-switcheo.createOrder(orderParams)
-  .then(response => console.log(response)) // success
-  .catch(err => console.error(err)) // failure
+try {
+  const response = switcheo.createOrder(orderParams)  
+} catch (err) {
+  // handle error
+}
 ```
 
 Lib misc
@@ -119,7 +121,7 @@ const getSignature = (s, msg, optionalSignature = null) => {
   }
 }
 
-const planOrder/createOrder = (s, orderParams, optionalSignature) => {
+const planOrder/executeOrder = (s, orderParams, optionalSignature) => {
   // ... inside deeply nested logic
   // const signature = signArray(msg, { privateKey, optionalSignature })
   const signature = getSignature(s, stringify(orderParams), optionalSignature)
