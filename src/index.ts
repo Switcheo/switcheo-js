@@ -1,2 +1,2 @@
-export * from './lib/switcheo'
+export * from './lib/Switcheo'
 export { get, post } from './api/helpers'
