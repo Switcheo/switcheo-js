@@ -1,13 +1,13 @@
-import { post } from '../../api/helpers'
 import { signParams } from '../../utils'
+import { post } from '../helpers'
 
-export const planOrder = (c, {
+export const planCreateOrder = (c, {
     pair, blockchain, side, price, wantAmount,
     useNativeTokens, orderType, timestamp,
   }, account) => {
-  const contractHash =  c.contractHash
+  const { contractHash } =  c
   const address = account.scriptHash
-  const privateKey = account.privateKey
+  const { privateKey } = account
 
   const signableParams = {
     blockchain,

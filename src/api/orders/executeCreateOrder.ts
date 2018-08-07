@@ -1,5 +1,5 @@
-import { post } from '../../api/helpers'
 import { signTransaction } from '../../utils'
+import { post } from '../helpers'
 
 const signArray = (array, privateKey) =>
   array.reduce((map, item) => {
@@ -7,7 +7,7 @@ const signArray = (array, privateKey) =>
     return map
   }, {})
 
-export const broadcastOrder = (c, order, account) => {
+export const executeCreateOrder = (c, order, account) => {
   const { fills, makes } = order
   const privateKey = account.privateKey
 
