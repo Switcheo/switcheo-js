@@ -1,6 +1,6 @@
 import { get } from '../api/helpers'
 
-export const getTimestamp = async (s) => {
-  const { timestamp }  = await get(`${s.config.url}/v2/exchange/timestamp`)
+export const getTimestamp = async (c) => {
+  const { timestamp }  = await get(`${c.url}/v2/exchange/timestamp`)
   return timestamp
 }

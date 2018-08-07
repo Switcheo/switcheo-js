@@ -7,14 +7,14 @@ const signArray = (array, privateKey) =>
     return map
   }, {})
 
-export const broadcastOrder = (s, order) => {
+export const broadcastOrder = (c, order, account) => {
   const { fills, makes } = order
-  const privateKey = s.account.privateKey
+  const privateKey = account.privateKey
 
   const signatures = {
     fills: signArray(fills, privateKey),
     makes: signArray(makes, privateKey),
   }
 
-  return post(`${s.config.url}/v2/orders/${order.id}/broadcast`, { signatures })
+  return post(`${c.url}/v2/orders/${order.id}/broadcast`, { signatures })
 }
