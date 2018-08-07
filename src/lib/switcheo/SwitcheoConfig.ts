@@ -1,4 +1,4 @@
-import { CONTRACT_HASHES, MAIN_NET, TEST_NET } from '../../constants'
+import { Blockchain, CONTRACT_HASHES, MAIN_NET, TEST_NET } from '../../constants'
 
 class SwitcheoConfig {
   public readonly url: string

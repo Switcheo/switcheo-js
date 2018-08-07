@@ -1,6 +1,6 @@
 import { wallet } from '@cityofzion/neon-js'
 import { Blockchain, NEO as BLOCKCHAIN_NEO } from '../../constants'
-import { cancelOrder, createOrder } from '../orders'
+import { cancelOrder, createOrder, listOrders } from '../orders'
 import SwitcheoConfig from './SwitcheoConfig'
 
 class Switcheo {
@@ -20,12 +20,16 @@ class Switcheo {
     return new wallet.Account(privateKey)
   }
 
-  public async createOrder(orderParams, account): Promise<object> {
-    return createOrder(this.config, orderParams, account)
+  public async createOrder(createOrderParams, account): Promise<object> {
+    return createOrder(this.config, createOrderParams, account)
   }
 
-  public async cancelOrder(orderParams, account): Promise<object> {
-    return cancelOrder(this.config, orderParams, account)
+  public async cancelOrder(cancelOrderParams, account): Promise<object> {
+    return cancelOrder(this.config, cancelOrderParams, account)
+  }
+
+  public async listOrders(listOrderParams): Promise<object> {
+    return listOrders(this.config, listOrderParams)
   }
 }
 
