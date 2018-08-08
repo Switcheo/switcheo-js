@@ -1,4 +1,6 @@
-import { Blockchain, CONTRACT_HASHES, MAIN_NET, TEST_NET } from '../../constants'
+import { CONTRACT_HASHES, MAIN_NET, NEO as BLOCKCHAIN_NEO,
+  NETWORKS, TEST_NET } from '../../constants'
+import { Blockchain, Net } from '../../lib/types'
 
 class SwitcheoConfig {
   public readonly url: string
@@ -10,14 +12,14 @@ class SwitcheoConfig {
 
     const mainNetConfig = {
       ...baseConfig,
-      contractHash: CONTRACT_HASHES[blockchain].MainNet,
-      url: 'https://api.switcheo.network',
+      contractHash: CONTRACT_HASHES[blockchain][MAIN_NET],
+      url: NETWORKS[BLOCKCHAIN_NEO][MAIN_NET].api,
     }
 
     const testNetConfig = {
       ...baseConfig,
-      contractHash: CONTRACT_HASHES[blockchain].TestNet,
-      url: 'https://test-api.switcheo.network',
+      contractHash: CONTRACT_HASHES[blockchain][TEST_NET],
+      url: NETWORKS[BLOCKCHAIN_NEO][TEST_NET].api,
     }
 
     let config

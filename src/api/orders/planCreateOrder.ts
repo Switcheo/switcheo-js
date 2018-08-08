@@ -1,10 +1,11 @@
+import { CreateOrderParams } from '../../lib/types'
 import { signParams } from '../../utils'
 import { post } from '../helpers'
 
 export const planCreateOrder = (c, {
     pair, blockchain, side, price, wantAmount,
     useNativeTokens, orderType, timestamp,
-  }, account) => {
+  }: CreateOrderParams, account) => {
   const { contractHash } =  c
   const address = account.scriptHash
   const { privateKey } = account

@@ -91,5 +91,6 @@
     "exclude": [
       "**/*.spec.js"
     ]
-  }
+  },
+  "types": "src/index.d.ts"
 }

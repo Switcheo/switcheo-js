@@ -1,1 +1,0 @@
-type Net = 'MainNet' | 'TestNet'

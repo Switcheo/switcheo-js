@@ -1,5 +1,5 @@
 import { listOrders as _listOrders } from '../../api/orders'
 
-export const listOrders = async (c, orderParams) => {
-  return _listOrders(c, orderParams)
+export const listOrders = async (c, listOrderParams) => {
+  return _listOrders(c, listOrderParams)
 }
