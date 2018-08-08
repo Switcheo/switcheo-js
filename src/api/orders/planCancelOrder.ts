@@ -1,7 +1,8 @@
+import { CancelOrderParams } from '../../lib/types'
 import { signParams } from '../../utils'
 import { post } from '../helpers'
 
-export const planCancelOrder = async (c, { orderId, timestamp }, account) => {
+export const planCancelOrder = async (c, { orderId, timestamp }: CancelOrderParams, account) => {
   const address = account.scriptHash
   const { privateKey } = account
   const signableParams = { orderId, timestamp }
