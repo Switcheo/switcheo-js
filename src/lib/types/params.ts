@@ -20,3 +20,8 @@ export interface ListOrderParams {
   readonly address: string,
   readonly pair?: string,
 }
+
+export interface ListBalancesParams {
+  readonly addresses: Array<string>,
+  readonly contractHashes: Array<string>,
+}
