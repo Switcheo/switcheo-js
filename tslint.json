@@ -13,14 +13,8 @@
     "typedef": [true, "call-signature"],
 
     // Immutability rules
-    "readonly-keyword": true,
     "readonly-array": true,
-    "no-object-mutation": true,
     "no-delete": true,
-    "no-method-signature": true,
-
-    // Functional style rules
-    "no-mixed-interface": true,
     /* end tslint-immutable rules */
 
     /* Custom project's rules */
@@ -29,6 +23,7 @@
     "semicolon": [true, "never"],
     "object-shorthand-properties-first": false,
     "import-name": false,
+    "ordered-imports": false,
     "align": [true, "elements", "members", "statements", "arguments"],
     "trailing-comma": [true, {
       "multiline": {

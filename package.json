@@ -52,13 +52,17 @@
   },
   "dependencies": {
     "@cityofzion/neon-js": "^3.9.2",
+    "axios": "^0.18.0",
+    "bignumber.js": "^7.2.1",
+    "humps": "^2.0.1",
     "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.10",
-    "node-fetch": "^2.2.0",
-    "postinstall-build": "^5.0.1",
-    "sha.js": "^2.4.11"
+    "postinstall-build": "^5.0.1"
   },
   "devDependencies": {
+    "@types/humps": "^1.1.2",
+    "@types/json-stable-stringify": "^1.0.32",
+    "@types/node": "^10.5.7",
     "ava": "^1.0.0-beta.5.1",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
