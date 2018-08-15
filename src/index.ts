@@ -1,2 +1,2 @@
-export * from './lib/Switcheo'
-export { get, post } from './api/helpers'
+import Switcheo from './lib/switcheo/index'
+export default Switcheo
