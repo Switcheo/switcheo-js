@@ -1,2 +1,2 @@
-import Switcheo from './lib/switcheo/index'
+import Switcheo from './lib/switcheo'
 export default Switcheo
