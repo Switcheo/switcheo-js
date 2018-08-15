@@ -1,6 +1,7 @@
 import axios from 'axios'
 import humps from 'humps'
 import { stringifyParams } from '../utils'
+import RequestError, { RawError } from './request-error'
 
 interface Response {
   readonly status: number,
@@ -9,13 +10,18 @@ interface Response {
 
 export default class Req {
   public static async handleResponse(response: Response): Promise<any> {
-    if (response.status === 200) {
-      return humps.camelizeKeys(response.data)
-    }
+    return humps.camelizeKeys(response.data)
+  }
+
+  public static handleError(error: object): never {
+    const rawError: RawError = error as RawError
+    throw new RequestError(rawError)
   }
 
   public static async get(url: string, params?: object): Promise<any> {
-    return axios.get(buildGetUrl(url, params)).then(this.handleResponse)
+    return axios.get(buildGetUrl(url, params))
+                .then(this.handleResponse)
+                .catch(this.handleError)
   }
 
   public static async post(url: string, params: object): Promise<any> {
@@ -23,7 +29,9 @@ export default class Req {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(this.handleResponse)
+    })
+    .then(this.handleResponse)
+    .catch(this.handleError)
   }
 
   public static async fetchTimestamp(config: { readonly url: string }): Promise<number> {
