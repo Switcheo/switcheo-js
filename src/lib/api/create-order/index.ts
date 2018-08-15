@@ -3,7 +3,7 @@ import { toAssetAmount } from '../../utils'
 import { buildSignedRequest } from '../helpers'
 import { Request, SignedRequestPayload } from '../common'
 
-import Order, { OrderSide, OrderType } from '../../models/Order'
+import Order, { OrderSide, OrderType } from '../../models/order'
 import req from '../../req'
 import SwitcheoAccount from '../../switcheo/switcheo-account'
 import SwitcheoConfig from '../../switcheo/switcheo-config'

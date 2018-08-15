@@ -3,7 +3,7 @@ import saveOrder, { SaveOrderParams } from '../api/save-order'
 import saveCancellation, { SaveCancellationParams } from '../api/save-cancellation'
 import listBalances from '../api/list-balances'
 import listOrders, { ListOrdersParams } from '../api/list-orders'
-import Order from '../models/Order'
+import Order from '../models/order'
 import SwitcheoAccount, { SwitcheoAccountParams } from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
 
