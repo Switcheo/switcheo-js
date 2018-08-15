@@ -4,8 +4,8 @@ import { wallet as neoWallet, tx as neoTx } from '@cityofzion/neon-js'
 import Transaction from '../models/transaction'
 
 export interface SwitcheoAccountParams {
-  readonly address: string
-  readonly privateKey: string
+  readonly address?: string
+  readonly privateKey?: string
   readonly blockchain: Blockchain
 }
 
@@ -16,7 +16,7 @@ export default class SwitcheoAccount {
 
   constructor({ address, privateKey, blockchain }: SwitcheoAccountParams) {
     this.setAddress(address)
-    this.setPrivateKey(privateKey)
+    this.setPrivateKeyAndAddress(privateKey)
     this.blockchain = blockchain
   }
 
@@ -41,12 +41,15 @@ export default class SwitcheoAccount {
     return this.signMessage(serializedTxn)
   }
 
-  private setAddress(address: string): void {
+  private setAddress(address: string | undefined): void {
+    if (address === undefined) { return }
     this.address = new neoWallet.Account(address).scriptHash
   }
 
-  private setPrivateKey(privateKey: string | undefined): void {
+  private setPrivateKeyAndAddress(privateKey: string | undefined): void {
     if (privateKey === undefined) { return }
-    this.privateKey = new neoWallet.Account(privateKey).privateKey
+    const neoAccount = new neoWallet.Account(privateKey)
+    this.address = neoAccount.scriptHash
+    this.privateKey = neoAccount.privateKey
   }
 }

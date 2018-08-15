@@ -18,9 +18,17 @@ test('switcheo.config for MainNet', (t) => {
   t.is(switcheo.config.url, 'https://api.switcheo.network/v2')
 })
 
-test('Switcheo.createAccount', (t) => {
+test('Switcheo.createAccount with address', (t) => {
   const account = Switcheo.createAccount({
     address: ADDRESS,
+    blockchain: 'neo',
+  })
+  t.is(account.address, ADDRESS)
+  t.is(account.blockchain, 'neo')
+})
+
+test('Switcheo.createAccount with private key', (t) => {
+  const account = Switcheo.createAccount({
     blockchain: 'neo',
     privateKey: PRIVATE_KEY,
   })

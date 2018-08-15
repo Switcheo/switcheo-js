@@ -15,4 +15,8 @@ export default class SwitcheoConfig {
   public getContractHash(blockchain: Blockchain): string {
     return CONTRACT_HASHES[blockchain][this.net].V2
   }
+
+  public getContractHashes(blockchains: ReadonlyArray<Blockchain>): ReadonlyArray<string> {
+    return blockchains.map(blockchain => this.getContractHash(blockchain))
+  }
 }
