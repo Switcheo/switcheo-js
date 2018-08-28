@@ -1,3 +1,4 @@
-import { tx as neoTx } from '@cityofzion/neon-js'
+// import { tx as neoTx } from '@cityofzion/neon-js'
+type transactionType = any
 
-export default neoTx.Transaction
+export default transactionType // throwing error for esmodule
