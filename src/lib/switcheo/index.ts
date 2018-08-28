@@ -3,6 +3,7 @@ import saveOrder, { SaveOrderParams } from '../api/save-order'
 import saveCancellation, { SaveCancellationParams } from '../api/save-cancellation'
 import listBalances from '../api/list-balances'
 import listOrders, { ListOrdersParams } from '../api/list-orders'
+import listPairs from '../api/list-pairs'
 import Order from '../models/order'
 import SwitcheoAccount, { SwitcheoAccountParams } from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
@@ -36,5 +37,9 @@ export default class Switcheo {
 
   public async listOrders(params: ListOrdersParams, account: SwitcheoAccount): Promise<object> {
     return listOrders(params, account, this.config)
+  }
+
+  public async listPairs(): Promise<object> {
+    return listPairs(this.config)
   }
 }
