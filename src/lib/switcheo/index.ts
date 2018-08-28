@@ -4,6 +4,7 @@ import saveCancellation, { SaveCancellationParams } from '../api/save-cancellati
 import listBalances from '../api/list-balances'
 import listOrders, { ListOrdersParams } from '../api/list-orders'
 import listPairs from '../api/list-pairs'
+import tickersLast24Hours from '../api/tickers-last-24-hours'
 import Order from '../models/order'
 import SwitcheoAccount, { SwitcheoAccountParams } from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
@@ -41,5 +42,9 @@ export default class Switcheo {
 
   public async listPairs(): Promise<object> {
     return listPairs(this.config)
+  }
+
+  public async tickersLast24Hours(): Promise<object> {
+    return tickersLast24Hours(this.config)
   }
 }
