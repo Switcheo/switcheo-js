@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "info": "npm-scripts-info",
-    "prepare": "npm run build",
+    "prepare": "yarn run build",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
@@ -29,7 +29,7 @@
     "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
-    "reset": "git clean -dfx && git reset --hard && npm i",
+    "reset": "git clean -dfx && git reset --hard && yarn install",
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish"
@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@cityofzion/neon-js": "^3.9.2",
+    "@types/loglevel": "^1.5.3",
     "axios": "^0.18.0",
     "bignumber.js": "^7.2.1",
     "humps": "^2.0.1",
@@ -62,7 +63,7 @@
     "@types/humps": "^1.1.2",
     "@types/json-stable-stringify": "^1.0.32",
     "@types/node": "^10.5.7",
-    "ava": "^1.0.0-beta.5.1",
+    "ava": "^0.25.0",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "gh-pages": "^1.2.0",
