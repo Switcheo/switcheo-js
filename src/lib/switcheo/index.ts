@@ -48,3 +48,6 @@ export default class Switcheo {
     return getFees(this.config)
   }
 }
+
+export * from '../constants'
+export * from '../models'
