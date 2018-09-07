@@ -1,7 +1,6 @@
 import { performMultistepRequest } from '../helpers'
 
-import Account from '../../switcheo/account'
-import Config from '../../switcheo/config'
+import { Account, Config } from '../../switcheo'
 import { Order } from '../../models/order'
 
 export interface SaveCancellationParams {

@@ -1,4 +1,4 @@
-import Config from '../../switcheo/config'
+import { Config } from '../../switcheo'
 import req from '../../req'
 
 export default async function getFees(config: Config): Promise<object> {

@@ -5,8 +5,7 @@ import { Request, SignedRequestPayload } from '../common'
 
 import { Order, OrderSide, OrderType } from '../../models/order'
 import req from '../../req'
-import Account from '../../switcheo/account'
-import Config from '../../switcheo/config'
+import { Account, Config } from '../../switcheo'
 
 export interface CreateOrderParams {
   readonly pair: string

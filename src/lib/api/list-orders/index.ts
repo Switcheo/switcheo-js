@@ -1,5 +1,4 @@
-import Account from '../../switcheo/account'
-import Config from '../../switcheo/config'
+import { Account, Config } from '../../switcheo'
 import req from '../../req'
 
 export interface ListOrdersParams {

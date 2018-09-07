@@ -1,4 +1,4 @@
-import Config from '../../switcheo/config'
+import { Config } from '../../switcheo/config'
 import req from '../../req'
 
 export default async function tickersLast24Hours(config: Config): Promise<object> {

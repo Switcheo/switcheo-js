@@ -1,6 +1,6 @@
 import { Client } from '../switcheo'
-import Account from '../switcheo/account'
-import Config from '../switcheo/config'
+import { Account } from '../switcheo/account'
+import { Config } from '../switcheo/config'
 import { Blockchain } from '../constants'
 import { NeoPrivateKeyProvider } from '../signature-providers/neo-private-key-provider'
 

@@ -8,7 +8,7 @@ export interface AccountParams {
   blockchain: Blockchain
 }
 
-export default class Account {
+export class Account {
   public readonly blockchain: Blockchain
   public readonly address: string
   public readonly provider: SignatureProvider

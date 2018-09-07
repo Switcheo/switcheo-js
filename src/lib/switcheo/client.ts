@@ -7,8 +7,8 @@ import listPairs from '../api/list-pairs'
 import tickersLast24Hours from '../api/tickers-last-24-hours'
 import { Order } from '../models/order'
 import { Network } from '../constants'
-import Account from './account'
-import Config from './config'
+import { Account } from './account'
+import { Config } from './config'
 
 export class Client {
   public config: Config

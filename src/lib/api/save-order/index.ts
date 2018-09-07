@@ -1,7 +1,6 @@
-import createOrder, { CreateOrderParams } from '../create-order'
+import { Account, Config } from '../../switcheo'
 import { Order } from '../../models/order'
-import Account from '../../switcheo/account'
-import Config from '../../switcheo/config'
+import createOrder, { CreateOrderParams } from '../create-order'
 import broadcastOrder from '../broadcast-order'
 
 export type SaveOrderParams = CreateOrderParams
