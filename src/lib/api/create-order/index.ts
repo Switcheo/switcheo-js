@@ -3,10 +3,10 @@ import { toAssetAmount } from '../../utils'
 import { buildSignedRequest } from '../helpers'
 import { Request, SignedRequestPayload } from '../common'
 
-import Order, { OrderSide, OrderType } from '../../models/order'
+import { Order, OrderSide, OrderType } from '../../models/order'
 import req from '../../req'
-import SwitcheoAccount from '../../switcheo/switcheo-account'
-import SwitcheoConfig from '../../switcheo/switcheo-config'
+import Account from '../../switcheo/account'
+import Config from '../../switcheo/config'
 
 export interface CreateOrderParams {
   readonly pair: string
@@ -18,7 +18,7 @@ export interface CreateOrderParams {
 }
 
 export default async function createOrder(orderParams: CreateOrderParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<Order> {
+  account: Account, config: Config): Promise<Order> {
   const request = await buildOrderCreationRequest(orderParams, account, config)
   const response = await req.post(request.url, request.payload)
   return new Order(response)
@@ -47,7 +47,7 @@ function getWantAmount(orderParams: CreateOrderParams): string {
 }
 
 export async function buildOrderCreationRequest(orderParams: CreateOrderParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<OrderCreationRequest> {
+  account: Account, config: Config): Promise<OrderCreationRequest> {
   const params = {
     blockchain: account.blockchain,
     contractHash: config.getContractHash(account.blockchain),

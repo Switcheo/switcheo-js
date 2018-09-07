@@ -1,19 +1,19 @@
 import { Transaction } from '../models/transaction'
 import { Blockchain } from '../constants/blockchains'
 import { encodeMessage, stringifyParams } from '../utils'
-import SignatureProvider from '../signature-providers/signature-provider'
+import { SignatureProvider } from '../signature-providers'
 
-export interface SwitcheoAccountParams {
+export interface AccountParams {
   provider: SignatureProvider
   blockchain: Blockchain
 }
 
-export default class SwitcheoAccount {
+export default class Account {
   public readonly blockchain: Blockchain
   public readonly address: string
   public readonly provider: SignatureProvider
 
-  constructor({ blockchain, provider }: SwitcheoAccountParams) {
+  constructor({ blockchain, provider }: AccountParams) {
     this.blockchain = blockchain
     this.provider = provider
     this.address = this.provider.address

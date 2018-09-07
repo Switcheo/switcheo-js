@@ -1,5 +1,5 @@
-import Fill from './fill'
-import Make from './make'
+import { Fill } from './fill'
+import { Make } from './make'
 
 export type OrderSide = 'buy' | 'sell'
 export type OrderType = 'limit'
@@ -14,7 +14,7 @@ interface OrderParams {
   fills: ReadonlyArray<FillOrMake>
   makes: ReadonlyArray<FillOrMake>
 }
-export default class Order {
+export class Order {
   public readonly id: string
   public readonly fills: ReadonlyArray<Fill>
   public readonly makes: ReadonlyArray<Make>

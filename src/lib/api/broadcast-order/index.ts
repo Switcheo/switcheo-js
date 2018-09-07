@@ -1,6 +1,6 @@
-import Order from '../../models/order'
-import SwitcheoAccount from '../../switcheo/switcheo-account'
-import SwitcheoConfig from '../../switcheo/switcheo-config'
+import { Order } from '../../models/order'
+import Account from '../../switcheo/account'
+import Config from '../../switcheo/config'
 import TransactionContainer from '../../models/transaction-container'
 
 import { buildRequest } from '../helpers'
@@ -9,7 +9,7 @@ import req from '../../req'
 export type BroadcastOrderParams = Order
 
 export default async function broadcastOrder(order: BroadcastOrderParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<Order> {
+  account: Account, config: Config): Promise<Order> {
   const request = await buildOrderBroadcastRequest(order, account, config)
   return req.post(request.url, request.payload)
 }
@@ -30,7 +30,7 @@ interface OrderBroadcastRequestPayload {
 }
 
 export async function buildOrderBroadcastRequest(order: BroadcastOrderParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<OrderBroadcastRequest> {
+  account: Account, config: Config): Promise<OrderBroadcastRequest> {
   const signatures = {
     fills: buildSignedTransactionMap(order.fills, account),
     makes: buildSignedTransactionMap(order.makes, account),
@@ -43,7 +43,7 @@ export async function buildOrderBroadcastRequest(order: BroadcastOrderParams,
 }
 
 function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TransactionContainer>,
-  account: SwitcheoAccount): SignedTransactionMap {
+  account: Account): SignedTransactionMap {
   const map: SignedTransactionMap = {}
   transactionContainers.forEach((item) => {
     map[item.id] = account.signTransaction(item.transaction)

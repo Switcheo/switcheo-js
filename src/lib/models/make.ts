@@ -1,3 +1,3 @@
 import TransactionContainer from './transaction-container'
 
-export default TransactionContainer
+export class Make extends TransactionContainer {}

@@ -1,15 +1,15 @@
 import { performMultistepRequest } from '../helpers'
 
-import SwitcheoAccount from '../../switcheo/switcheo-account'
-import SwitcheoConfig from '../../switcheo/switcheo-config'
-import Order from '../../models/order'
+import Account from '../../switcheo/account'
+import Config from '../../switcheo/config'
+import { Order } from '../../models/order'
 
 export interface SaveCancellationParams {
   readonly orderId: string
 }
 
 export default async function saveCancellation(cancellationParams: SaveCancellationParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<Order> {
+  account: Account, config: Config): Promise<Order> {
   return performMultistepRequest(
     cancellationParams,
     account,

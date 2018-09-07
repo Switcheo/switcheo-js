@@ -25,9 +25,9 @@ NOTE: `"prepare": "yarn run build",` is needed for projects targeting this lib a
 
 Getting started
 ```js
-import { Switcheo } from 'switcheo-js'
+import { Client } from 'switcheo-js'
 
-const switcheo: Switcheo = new Switcheo({
+const switcheo: Client = new Client({
   net: TEST_NET,
 })
 

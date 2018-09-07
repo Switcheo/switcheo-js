@@ -2,7 +2,7 @@ import { Blockchain } from '../constants/blockchains'
 import { CONTRACT_HASHES } from '../constants/contracts'
 import { Network, NETWORKS, TEST_NET } from '../constants/networks'
 
-export default class SwitcheoConfig {
+export default class Config {
   public net!: Network
   public url!: string
 

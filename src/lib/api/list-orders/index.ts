@@ -1,5 +1,5 @@
-import SwitcheoAccount from '../../switcheo/switcheo-account'
-import SwitcheoConfig from '../../switcheo/switcheo-config'
+import Account from '../../switcheo/account'
+import Config from '../../switcheo/config'
 import req from '../../req'
 
 export interface ListOrdersParams {
@@ -7,7 +7,7 @@ export interface ListOrdersParams {
 }
 
 export default async function listOrders(listOrdersParams: ListOrdersParams,
-  account: SwitcheoAccount, config: SwitcheoConfig): Promise<object> {
+  account: Account, config: Config): Promise<object> {
   const contractHash = config.getContractHash(account.blockchain)
   return req.get(config.url + '/orders', {
     address: account.address,
