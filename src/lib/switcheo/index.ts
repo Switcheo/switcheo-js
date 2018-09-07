@@ -10,10 +10,7 @@ import { Network } from '../constants'
 import SwitcheoAccount from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
 
-export * from '../constants'
-export * from '../models'
-
-export class Switcheo {
+export default class Switcheo {
   public config: SwitcheoConfig
 
   constructor({ net }: { readonly net?: Network } = {}) {

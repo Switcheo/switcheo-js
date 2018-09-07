@@ -1,8 +1,8 @@
 import { wallet as neonWallet } from '@cityofzion/neon-core'
-import { SignatureProvider } from '../signature-provider'
-import { NeoTransaction } from '../../models/transaction'
+import SignatureProvider from './signature-provider'
+import { NeoTransaction } from '../models/transaction'
 
-export class NeoPrivateKeyProvider implements SignatureProvider {
+export default class NeoPrivateKeyProvider implements SignatureProvider {
   public readonly address: string
   private account: neonWallet.Account
 

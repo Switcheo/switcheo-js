@@ -1,7 +1,7 @@
 import { Transaction } from '../models/transaction'
 import { Blockchain } from '../constants/blockchains'
 import { encodeMessage, stringifyParams } from '../utils'
-import { SignatureProvider } from './signature-provider'
+import SignatureProvider from '../signature-providers/signature-provider'
 
 export interface SwitcheoAccountParams {
   provider: SignatureProvider
