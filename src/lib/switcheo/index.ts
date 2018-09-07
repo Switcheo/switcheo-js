@@ -48,7 +48,7 @@ export default class Switcheo {
   public async tickersLast24Hours(): Promise<object> {
     return tickersLast24Hours(this.config)
   }
-  
+
   public async fees(): Promise<object> {
     return fees(this.config)
   }
