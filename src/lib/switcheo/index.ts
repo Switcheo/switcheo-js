@@ -1,4 +1,5 @@
 import { Network } from '../constants/networks'
+import fees from '../api/fees'
 import saveOrder, { SaveOrderParams } from '../api/save-order'
 import saveCancellation, { SaveCancellationParams } from '../api/save-cancellation'
 import listBalances from '../api/list-balances'
@@ -46,5 +47,9 @@ export default class Switcheo {
 
   public async tickersLast24Hours(): Promise<object> {
     return tickersLast24Hours(this.config)
+  }
+  
+  public async fees(): Promise<object> {
+    return fees(this.config)
   }
 }
