@@ -10,7 +10,10 @@ import { Network } from '../constants'
 import SwitcheoAccount from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
 
-export default class Switcheo {
+export * from '../constants'
+export * from '../models'
+
+export class Switcheo {
   public config: SwitcheoConfig
 
   constructor({ net }: { readonly net?: Network } = {}) {
@@ -48,6 +51,3 @@ export default class Switcheo {
     return getFees(this.config)
   }
 }
-
-export * from '../constants'
-export * from '../models'
