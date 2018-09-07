@@ -1,3 +1,5 @@
-export const NEO = 'neo'
-
-export type Blockchain = 'neo'
+export enum Blockchain {
+  Neo = 'neo',
+  Ethereum = 'eth',
+  Qtum = 'qtum',
+}

@@ -20,7 +20,8 @@ export interface CreateOrderParams {
 export default async function createOrder(orderParams: CreateOrderParams,
   account: SwitcheoAccount, config: SwitcheoConfig): Promise<Order> {
   const request = await buildOrderCreationRequest(orderParams, account, config)
-  return req.post(request.url, request.payload)
+  const response = await req.post(request.url, request.payload)
+  return new Order(response)
 }
 
 interface OrderCreationRequest extends Request {

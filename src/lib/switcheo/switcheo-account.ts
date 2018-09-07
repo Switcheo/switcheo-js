@@ -1,23 +1,22 @@
+import { Transaction } from '../models/transaction'
 import { Blockchain } from '../constants/blockchains'
 import { encodeMessage, stringifyParams } from '../utils'
-import { wallet as neoWallet, tx as neoTx } from '@cityofzion/neon-js'
-import Transaction from '../models/transaction'
+import { SignatureProvider } from './signature-provider'
 
 export interface SwitcheoAccountParams {
-  readonly address?: string
-  readonly privateKey?: string
-  readonly blockchain: Blockchain
+  provider: SignatureProvider
+  blockchain: Blockchain
 }
 
 export default class SwitcheoAccount {
-  public address!: string
-  public privateKey?: string
-  public blockchain: Blockchain
+  public readonly blockchain: Blockchain
+  public readonly address: string
+  public readonly provider: SignatureProvider
 
-  constructor({ address, privateKey, blockchain }: SwitcheoAccountParams) {
-    this.setAddress(address)
-    this.setPrivateKeyAndAddress(privateKey)
+  constructor({ blockchain, provider }: SwitcheoAccountParams) {
     this.blockchain = blockchain
+    this.provider = provider
+    this.address = this.provider.address
   }
 
   public signParams(params: object): string {
@@ -30,26 +29,10 @@ export default class SwitcheoAccount {
   }
 
   public signMessage(message: string): string {
-    if (this.privateKey === undefined) {
-      throw new Error('Private key must be provided to sign a message')
-    }
-    return neoWallet.generateSignature(message, this.privateKey)
+    return this.provider.signMessage(message)
   }
 
   public signTransaction(transaction: Transaction): string {
-    const serializedTxn = neoTx.serializeTransaction(transaction, false)
-    return this.signMessage(serializedTxn)
-  }
-
-  private setAddress(address: string | undefined): void {
-    if (address === undefined) { return }
-    this.address = new neoWallet.Account(address).scriptHash
-  }
-
-  private setPrivateKeyAndAddress(privateKey: string | undefined): void {
-    if (privateKey === undefined) { return }
-    const neoAccount = new neoWallet.Account(privateKey)
-    this.address = neoAccount.scriptHash
-    this.privateKey = neoAccount.privateKey
+    return this.provider.signTransaction(transaction)
   }
 }

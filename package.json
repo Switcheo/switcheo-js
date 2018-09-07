@@ -51,7 +51,7 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@cityofzion/neon-js": "^3.9.2",
+    "@cityofzion/neon-core": "^4.0.1",
     "@types/loglevel": "^1.5.3",
     "axios": "^0.18.0",
     "bignumber.js": "^7.2.1",
@@ -60,9 +60,10 @@
     "lodash": "^4.17.10"
   },
   "devDependencies": {
+    "@types/bn.js": "^4.11.1",
     "@types/humps": "^1.1.2",
     "@types/json-stable-stringify": "^1.0.32",
-    "@types/node": "^10.5.7",
+    "@types/node": "^10.9.4",
     "ava": "^0.25.0",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",

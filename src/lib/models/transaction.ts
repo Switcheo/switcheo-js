@@ -1,4 +1,9 @@
-// import { tx as neoTx } from '@cityofzion/neon-js'
-type transactionType = any
+import { tx as neonTx } from '@cityofzion/neon-core'
 
-export default transactionType // throwing error for esmodule
+export type Transaction = neonTx.Transaction // TODO: add eth
+
+export type TransactionLike = Partial<neonTx.InvocationTransactionLike>
+
+export class NeoTransaction extends neonTx.InvocationTransaction {
+
+}

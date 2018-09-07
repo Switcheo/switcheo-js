@@ -1,3 +1,3 @@
-import TxnContainer from './txn-container'
+import TransactionContainer from './transaction-container'
 
-export default TxnContainer
+export default TransactionContainer

@@ -28,7 +28,8 @@ export async function buildSignedRequestPayload(params: object, account: Switche
 export async function performMultistepRequest(params: object, account: SwitcheoAccount,
   config: SwitcheoConfig, firstUrlPath: string, secondUrlPathFn: UrlPathFn): Promise<object> {
   const firstRequest = await buildSignedRequest(params, account, config, firstUrlPath) as Request
-  const firstResult: TransactionContainer = await req.post(firstRequest.url, firstRequest.payload)
+  const firstResult: TransactionContainer =
+    new TransactionContainer(await req.post(firstRequest.url, firstRequest.payload))
   const signature = account.signTransaction(firstResult.transaction)
   const secondRequest = buildRequest({ signature }, config, secondUrlPathFn(firstResult)) as Request
   return req.post(secondRequest.url,  secondRequest.payload)

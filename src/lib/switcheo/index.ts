@@ -1,4 +1,3 @@
-import { Network } from '../constants/networks'
 import getFees from '../api/fees'
 import saveOrder, { SaveOrderParams } from '../api/save-order'
 import saveCancellation, { SaveCancellationParams } from '../api/save-cancellation'
@@ -7,15 +6,11 @@ import listOrders, { ListOrdersParams } from '../api/list-orders'
 import listPairs from '../api/list-pairs'
 import tickersLast24Hours from '../api/tickers-last-24-hours'
 import Order from '../models/order'
-import SwitcheoAccount, { SwitcheoAccountParams } from './switcheo-account'
+import { Network } from '../constants'
+import SwitcheoAccount from './switcheo-account'
 import SwitcheoConfig from './switcheo-config'
 
 export default class Switcheo {
-  public static createAccount({ address, privateKey, blockchain }:
-    SwitcheoAccountParams): SwitcheoAccount {
-    return new SwitcheoAccount({ address, privateKey, blockchain })
-  }
-
   public config: SwitcheoConfig
 
   constructor({ net }: { readonly net?: Network } = {}) {

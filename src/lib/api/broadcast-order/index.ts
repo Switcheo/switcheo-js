@@ -1,7 +1,7 @@
 import Order from '../../models/order'
 import SwitcheoAccount from '../../switcheo/switcheo-account'
 import SwitcheoConfig from '../../switcheo/switcheo-config'
-import TxnContainer from '../../models/txn-container'
+import TransactionContainer from '../../models/transaction-container'
 
 import { buildRequest } from '../helpers'
 import req from '../../req'
@@ -42,11 +42,11 @@ export async function buildOrderBroadcastRequest(order: BroadcastOrderParams,
   ) as Promise<OrderBroadcastRequest>
 }
 
-function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TxnContainer>,
+function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TransactionContainer>,
   account: SwitcheoAccount): SignedTransactionMap {
   const map: SignedTransactionMap = {}
   transactionContainers.forEach((item) => {
-    map[item.id] = account.signTransaction(item.txn)
+    map[item.id] = account.signTransaction(item.transaction)
   })
   return map
 }
