@@ -1,2 +1,1 @@
-import Switcheo from './lib/switcheo'
-export default Switcheo
+export * from './lib/switcheo'
