@@ -10,7 +10,10 @@ interface Response {
 
 export default class Req {
   public static async handleResponse(response: Response): Promise<any> {
-    return humps.camelizeKeys(response.data)
+    // return humps.camelizeKeys(response.data)
+    return humps.camelizeKeys(response.data, (key, convert) => {
+      return /^[A-Z0-9_]+$/.test(key) ? key : convert(key)
+    })
   }
 
   public static handleError(error: object): never {
