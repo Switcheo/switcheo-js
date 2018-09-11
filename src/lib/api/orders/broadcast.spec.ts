@@ -1,5 +1,5 @@
-import { buildOrderBroadcastRequest } from './index'
-import { Order  } from '../../models/order'
+import { buildOrderBroadcastRequest } from './broadcast'
+import { Order } from '../../models/order'
 import { createAccountAndConfig } from '../../spec/helpers'
 import { test } from 'ava'
 
@@ -10,7 +10,7 @@ const order: Order = new Order(JSON.parse(orderCreationResponse))
 
 test('broadcastOrderCreationRequest', async (t) => {
   const { account, config } = createAccountAndConfig()
-  const request = await buildOrderBroadcastRequest(order, account, config)
+  const request = await buildOrderBroadcastRequest(config, order, account)
 
   const { payload } = request
 

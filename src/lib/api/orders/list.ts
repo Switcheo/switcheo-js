@@ -5,8 +5,8 @@ export interface ListOrdersParams {
   readonly pair?: string
 }
 
-export default async function listOrders(listOrdersParams: ListOrdersParams,
-  account: Account, config: Config): Promise<object> {
+export function list(config: Config,
+  listOrdersParams: ListOrdersParams, account: Account): Promise<object> {
   const contractHash = config.getContractHash(account.blockchain)
   return req.get(config.url + '/orders', {
     address: account.address,

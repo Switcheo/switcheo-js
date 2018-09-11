@@ -6,4 +6,4 @@ export interface SignatureProvider {
   signTransaction(transaction: neonTx.Transaction): string
 }
 
-export * from './neo-private-key-provider'
+export * from './neoPrivateKeyProvider'

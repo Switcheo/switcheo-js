@@ -1,8 +1,8 @@
 import { Account, Config } from '../../switcheo'
 import req from '../../req'
 
-export default async function listBalances(accounts:
-  Account | ReadonlyArray<Account>, config: Config): Promise<object> {
+export function list(config: Config,
+  accounts: Account | ReadonlyArray<Account>): Promise<object> {
   const wrappedAccounts = Array.isArray(accounts) ? accounts : [accounts]
   const addresses = wrappedAccounts.map(account => account.address)
   const blockchains = wrappedAccounts.map(account => account.blockchain)

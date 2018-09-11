@@ -16,9 +16,9 @@ export interface CreateOrderParams {
   readonly orderType: OrderType
 }
 
-export default async function createOrder(orderParams: CreateOrderParams,
-  account: Account, config: Config): Promise<Order> {
-  const request = await buildOrderCreationRequest(orderParams, account, config)
+export async function create(config: Config,
+  orderParams: CreateOrderParams, account: Account): Promise<Order> {
+  const request = await buildOrderCreationRequest(config, orderParams, account)
   const response = await req.post(request.url, request.payload)
   return new Order(response)
 }
@@ -45,8 +45,8 @@ function getWantAmount(orderParams: CreateOrderParams): string {
   return toAssetAmount(orderParams.wantAmount, wantAssetSymbol)
 }
 
-export async function buildOrderCreationRequest(orderParams: CreateOrderParams,
-  account: Account, config: Config): Promise<OrderCreationRequest> {
+export function buildOrderCreationRequest(config: Config,
+  orderParams: CreateOrderParams, account: Account): Promise<OrderCreationRequest> {
   const params = {
     blockchain: account.blockchain,
     contractHash: config.getContractHash(account.blockchain),
@@ -57,5 +57,5 @@ export async function buildOrderCreationRequest(orderParams: CreateOrderParams,
     useNativeTokens: orderParams.useNativeTokens,
     wantAmount: getWantAmount(orderParams),
   }
-  return buildSignedRequest(params, account, config, '/orders') as Promise<OrderCreationRequest>
+  return buildSignedRequest(config, '/orders', params, account) as Promise<OrderCreationRequest>
 }

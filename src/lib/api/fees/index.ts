@@ -1,6 +1,6 @@
 import { Config } from '../../switcheo'
 import req from '../../req'
 
-export default async function getFees(config: Config): Promise<object> {
+export function get(config: Config): Promise<object> {
   return req.get(config.url + '/fees')
 }

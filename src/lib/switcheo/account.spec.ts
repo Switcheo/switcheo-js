@@ -1,5 +1,5 @@
 import { test } from 'ava'
-import { NeoPrivateKeyProvider } from '../signature-providers/neo-private-key-provider'
+import { NeoPrivateKeyProvider } from '../signatureProviders/neoPrivateKeyProvider'
 import { Blockchain } from '../constants'
 
 import { Account } from './account'

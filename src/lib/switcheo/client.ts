@@ -1,10 +1,7 @@
-import getFees from '../api/fees'
-import saveOrder, { SaveOrderParams } from '../api/save-order'
-import saveCancellation, { SaveCancellationParams } from '../api/save-cancellation'
-import listBalances from '../api/list-balances'
-import listOrders, { ListOrdersParams } from '../api/list-orders'
-import listPairs from '../api/list-pairs'
-import tickersLast24Hours from '../api/tickers-last-24-hours'
+import { MakeOrderParams } from '../api/orders/make'
+import { ListOrdersParams } from '../api/orders/list'
+import { MakeCancellationParams } from '../api/cancellations'
+import { api } from '../api'
 import { Order } from '../models/order'
 import { Network } from '../constants'
 import { Account } from './account'
@@ -17,34 +14,38 @@ export class Client {
     this.config = new Config({ net })
   }
 
-  public async saveOrder(params: SaveOrderParams,
+  public makeOrder(params: MakeOrderParams,
     account: Account): Promise<Order> {
-    return saveOrder(params, account, this.config)
+    return api.orders.make(this.config, params, account)
   }
 
-  public async cancelOrder(params: SaveCancellationParams,
+  public cancelOrder(params: MakeCancellationParams,
     account: Account): Promise<Order> {
-    return saveCancellation(params, account, this.config)
+    return api.cancellations.make(this.config, params, account)
   }
 
-  public async listBalances(accounts:
+  public listBalances(accounts:
     Account | ReadonlyArray<Account>): Promise<object> {
-    return listBalances(accounts, this.config)
+    return api.balances.list(this.config, accounts)
   }
 
-  public async listOrders(params: ListOrdersParams, account: Account): Promise<object> {
-    return listOrders(params, account, this.config)
+  public listOrders(params: ListOrdersParams, account: Account): Promise<object> {
+    return api.orders.list(this.config, params, account)
   }
 
-  public async listPairs(): Promise<object> {
-    return listPairs(this.config)
+  public listPairs(): Promise<object> {
+    return api.pairs.list(this.config)
   }
 
-  public async tickersLast24Hours(): Promise<object> {
-    return tickersLast24Hours(this.config)
+  public getFees(): Promise<object> {
+    return api.fees.get(this.config)
   }
 
-  public async getFees(): Promise<object> {
-    return getFees(this.config)
+  public getBestNeoNode(): Promise<object> {
+    return api.network.bestNeoNode(this.config)
+  }
+
+  public tickersLast24Hours(): Promise<object> {
+    return api.tickers.last24Hours(this.config)
   }
 }

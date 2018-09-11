@@ -7,9 +7,9 @@ import req from '../../req'
 
 export type BroadcastOrderParams = Order
 
-export default async function broadcastOrder(order: BroadcastOrderParams,
-  account: Account, config: Config): Promise<Order> {
-  const request = await buildOrderBroadcastRequest(order, account, config)
+export async function broadcast(config: Config,
+  order: BroadcastOrderParams, account: Account): Promise<Order> {
+  const request = await buildOrderBroadcastRequest(config, order, account)
   return req.post(request.url, request.payload)
 }
 
@@ -28,16 +28,16 @@ interface OrderBroadcastRequestPayload {
   }
 }
 
-export async function buildOrderBroadcastRequest(order: BroadcastOrderParams,
-  account: Account, config: Config): Promise<OrderBroadcastRequest> {
+export function buildOrderBroadcastRequest(config: Config,
+  order: BroadcastOrderParams, account: Account): Promise<OrderBroadcastRequest> {
   const signatures = {
     fills: buildSignedTransactionMap(order.fills, account),
     makes: buildSignedTransactionMap(order.makes, account),
   }
   return buildRequest(
-    { signatures },
     config,
-    `/orders/${order.id}/broadcast`
+    `/orders/${order.id}/broadcast`,
+    { signatures }
   ) as Promise<OrderBroadcastRequest>
 }
 

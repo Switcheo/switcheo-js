@@ -1,10 +1,11 @@
-import { buildOrderCreationRequest } from './index'
+import { buildOrderCreationRequest } from './create'
 import { createAccountAndConfig } from '../../spec/helpers'
 import { test } from 'ava'
 
 test('buildOrderCreationRequest', async (t) => {
   const { account, config } = createAccountAndConfig()
   const request = await buildOrderCreationRequest(
+    config,
     {
       orderType: 'limit',
       pair: 'SWTH_NEO',
@@ -13,8 +14,7 @@ test('buildOrderCreationRequest', async (t) => {
       useNativeTokens: true,
       wantAmount: 120,
     },
-    account,
-    config
+    account
   )
 
   const { payload } = request
