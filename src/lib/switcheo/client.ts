@@ -1,5 +1,5 @@
 import { MakeOrderParams } from '../api/orders/make'
-import { ListOrdersParams } from '../api/orders/list'
+import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
 import { api } from '../api'
 import { Order } from '../models/order'
@@ -24,17 +24,17 @@ export class Client {
     return api.cancellations.make(this.config, params, account)
   }
 
-  public listBalances(accounts:
+  public getBalances(accounts:
     Account | ReadonlyArray<Account>): Promise<object> {
-    return api.balances.list(this.config, accounts)
+    return api.balances.get(this.config, accounts)
   }
 
-  public listOrders(params: ListOrdersParams, account: Account): Promise<object> {
-    return api.orders.list(this.config, params, account)
+  public getOrders(params: ListOrdersParams, account: Account): Promise<object> {
+    return api.orders.get(this.config, params, account)
   }
 
-  public listPairs(): Promise<object> {
-    return api.pairs.list(this.config)
+  public getPairs(): Promise<object> {
+    return api.pairs.get(this.config)
   }
 
   public getFees(): Promise<object> {
@@ -42,10 +42,10 @@ export class Client {
   }
 
   public getBestNeoNode(): Promise<object> {
-    return api.network.bestNeoNode(this.config)
+    return api.network.getBestNeoNode(this.config)
   }
 
-  public tickersLast24Hours(): Promise<object> {
-    return api.tickers.last24Hours(this.config)
+  public getLast24Hours(): Promise<object> {
+    return api.tickers.getLast24Hours(this.config)
   }
 }

@@ -1,6 +1,6 @@
 import { broadcast } from './broadcast'
 import { create } from './create'
-import { list } from './list'
+import { get } from './get'
 import { make } from './make'
 
-export const orders = { broadcast, create, list, make }
+export const orders = { broadcast, create, get, make }
