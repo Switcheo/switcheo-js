@@ -2,6 +2,7 @@ import { MakeOrderParams } from '../api/orders/make'
 import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
 import { api } from '../api'
+import { GetCandlesticksParams } from '../api/tickers'
 import { Order } from '../models/order'
 import { Network } from '../constants'
 import { Account } from './account'
@@ -47,5 +48,9 @@ export class Client {
 
   public getLast24Hours(): Promise<object> {
     return api.tickers.getLast24Hours(this.config)
+  }
+
+  public getCandlesticks(params: GetCandlesticksParams): Promise<object> {
+    return api.tickers.getCandlesticks(this.config, params)
   }
 }
