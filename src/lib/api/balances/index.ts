@@ -42,14 +42,14 @@ export function deposit(config: Config, account: Account,
 interface DepositParams {
   readonly blockchain: Blockchain
   readonly contractHash: string
-  readonly assetID: string
+  readonly assetId: string
   readonly amount: string
 }
 
 function depositNeoAsset(config: Config, account: Account,
-  assetID: string, amount: string): Promise<any> {
+  assetId: string, amount: string): Promise<any> {
   const contractHash: string = config.getContractHash(Blockchain.Neo)
-  const params: DepositParams = { blockchain: Blockchain.Neo, contractHash, assetID, amount }
+  const params: DepositParams = { blockchain: Blockchain.Neo, contractHash, assetId, amount }
 
   return performMultistepRequest(
     config,
