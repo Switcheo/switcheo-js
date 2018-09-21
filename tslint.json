@@ -10,7 +10,14 @@
     // Recommended built-in rules
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
-    "typedef": [true, "call-signature"],
+    "typedef": [true, "call-signature",
+      "arrow-call-signature",
+      "parameter",
+      "arrow-parameter",
+      "property-declaration",
+      "variable-declaration",
+      "member-variable-declaration",
+      "array-destructuring"],
 
     // Immutability rules
     "readonly-array": true,
