@@ -1,9 +1,11 @@
+import BigNumber from 'bignumber.js'
+
 import { Account, Config } from '../../switcheo'
 import req from '../../req'
 import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { Blockchain } from '../../constants'
-import { performMultistepRequest } from '../helpers'
-import BigNumber from 'bignumber.js'
+import { buildSignedRequest, performMultistepRequest } from '../helpers'
+import { Request } from '../common'
 
 interface AssetLike {
   blockchain: Blockchain
@@ -72,16 +74,16 @@ function depositNeoAsset(config: Config, account: Account,
   ) as Promise<any>
 }
 
-function withdrawNeoAsset(config: Config, account: Account,
+async function withdrawNeoAsset(config: Config, account: Account,
   assetId: string, amount: string): Promise<any> {
   const contractHash: string = config.getContractHash(Blockchain.Neo)
   const params: TransferParams = { blockchain: Blockchain.Neo, contractHash, assetId, amount }
 
-  return performMultistepRequest(
-    config,
-    '/withdrawals',
-    result => `/withdrawals/${result.id}/broadcast`,
-    params,
-    account
-  ) as Promise<any>
+  const createRequest = await buildSignedRequest(config, '/withdrawals', params, account) as Request
+  const createResult: { id: string } = await req.post(createRequest.url, createRequest.payload)
+
+  const executeRequest = await buildSignedRequest(
+    config, `/withdrawals/${createResult.id}/broadcast`,
+    { id: createResult.id }, account) as Request
+  return req.post(executeRequest.url,  executeRequest.payload)
 }
