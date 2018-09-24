@@ -6,5 +6,5 @@ import { orders } from './orders'
 import * as pairs from './pairs'
 import * as tickers from './tickers'
 
-// TODO: Is it correct to put any here?
-export const api: any = { balances, cancellations, fees, network, orders, pairs, tickers }
+// tslint:disable-next-line typedef
+export const api = { balances, cancellations, fees, network, orders, pairs, tickers }
