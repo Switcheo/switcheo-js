@@ -24,7 +24,7 @@ export async function create(config: Config,
   return new Order(response)
 }
 
-interface OrderCreationRequest extends Request {
+export interface OrderCreationRequest extends Request {
   readonly payload: OrderCreationRequestPayload
 }
 

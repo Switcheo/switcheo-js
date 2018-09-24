@@ -1,4 +1,4 @@
-import { buildOrderCreationRequest } from './create'
+import { buildOrderCreationRequest, OrderCreationRequest } from './create'
 import { createAccountAndConfig } from '../../spec/helpers'
 import { test, GenericTestContext } from 'ava'
 
