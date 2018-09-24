@@ -20,7 +20,7 @@ export async function buildSignedRequestPayload(config: Config,
   params: object, account: Account): Promise<object> {
   const timestamp: number = await req.fetchTimestamp(config)
   const signableParams: object = { ...params, timestamp }
-  const signature: string = account.signParams(signableParams)
+  const signature: string = await account.signParams(signableParams)
   return { ...signableParams, signature, address: account.address }
 }
 
@@ -30,7 +30,7 @@ export async function performMultistepRequest(config: Config, firstUrlPath: stri
     await buildSignedRequest(config, firstUrlPath, params, account) as Request
   const firstResult: TransactionContainer =
     new TransactionContainer(await req.post(firstRequest.url, firstRequest.payload))
-  const signature: string = account.signTransaction(firstResult.transaction)
+  const signature: string = await account.signTransaction(firstResult.transaction)
   const secondRequest: Request =
     buildRequest(config, secondUrlPathFn(firstResult), { signature }) as Request
   return req.post(secondRequest.url, secondRequest.payload)

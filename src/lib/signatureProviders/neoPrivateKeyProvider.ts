@@ -13,14 +13,14 @@ export class NeoPrivateKeyProvider implements SignatureProvider {
     this.displayAddress = this.account.address
   }
 
-  public signMessage(message: string): string {
+  public signMessage(message: string): Promise<string> {
     if (this.account.privateKey === undefined) {
       throw new Error('Private key must be provided to sign a message')
     }
-    return neonWallet.generateSignature(message, this.account.privateKey)
+    return Promise.resolve(neonWallet.generateSignature(message, this.account.privateKey))
   }
 
-  public signTransaction(transaction: NeoTransaction): string {
+  public signTransaction(transaction: NeoTransaction): Promise<string> {
     const serializedTxn: string = transaction.serialize(false)
     return this.signMessage(serializedTxn)
   }

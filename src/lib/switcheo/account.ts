@@ -21,7 +21,7 @@ export class Account {
     this.displayAddress = this.provider.displayAddress
   }
 
-  public signParams(params: object): string {
+  public signParams(params: object): Promise<string> {
     const payload: string = stringifyParams(params)
     if (payload.length > 252) {
       throw new Error('Cannot sign a message more than 252 characters in length')
@@ -30,11 +30,11 @@ export class Account {
     return this.signMessage(encodedPayload)
   }
 
-  public signMessage(message: string): string {
+  public signMessage(message: string): Promise<string> {
     return this.provider.signMessage(message)
   }
 
-  public signTransaction(transaction: Transaction): string {
+  public signTransaction(transaction: Transaction): Promise<string> {
     return this.provider.signTransaction(transaction)
   }
 }
