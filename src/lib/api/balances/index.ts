@@ -82,11 +82,12 @@ async function withdrawNeoAsset(config: Config, account: Account,
   const contractHash: string = config.getContractHash(Blockchain.Neo)
   const params: TransferParams = { blockchain: Blockchain.Neo, contractHash, assetId, amount }
 
-  const createRequest = await buildSignedRequest(config, '/withdrawals', params, account) as Request
+  const createRequest: Request =
+    await buildSignedRequest(config, '/withdrawals', params, account) as Request
   const createResult: { id: string } = await req.post(createRequest.url, createRequest.payload)
 
-  const executeRequest = await buildSignedRequest(
+  const executeRequest: Request = await buildSignedRequest(
     config, `/withdrawals/${createResult.id}/broadcast`,
     { id: createResult.id }, account) as Request
-  return req.post(executeRequest.url,  executeRequest.payload)
+  return req.post(executeRequest.url, executeRequest.payload)
 }
