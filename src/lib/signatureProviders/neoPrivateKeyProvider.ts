@@ -5,7 +5,7 @@ import { SignatureProvider } from '.'
 export class NeoPrivateKeyProvider implements SignatureProvider {
   public readonly address: string
   public readonly displayAddress: string
-  private account: neonWallet.Account
+  private readonly account: neonWallet.Account
 
   constructor(key: string) {
     this.account = new neonWallet.Account(key)

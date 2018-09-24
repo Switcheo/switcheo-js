@@ -52,11 +52,13 @@
   },
   "dependencies": {
     "@cityofzion/neon-core": "^4.0.1",
+    "@types/web3": "^1.0.6",
     "axios": "^0.18.0",
     "bignumber.js": "^7.2.1",
     "humps": "^2.0.1",
     "json-stable-stringify": "^1.0.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "@types/bn.js": "^4.11.1",
