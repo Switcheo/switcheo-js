@@ -11,12 +11,14 @@ export interface AccountParams {
 export class Account {
   public readonly blockchain: Blockchain
   public readonly address: string
-  public readonly provider: SignatureProvider
+  public readonly displayAddress: string
+  private readonly provider: SignatureProvider
 
   constructor({ blockchain, provider }: AccountParams) {
     this.blockchain = blockchain
     this.provider = provider
     this.address = this.provider.address
+    this.displayAddress = this.provider.displayAddress
   }
 
   public signParams(params: object): string {
