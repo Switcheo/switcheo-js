@@ -1,42 +1,47 @@
 import Web3 from 'web3'
-import Accounts, { Account } from 'web3/eth/accounts' //tslint:disable-line
 import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
 
 import { SignatureProvider } from '.'
 import { combineEthSignature } from './utils'
 
 export class MetamaskProvider implements SignatureProvider {
+  public static init(web3: Web3): Promise<MetamaskProvider> {
+    return web3.eth.getAccounts().then(
+      (addresses: ReadonlyArray<string>): MetamaskProvider =>
+        new MetamaskProvider(web3, addresses[0])
+    )
+  }
+
   public readonly address: string
   public readonly displayAddress: string
   private readonly web3: Web3
-  private readonly account: Account
 
-  constructor(web3: Web3) {
+  private constructor(web3: Web3, address: string) {
     this.web3 = web3
-    this.account = this.getCurrentAccount()
-    this.address = this.account.address
-    this.displayAddress = this.account.address
+    this.address = address
+    this.displayAddress = address
   }
 
-  public signMessage(message: string): Promise<string> {
-    this.ensureAccountUnchanged()
+  public async signMessage(message: string): Promise<string> {
+    await this.ensureAccountUnchanged()
     return this.web3.eth.sign(message, this.address)
   }
 
   public async signTransaction(transaction: Transaction): Promise<string> {
-    this.ensureAccountUnchanged()
+    await this.ensureAccountUnchanged()
     const { tx } = await this.web3.eth.signTransaction(transaction, this.address)
     const { r, s, v } = tx
     return combineEthSignature({ r, s, v })
   }
 
-  private getCurrentAccount(): Account {
-    const accounts: Accounts = this.web3.eth.accounts
-    return (accounts as any)[0] as Account
+  private async getCurrentAccount(): Promise<string> {
+    const accounts: ReadonlyArray<string> = await this.web3.eth.getAccounts()
+    return accounts[0]
   }
 
-  private ensureAccountUnchanged(): void {
-    if (this.getCurrentAccount().address !== this.address) {
+  private async ensureAccountUnchanged(): Promise<void> {
+    const address: string = await this.getCurrentAccount()
+    if (address !== this.address) {
       throw new Error('MetaMask account changed in extension! ' +
         'Please repeat authentication by re-connecting your wallet.')
     }
