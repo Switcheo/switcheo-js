@@ -4,13 +4,16 @@ import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { Blockchain } from '../../constants'
 import { performMultistepRequest } from '../helpers'
 import BigNumber from 'bignumber.js'
+import TransactionContainer from '../../models/transaction-container'
 
 export function get(config: Config,
   accounts: Account | ReadonlyArray<Account>): Promise<object> {
-  const wrappedAccounts = Array.isArray(accounts) ? accounts : [accounts]
-  const addresses = wrappedAccounts.map(account => account.address)
-  const blockchains = wrappedAccounts.map(account => account.blockchain)
-  const contractHashes = config.getContractHashes(blockchains)
+  const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
+  const addresses: ReadonlyArray<string> =
+    wrappedAccounts.map((account: Account) => account.address)
+  const blockchains: ReadonlyArray<Blockchain> =
+    wrappedAccounts.map((account: Account) => account.blockchain)
+  const contractHashes: ReadonlyArray<string> = config.getContractHashes(blockchains)
 
   return req.get(config.url + '/balances', { addresses, contractHashes })
 }
@@ -54,7 +57,7 @@ function depositNeoAsset(config: Config, account: Account,
   return performMultistepRequest(
     config,
     '/deposits',
-    result => `/deposits/${result.id}/broadcast`,
+    (result: TransactionContainer) => `/deposits/${result.id}/broadcast`,
     params,
     account
   ) as Promise<any>

@@ -7,6 +7,6 @@ export type MakeOrderParams = CreateOrderParams
 
 export async function make(config: Config,
   orderParams: MakeOrderParams, account: Account): Promise<Order> {
-  const order = await create(config, orderParams, account)
+  const order: Order = await create(config, orderParams, account)
   return broadcast(config, order, account)
 }

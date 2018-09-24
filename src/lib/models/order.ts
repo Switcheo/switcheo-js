@@ -21,7 +21,7 @@ export class Order {
 
   constructor(tx: OrderParams) {
     this.id = tx.id
-    this.fills = tx.fills.map(f => new Fill(f))
-    this.makes = tx.makes.map(m => new Make(m))
+    this.fills = tx.fills.map((f: FillOrMake) => new Fill(f))
+    this.makes = tx.makes.map((m: FillOrMake) => new Make(m))
   }
 }

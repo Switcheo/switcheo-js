@@ -28,7 +28,7 @@ Getting started
 import { Client } from 'switcheo-js'
 
 const switcheo: Client = new Client({
-  net: TEST_NET,
+  net: Network.TestNet,
 })
 
 switcheo.listPairs()

@@ -9,11 +9,11 @@ export type BroadcastOrderParams = Order
 
 export async function broadcast(config: Config,
   order: BroadcastOrderParams, account: Account): Promise<Order> {
-  const request = await buildOrderBroadcastRequest(config, order, account)
+  const request: OrderBroadcastRequest = await buildOrderBroadcastRequest(config, order, account)
   return req.post(request.url, request.payload)
 }
 
-interface OrderBroadcastRequest extends Request {
+export interface OrderBroadcastRequest extends Request {
   readonly payload: OrderBroadcastRequestPayload
 }
 
@@ -30,7 +30,7 @@ interface OrderBroadcastRequestPayload {
 
 export function buildOrderBroadcastRequest(config: Config,
   order: BroadcastOrderParams, account: Account): Promise<OrderBroadcastRequest> {
-  const signatures = {
+  const signatures: { fills: SignedTransactionMap, makes: SignedTransactionMap } = {
     fills: buildSignedTransactionMap(order.fills, account),
     makes: buildSignedTransactionMap(order.makes, account),
   }
@@ -44,7 +44,7 @@ export function buildOrderBroadcastRequest(config: Config,
 function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TransactionContainer>,
   account: Account): SignedTransactionMap {
   const map: SignedTransactionMap = {}
-  transactionContainers.forEach((item) => {
+  transactionContainers.forEach((item: TransactionContainer) => {
     map[item.id] = account.signTransaction(item.transaction)
   })
   return map

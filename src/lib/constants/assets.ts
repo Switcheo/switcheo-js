@@ -1,5 +1,8 @@
+interface AssetPrecision {
+  [key: string]: number
+}
 // tslint:disable:object-literal-sort-keys
-export const ASSET_PRECISION = {
+export const ASSET_PRECISION: AssetPrecision = {
   // NEO
   NEO: 8,
   GAS: 8,

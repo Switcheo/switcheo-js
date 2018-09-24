@@ -20,11 +20,11 @@ export class Account {
   }
 
   public signParams(params: object): string {
-    const payload = stringifyParams(params)
+    const payload: string = stringifyParams(params)
     if (payload.length > 252) {
       throw new Error('Cannot sign a message more than 252 characters in length')
     }
-    const encodedPayload = encodeMessage(payload)
+    const encodedPayload: string = encodeMessage(payload)
     return this.signMessage(encodedPayload)
   }
 

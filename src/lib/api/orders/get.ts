@@ -7,7 +7,7 @@ export interface ListOrdersParams {
 
 export function get(config: Config,
   listOrdersParams: ListOrdersParams, account: Account): Promise<object> {
-  const contractHash = config.getContractHash(account.blockchain)
+  const contractHash: string = config.getContractHash(account.blockchain)
   return req.get(config.url + '/orders', {
     address: account.address,
     contractHash,

@@ -19,7 +19,7 @@ export class NeoPrivateKeyProvider implements SignatureProvider {
   }
 
   public signTransaction(transaction: NeoTransaction): string {
-    const serializedTxn = transaction.serialize(false)
+    const serializedTxn: string = transaction.serialize(false)
     return this.signMessage(serializedTxn)
   }
 }

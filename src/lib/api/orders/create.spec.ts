@@ -1,10 +1,10 @@
 import { buildOrderCreationRequest } from './create'
 import { createAccountAndConfig } from '../../spec/helpers'
-import { test } from 'ava'
+import { test, GenericTestContext } from 'ava'
 
-test('buildOrderCreationRequest', async (t) => {
+test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
   const { account, config } = createAccountAndConfig()
-  const request = await buildOrderCreationRequest(
+  const request: OrderCreationRequest = await buildOrderCreationRequest(
     config,
     {
       orderType: 'limit',

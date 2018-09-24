@@ -2,6 +2,7 @@ import { performMultistepRequest } from '../helpers'
 
 import { Account, Config } from '../../switcheo'
 import { Order } from '../../models/order'
+import TransactionContainer from '../../models/transaction-container'
 
 export interface MakeCancellationParams {
   readonly orderId: string
@@ -12,7 +13,7 @@ export function make(config: Config,
   return performMultistepRequest(
     config,
     '/cancellations',
-    result => `/cancellations/${result.id}/broadcast`,
+    (result: TransactionContainer) => `/cancellations/${result.id}/broadcast`,
     cancellationParams,
     account
   ) as Promise<Order>
