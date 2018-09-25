@@ -9,7 +9,7 @@ export interface SignatureProvider {
   signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
 }
 
-export interface Web3Provider {
+export interface Web3Provider extends SignatureProvider {
   readonly web3: Web3
 }
 

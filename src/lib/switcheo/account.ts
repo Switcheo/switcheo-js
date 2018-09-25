@@ -12,7 +12,7 @@ export class Account {
   public readonly blockchain: Blockchain
   public readonly address: string
   public readonly displayAddress: string
-  private readonly provider: SignatureProvider
+  public readonly provider: SignatureProvider
 
   constructor({ blockchain, provider }: AccountParams) {
     this.blockchain = blockchain
