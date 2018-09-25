@@ -1,3 +1,3 @@
-import TransactionContainer from './transaction-container'
+import TransactionContainer from './transactionContainer'
 
 export class Make extends TransactionContainer {}

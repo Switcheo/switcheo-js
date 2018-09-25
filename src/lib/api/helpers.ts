@@ -1,5 +1,5 @@
 import { Account, Config } from '../switcheo'
-import TransactionContainer from '../models/transaction-container'
+import TransactionContainer from '../models/transactionContainer'
 import req from '../req'
 
 import { Request } from './common'

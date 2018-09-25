@@ -6,7 +6,7 @@ import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { Blockchain } from '../../constants'
 import { buildSignedRequest, performMultistepRequest } from '../helpers'
 import { Request } from '../common'
-import TransactionContainer from '../../models/transaction-container'
+import TransactionContainer from '../../models/transactionContainer'
 
 interface AssetLike {
   blockchain: Blockchain

@@ -1,6 +1,6 @@
 import { Order } from '../../models/order'
 import { Account, Config } from '../../switcheo'
-import TransactionContainer from '../../models/transaction-container'
+import TransactionContainer from '../../models/transactionContainer'
 
 import { buildRequest } from '../helpers'
 import req from '../../req'

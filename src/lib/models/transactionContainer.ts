@@ -1,19 +1,24 @@
-import { tx as neonTx } from '@cityofzion/neon-core'
-import { Transaction, TransactionLike, NeoTransaction } from './transaction'
+import { Transaction, TransactionLike, NeoTransaction, EthTransaction } from './transaction'
+import { EthTransactionLike } from './transaction/ethTransaction'
+import { NeoTransactionLike } from './transaction/neoTransaction'
 
 interface SwitcheoResponse {
   id: string
 }
 
 interface SwitcheoGenericResponse extends SwitcheoResponse {
-  transaction: Partial<neonTx.InvocationTransactionLike>
+  transaction: TransactionLike
 }
 
 interface SwitcheoMakeOrFillResponse extends SwitcheoResponse {
-  txn: Partial<neonTx.InvocationTransactionLike>
+  txn: TransactionLike
 }
 
 type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoMakeOrFillResponse
+
+function isEthTransactionLike(object: any): object is EthTransactionLike {
+  return object.chainId !== undefined && object.from !== undefined
+}
 
 export default class TransactionContainer {
   public readonly id: string
@@ -23,6 +28,8 @@ export default class TransactionContainer {
     this.id = tx.id
     const transactionParams: TransactionLike =
       (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoMakeOrFillResponse).txn
-    this.transaction = new NeoTransaction(transactionParams)
+    this.transaction = isEthTransactionLike(transactionParams) ?
+      transactionParams as EthTransaction :
+      new NeoTransaction(transactionParams as NeoTransactionLike)
   }
 }

@@ -2,7 +2,7 @@ import { performMultistepRequest } from '../helpers'
 
 import { Account, Config } from '../../switcheo'
 import { Order } from '../../models/order'
-import TransactionContainer from '../../models/transaction-container'
+import TransactionContainer from '../../models/transactionContainer'
 
 export interface MakeCancellationParams {
   readonly orderId: string
