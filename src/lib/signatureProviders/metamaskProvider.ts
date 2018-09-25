@@ -1,10 +1,10 @@
 import Web3 from 'web3'
 import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
 
-import { SignatureProvider } from '.'
+import { Web3Provider, SignatureProvider } from '.'
 import { combineEthSignature } from './utils'
 
-export class MetamaskProvider implements SignatureProvider {
+export class MetamaskProvider implements SignatureProvider, Web3Provider {
   public static init(web3: Web3): Promise<MetamaskProvider> {
     return web3.eth.getAccounts().then(
       (addresses: ReadonlyArray<string>): MetamaskProvider =>
@@ -14,7 +14,7 @@ export class MetamaskProvider implements SignatureProvider {
 
   public readonly address: string
   public readonly displayAddress: string
-  private readonly web3: Web3
+  public readonly web3: Web3
 
   private constructor(web3: Web3, address: string) {
     this.web3 = web3

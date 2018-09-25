@@ -1,3 +1,4 @@
+import Web3 from 'web3'
 import { tx as neonTx } from '@cityofzion/neon-core'
 import { Tx as ethTransaction } from 'web3/eth/types' //tslint:disable-line
 
@@ -6,6 +7,10 @@ export interface SignatureProvider {
   readonly displayAddress: string
   signMessage(message: string): Promise<string>
   signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
+}
+
+export interface Web3Provider {
+  readonly web3: Web3
 }
 
 export * from './neoPrivateKeyProvider'
