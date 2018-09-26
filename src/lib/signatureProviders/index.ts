@@ -2,9 +2,16 @@ import Web3 from 'web3'
 import { tx as neonTx } from '@cityofzion/neon-core'
 import { Tx as ethTransaction } from 'web3/eth/types' //tslint:disable-line
 
+export enum SignatureProviderType {
+  PrivateKey = 'privateKey',
+  Ledger = 'ledger',
+  Metamask = 'metamask',
+}
+
 export interface SignatureProvider {
   readonly address: string
   readonly displayAddress: string
+  readonly type: SignatureProviderType | string
   signMessage(message: string): Promise<string>
   signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
 }

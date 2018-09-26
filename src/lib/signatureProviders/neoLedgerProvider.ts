@@ -1,6 +1,6 @@
 import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { NeoTransaction } from '../models/transaction'
-import { SignatureProvider } from '.'
+import { SignatureProvider, SignatureProviderType } from '.'
 import Ledger from '../utils/neoLedger'
 
 /**
@@ -23,8 +23,10 @@ export class NeoLedgerProvider implements SignatureProvider {
   public readonly address: string
   public readonly displayAddress: string
   public readonly publicKey: string
+  public readonly type: SignatureProviderType
 
   private constructor(publicKey: string) {
+    this.type = SignatureProviderType.Ledger
     this.publicKey = publicKey
     this.address = neonWallet.getScriptHashFromPublicKey(publicKey)
     this.displayAddress = neonWallet.getAddressFromScriptHash(this.address)

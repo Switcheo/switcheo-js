@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
 
-import { Web3Provider } from '.'
+import { Web3Provider, SignatureProviderType } from '.'
 import { combineEthSignature } from './utils'
 
 export class MetamaskProvider implements Web3Provider {
@@ -15,8 +15,10 @@ export class MetamaskProvider implements Web3Provider {
   public readonly address: string
   public readonly displayAddress: string
   public readonly web3: Web3
+  public readonly type: SignatureProviderType
 
   private constructor(web3: Web3, address: string) {
+    this.type = SignatureProviderType.Metamask
     this.web3 = web3
     this.address = address
     this.displayAddress = address
