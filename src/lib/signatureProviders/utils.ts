@@ -1,12 +1,4 @@
-import humps from 'humps'
-import stableStringify from 'json-stable-stringify'
 import { u as neonUtils } from '@cityofzion/neon-core'
-
-export function stringifyParams(params: object): string {
-  const decamelizedParams: object = humps.decamelizeKeys(params)
-  // ensure that params are sorted in alphabetical order
-  return stableStringify(decamelizedParams)
-}
 
 export function encodeNeoMessage(message: string): string {
   const messageHex: string = neonUtils.str2hexstring(message)

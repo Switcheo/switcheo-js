@@ -3,7 +3,8 @@ import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
 import { JsonRPCResponse } from 'web3/providers' //tslint:disable-line
 
 import { Web3Provider, SignatureProviderType } from '.'
-import { combineEthSignature, stringifyParams } from './utils'
+import { combineEthSignature } from './utils'
+import { stringifyParams } from '../utils'
 
 export class MetamaskProvider implements Web3Provider {
   public static init(web3: Web3): Promise<MetamaskProvider> {

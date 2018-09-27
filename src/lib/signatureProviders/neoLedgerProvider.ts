@@ -1,7 +1,8 @@
 import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { NeoTransaction } from '../models/transaction'
 import { SignatureProvider, SignatureProviderType } from '.'
-import { encodeNeoMessage, stringifyParams } from './utils'
+import { encodeNeoMessage } from './utils'
+import { stringifyParams } from '../utils'
 import Ledger from '../utils/neoLedger'
 
 /**
