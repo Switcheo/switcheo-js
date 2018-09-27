@@ -44,7 +44,7 @@ export function deposit(config: Config, account: Account,
   const params: TransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
     assetId: asset.scriptHash,
-    blockchain: Blockchain.Neo,
+    blockchain: asset.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
   }
 

@@ -12,6 +12,7 @@ export interface SignatureProvider {
   readonly address: string
   readonly displayAddress: string
   readonly type: SignatureProviderType | string
+  signParams(params: object): Promise<string>
   signMessage(message: string): Promise<string>
   signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
 }

@@ -1,6 +1,5 @@
 import { Transaction } from '../models/transaction'
 import { Blockchain } from '../constants/blockchains'
-import { encodeMessage, stringifyParams } from '../utils'
 import { SignatureProvider } from '../signatureProviders'
 
 export interface AccountParams {
@@ -22,12 +21,7 @@ export class Account {
   }
 
   public signParams(params: object): Promise<string> {
-    const payload: string = stringifyParams(params)
-    if (payload.length > 252) {
-      throw new Error('Cannot sign a message more than 252 characters in length')
-    }
-    const encodedPayload: string = encodeMessage(payload)
-    return this.signMessage(encodedPayload)
+    return this.provider.signParams(params)
   }
 
   public signMessage(message: string): Promise<string> {

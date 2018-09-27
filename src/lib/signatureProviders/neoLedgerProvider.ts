@@ -1,6 +1,7 @@
 import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { NeoTransaction } from '../models/transaction'
 import { SignatureProvider, SignatureProviderType } from '.'
+import { encodeNeoMessage, stringifyParams } from './utils'
 import Ledger from '../utils/neoLedger'
 
 /**
@@ -30,6 +31,15 @@ export class NeoLedgerProvider implements SignatureProvider {
     this.publicKey = publicKey
     this.address = neonWallet.getScriptHashFromPublicKey(publicKey)
     this.displayAddress = neonWallet.getAddressFromScriptHash(this.address)
+  }
+
+  public signParams(params: object): Promise<string> {
+    const payload: string = stringifyParams(params)
+    if (payload.length > 252) {
+      throw new Error('Cannot sign a message more than 252 characters in length')
+    }
+    const encodedPayload: string = encodeNeoMessage(payload)
+    return this.signMessage(encodedPayload)
   }
 
   public async signMessage(message: string): Promise<string> {
