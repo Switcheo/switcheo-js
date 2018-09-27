@@ -37,7 +37,7 @@ export class MetamaskProvider implements Web3Provider {
     return new Promise((resolve, reject) => { // tslint:disable-line
       this.web3.currentProvider.send({
         id: new Date().getTime(),
-        jsonrpc: '1.0',
+        jsonrpc: '2.0',
         method: 'eth_signTypedData',
         params: [msgParams, this.address],
       }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
