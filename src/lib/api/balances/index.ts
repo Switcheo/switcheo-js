@@ -41,32 +41,12 @@ export function getNeoAssets(config: Config, account: Account): Promise<object> 
 
 export function deposit(config: Config, account: Account,
   asset: AssetLike, amount: BigNumber | string): Promise<any> {
-  const amountWithoutPrecision: string =
-    new BigNumber(amount).times(10 ** asset.decimals).toString()
-
-  if (asset.blockchain === Blockchain.Neo) {
-    return depositNeoAsset(config, account, asset.scriptHash, amountWithoutPrecision)
+  const params: TransferParams = {
+    amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
+    assetId: asset.scriptHash,
+    blockchain: Blockchain.Neo,
+    contractHash: config.getContractHash(asset.blockchain),
   }
-
-  throw new Error('Not yet implemented for this blockchain!')
-}
-
-export function withdraw(config: Config, account: Account,
-  asset: AssetLike, amount: BigNumber | string): Promise<any> {
-  const amountWithoutPrecision: string =
-    new BigNumber(amount).times(10 ** asset.decimals).toString()
-
-  if (asset.blockchain === Blockchain.Neo) {
-    return withdrawNeoAsset(config, account, asset.scriptHash, amountWithoutPrecision)
-  }
-
-  throw new Error('Not yet implemented for this blockchain!')
-}
-
-function depositNeoAsset(config: Config, account: Account,
-  assetId: string, amount: string): Promise<any> {
-  const contractHash: string = config.getContractHash(Blockchain.Neo)
-  const params: TransferParams = { blockchain: Blockchain.Neo, contractHash, assetId, amount }
 
   return performMultistepRequest(
     config,
@@ -77,11 +57,23 @@ function depositNeoAsset(config: Config, account: Account,
   ) as Promise<any>
 }
 
-async function withdrawNeoAsset(config: Config, account: Account,
-  assetId: string, amount: string): Promise<any> {
-  const contractHash: string = config.getContractHash(Blockchain.Neo)
-  const params: TransferParams = { blockchain: Blockchain.Neo, contractHash, assetId, amount }
+export async function withdraw(config: Config, account: Account,
+  asset: AssetLike, amount: BigNumber | string): Promise<any> {
+  const params: TransferParams = {
+    amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
+    assetId: asset.scriptHash,
+    blockchain: Blockchain.Neo,
+    contractHash: config.getContractHash(asset.blockchain),
+  }
 
+  if (asset.blockchain === Blockchain.Neo) return withdrawNeo(config, account, params)
+
+  if (asset.blockchain === Blockchain.Ethereum) return withdrawEth(config, account, params)
+
+  return Promise.reject('Invalid blockchain passed to withdraw()!')
+}
+
+async function withdrawNeo(config: Config, account: Account, params: TransferParams): Promise<any> {
   const createRequest: Request =
     await buildSignedRequest(config, '/withdrawals', params, account) as Request
   const createResult: { id: string } = await req.post(createRequest.url, createRequest.payload)
@@ -90,4 +82,14 @@ async function withdrawNeoAsset(config: Config, account: Account,
     config, `/withdrawals/${createResult.id}/broadcast`,
     { id: createResult.id }, account) as Request
   return req.post(executeRequest.url, executeRequest.payload)
+}
+
+function withdrawEth(config: Config, account: Account, params: TransferParams): Promise<any> {
+  return performMultistepRequest(
+    config,
+    '/withdrawals',
+    (result: TransactionContainer) => `/withdrawals/${result.id}/broadcast`,
+    params,
+    account
+  ) as Promise<any>
 }
