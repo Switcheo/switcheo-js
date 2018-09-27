@@ -1,5 +1,4 @@
-import { AssetSymbol } from '../../constants/assets'
-import { toAssetAmount } from '../../utils'
+import BigNumber from 'bignumber.js'
 import { buildSignedRequest } from '../helpers'
 import { Request, SignedRequestPayload } from '../common'
 
@@ -10,8 +9,8 @@ import { Account, Config } from '../../switcheo'
 export interface CreateOrderParams {
   readonly pair: string
   readonly side: OrderSide
-  readonly price: number
-  readonly wantAmount: number
+  readonly price: string
+  readonly wantAmount: string
   readonly useNativeTokens: boolean
   readonly orderType: OrderType
 }
@@ -39,13 +38,6 @@ interface OrderCreationRequestPayload extends SignedRequestPayload {
   contractHash: string
 }
 
-function getWantAmount(orderParams: CreateOrderParams): string {
-  const { pair, side } = orderParams
-  const assetSymbols: ReadonlyArray<string> = pair.split('_')
-  const wantAssetSymbol: AssetSymbol = assetSymbols[side === 'buy' ? 0 : 1] as AssetSymbol
-  return toAssetAmount(orderParams.wantAmount, wantAssetSymbol)
-}
-
 export function buildOrderCreationRequest(config: Config,
   orderParams: CreateOrderParams, account: Account): Promise<OrderCreationRequest> {
   const params: object = {
@@ -53,10 +45,10 @@ export function buildOrderCreationRequest(config: Config,
     contractHash: config.getContractHash(account.blockchain),
     orderType: orderParams.orderType,
     pair: orderParams.pair,
-    price: orderParams.price.toFixed(8),
+    price: new BigNumber(orderParams.price).toFixed(8),
     side: orderParams.side,
     useNativeTokens: orderParams.useNativeTokens,
-    wantAmount: getWantAmount(orderParams),
+    wantAmount: orderParams.wantAmount,
   }
   return buildSignedRequest(config, '/orders', params, account) as Promise<OrderCreationRequest>
 }

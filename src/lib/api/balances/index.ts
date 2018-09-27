@@ -1,18 +1,13 @@
 import BigNumber from 'bignumber.js'
+import { wallet as neonWallet } from '@cityofzion/neon-core'
 
 import { Account, Config } from '../../switcheo'
 import req from '../../req'
-import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { Blockchain } from '../../constants'
 import { buildSignedRequest, performMultistepRequest } from '../helpers'
 import { Request } from '../common'
+import { AssetLike } from '../../models/assets'
 import TransactionContainer from '../../models/transactionContainer'
-
-interface AssetLike {
-  blockchain: Blockchain
-  scriptHash: string
-  decimals: number
-}
 
 interface TransferParams {
   readonly blockchain: Blockchain

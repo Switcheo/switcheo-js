@@ -42,6 +42,7 @@ export class MetamaskProvider implements Web3Provider {
         params: [msgParams, this.address],
       }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
         if (err) reject(err)
+        else if (res.error) reject(res.error)
         else resolve(res.result)
       })
     })

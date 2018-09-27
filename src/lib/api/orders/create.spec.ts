@@ -9,10 +9,10 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
     {
       orderType: 'limit',
       pair: 'SWTH_NEO',
-      price: 0.001,
+      price: '0.001',
       side: 'buy',
       useNativeTokens: true,
-      wantAmount: 120,
+      wantAmount: '12000000000',
     },
     account
   )
