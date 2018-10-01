@@ -226,21 +226,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ethereumjs-abi@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@types/ethereumjs-abi/-/ethereumjs-abi-0.6.1.tgz#68dad80888a6e9f12b04f85adcb9cad2cb825e5c"
-  integrity sha512-tnnqhY6FfgAqpliB/YkyXkSF9KvyM2Uz+b2UWZ0uUtQRFE4EHCZWztUJt6k1pE78/iIxQqciBw+cIAS8YhEU7w==
-  dependencies:
-    "@types/node" "*"
-
-"@types/ethereumjs-util@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@types/ethereumjs-util/-/ethereumjs-util-5.2.0.tgz#f49fe8114789ec0871721392c09318c3eb56671b"
-  integrity sha512-qwQgQqXXTRv2h2AlJef+tMEszLFkCB9dWnrJYIdAwqjubERXEc/geB+S3apRw0yQyTVnsBf8r6BhlrE8vx+3WQ==
-  dependencies:
-    "@types/bn.js" "*"
-    "@types/node" "*"
-
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
