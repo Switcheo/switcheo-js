@@ -10,7 +10,7 @@ export class MetamaskProvider implements Web3Provider {
   public static init(web3: Web3): Promise<MetamaskProvider> {
     return web3.eth.getAccounts().then(
       (addresses: ReadonlyArray<string>): MetamaskProvider =>
-        new MetamaskProvider(web3, addresses[0])
+        new MetamaskProvider(web3, addresses[0].toLowerCase())
     )
   }
 
