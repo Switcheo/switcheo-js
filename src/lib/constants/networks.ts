@@ -1,5 +1,3 @@
-// export type Network = 'TestNet' | 'MainNet'
-
 export enum Network {
   TestNet = 'TestNet',
   MainNet = 'MainNet',

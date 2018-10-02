@@ -3,13 +3,12 @@ import { CONTRACT_HASHES } from '../constants/contracts'
 import { Network, NETWORKS } from '../constants/networks'
 
 export class Config {
-  public net!: Network
-  public url!: string
+  public readonly net!: Network
+  public readonly url!: string
 
-  constructor({ net }: { readonly net?: Network }) {
-    const selectedNet: Network = net ? net : Network.TestNet
-    this.net = selectedNet
-    this.url = NETWORKS[this.net].V2.apiUrl
+  constructor({ net, url }: { readonly net?: Network, readonly url?: string }) {
+    this.net = net ? net : Network.TestNet
+    this.url = url ? url : NETWORKS[this.net].V2.apiUrl
   }
 
   public getContractHash(blockchain: Blockchain): string {
