@@ -51,7 +51,7 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@cityofzion/neon-core": "^4.0.1",
+    "@cityofzion/neon-core": "^4.0.2",
     "@ledgerhq/hw-transport-u2f": "^4.21.0",
     "@types/web3": "^1.0.6",
     "axios": "^0.18.0",
