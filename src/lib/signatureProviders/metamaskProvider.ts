@@ -34,7 +34,12 @@ export class MetamaskProvider implements Web3Provider {
         value: stringifyParams(params),
       },
     ]
-    return new Promise((resolve, reject) => { // tslint:disable-line
+    return new Promise(async (resolve, reject) => { // tslint:disable-line
+      try {
+        await this.ensureAccountUnchanged()
+      } catch (err) {
+        reject(err)
+      }
       this.web3.currentProvider.send({
         id: new Date().getTime(),
         jsonrpc: '2.0',
@@ -68,7 +73,7 @@ export class MetamaskProvider implements Web3Provider {
 
   private async ensureAccountUnchanged(): Promise<void> {
     const address: string | null = await this.getCurrentAccount()
-    if (!address || address !== this.address) {
+    if (!address || address.toLowerCase() !== this.address) {
       throw new Error('MetaMask account changed in extension! ' +
         'Please repeat authentication by re-connecting your wallet.')
     }
