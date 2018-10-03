@@ -42,6 +42,10 @@ export class Client {
     return api.fees.get(this.config)
   }
 
+  public getAnnouncementMessage(): Promise<object> {
+    return api.announcementMessage.get(this.config)
+  }
+
   public getBestNeoNode(): Promise<object> {
     return api.network.getBestNeoNode(this.config)
   }
