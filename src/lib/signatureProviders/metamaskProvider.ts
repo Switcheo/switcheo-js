@@ -7,11 +7,17 @@ import { combineEthSignature } from './utils'
 import { stringifyParams } from '../utils'
 
 export class MetamaskProvider implements Web3Provider {
-  public static init(web3: Web3): Promise<MetamaskProvider> {
-    return web3.eth.getAccounts().then(
-      (addresses: ReadonlyArray<string>): MetamaskProvider =>
-        new MetamaskProvider(web3, addresses[0].toLowerCase())
-    )
+  public static async init(web3: Web3): Promise<MetamaskProvider> {
+    const addresses: ReadonlyArray<string> = await web3.eth.getAccounts()
+    if (addresses.length === 0) {
+      this.throwMetaMaskLockedError()
+    }
+    return new MetamaskProvider(web3, addresses[0].toLowerCase())
+  }
+
+  private static throwMetaMaskLockedError(): void {
+    throw new Error('MetaMask locked! ' +
+        'Please click the extension icon to unlock it and try again.')
   }
 
   public readonly address: string
@@ -58,7 +64,7 @@ export class MetamaskProvider implements Web3Provider {
     return this.web3.eth.sign(message, this.address)
   }
 
-  public async signTransaction(transaction: Transaction): Promise<string> {
+  public signTransaction(transaction: Transaction): Promise<string> {
     await this.ensureAccountUnchanged()
     const { tx } = await this.web3.eth.signTransaction(transaction, this.address)
     const { r, s, v } = tx
@@ -67,7 +73,7 @@ export class MetamaskProvider implements Web3Provider {
 
   private async getCurrentAccount(): Promise<string | null> {
     const accounts: ReadonlyArray<string> = await this.web3.eth.getAccounts()
-    if (!accounts) return null
+    if (!accounts) MetamaskProvider.throwMetaMaskLockedError()
     return accounts[0]
   }
 
