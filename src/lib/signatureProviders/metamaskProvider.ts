@@ -64,7 +64,7 @@ export class MetamaskProvider implements Web3Provider {
     return this.web3.eth.sign(message, this.address)
   }
 
-  public signTransaction(transaction: Transaction): Promise<string> {
+  public async signTransaction(transaction: Transaction): Promise<string> {
     await this.ensureAccountUnchanged()
     const { tx } = await this.web3.eth.signTransaction(transaction, this.address)
     const { r, s, v } = tx
