@@ -71,7 +71,6 @@ export class MetamaskProvider implements Web3Provider {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureAccountUnchanged()
       return this.web3.eth.sendTransaction(transaction, (error: Error, hash: string): void => {
-        console.log(error, hash)
         if (error) reject(error)
         else resolve(hash)
       })
