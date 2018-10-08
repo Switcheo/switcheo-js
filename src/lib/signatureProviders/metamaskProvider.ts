@@ -3,7 +3,6 @@ import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
 import { JsonRPCResponse } from 'web3/providers' //tslint:disable-line
 
 import { Web3Provider, SignatureProviderType } from '.'
-import { combineEthSignature } from './utils'
 import { stringifyParams } from '../utils'
 
 export class MetamaskProvider implements Web3Provider {
@@ -64,11 +63,19 @@ export class MetamaskProvider implements Web3Provider {
     return this.web3.eth.sign(message, this.address)
   }
 
-  public async signTransaction(transaction: Transaction): Promise<string> {
-    await this.ensureAccountUnchanged()
-    const { tx } = await this.web3.eth.signTransaction(transaction, this.address)
-    const { r, s, v } = tx
-    return combineEthSignature({ r, s, v })
+  // NOTE: MetaMask does not support signing of transactions without broadcasting,
+  // see: https://github.com/MetaMask/metamask-extension/issues/3475.
+  // Therefore this methods returns a *transaction hash* upon broadcasting
+  // of transaction, instead of a signature to be attached to the txn and broadcasted.
+  public signTransaction(transaction: Transaction): Promise<string> {
+    return new Promise(async (resolve, reject) => { // tslint:disable-line
+      await this.ensureAccountUnchanged()
+      return this.web3.eth.sendTransaction(transaction, (error: Error, hash: string): void => {
+        console.log(error, hash)
+        if (error) reject(error)
+        else resolve(hash)
+      })
+    })
   }
 
   private async getCurrentAccount(): Promise<string | null> {
