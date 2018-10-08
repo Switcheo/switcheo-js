@@ -17,7 +17,7 @@ export class Client {
 
   public makeOrder(params: MakeOrderParams,
     account: Account): Promise<Order> {
-    return api.orders.make(this.config, params, account)
+    return api.orders.make(this.config, account, params)
   }
 
   public cancelOrder(params: MakeCancellationParams,

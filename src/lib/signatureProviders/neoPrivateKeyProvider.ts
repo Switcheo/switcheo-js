@@ -37,4 +37,8 @@ export class NeoPrivateKeyProvider implements SignatureProvider {
     const serializedTxn: string = transaction.serialize(false)
     return this.signMessage(serializedTxn)
   }
+
+  public sendTransaction(_transaction: NeoTransaction): Promise<string> {
+    return Promise.reject('sendTransaction() not implemented for NEO!')
+  }
 }

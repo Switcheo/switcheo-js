@@ -15,6 +15,7 @@ export interface SignatureProvider {
   signParams(params: object): Promise<string>
   signMessage(message: string): Promise<string>
   signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
+  sendTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
 }
 
 export interface Web3Provider extends SignatureProvider {

@@ -6,6 +6,7 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
   const { account, config } = createAccountAndConfig()
   const request: OrderCreationRequest = await buildOrderCreationRequest(
     config,
+    account,
     {
       orderType: 'limit',
       pair: 'SWTH_NEO',
@@ -13,8 +14,7 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
       side: 'buy',
       useNativeTokens: true,
       wantAmount: '12000000000',
-    },
-    account
+    }
   )
 
   const { payload } = request

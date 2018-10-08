@@ -1,6 +1,8 @@
 import { Account, Config } from '../switcheo'
 import TransactionContainer from '../models/transactionContainer'
+import { EthTransaction } from '../models/transaction/ethTransaction'
 import req from '../req'
+import { Blockchain } from '../constants'
 
 import { Request } from './common'
 
@@ -10,28 +12,52 @@ export function buildRequest(config: Config, urlPath: string, payload: object): 
   return { url: config.url + urlPath, payload }
 }
 
-export async function buildSignedRequest(config: Config, urlPath: string,
-  params: object, account: Account): Promise<object> {
-  const payload: object = await buildSignedRequestPayload(config, params, account)
+export async function buildSignedRequest(config: Config, account: Account,
+  urlPath: string, params: object): Promise<object> {
+  const payload: object = await buildSignedRequestPayload(config, account, params)
   return buildRequest(config, urlPath, payload)
 }
 
-export async function buildSignedRequestPayload(config: Config,
-  params: object, account: Account): Promise<object> {
+async function buildSignedRequestPayload(config: Config,
+  account: Account, params: object): Promise<object> {
   const timestamp: number = await req.fetchTimestamp(config)
   const signableParams: object = { ...params, timestamp }
   const signature: string = await account.signParams(signableParams)
   return { ...signableParams, signature, address: account.address }
 }
 
-export async function performMultistepRequest(config: Config, firstUrlPath: string,
-  secondUrlPathFn: UrlPathFn, params: object, account: Account): Promise<object> {
+export async function performMultistepRequest(config: Config, account: Account,
+  firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: object): Promise<object> {
   const firstRequest: Request =
-    await buildSignedRequest(config, firstUrlPath, params, account) as Request
+    await buildSignedRequest(config, account, firstUrlPath, params) as Request
   const firstResult: TransactionContainer =
     new TransactionContainer(await req.post(firstRequest.url, firstRequest.payload))
-  const signature: string = await account.signTransaction(firstResult.transaction)
+
+  const payload: object = await signItem(account, firstResult)
   const secondRequest: Request =
-    buildRequest(config, secondUrlPathFn(firstResult), { signature }) as Request
+    buildRequest(config, secondUrlPathFn(firstResult), payload) as Request
   return req.post(secondRequest.url, secondRequest.payload)
+}
+
+export async function signItem(account: Account, item: TransactionContainer):
+  Promise<{ signature?: string, transaction_hash?: string }> {
+  if (account.blockchain === Blockchain.Ethereum) {
+    const { message } = (item.transaction as EthTransaction)
+    // NOTE: MetaMask does not support signing of transactions without broadcasting,
+    // see: https://github.com/MetaMask/metamask-extension/issues/3475.
+    // Therefore for the Ethereum blockchain, we return a *transaction hash*
+    // when full transaction signing is required, rather than just a signature to
+    // be attached and broadcasted by the operator (as in NEO, et al).
+    return message ?
+      // standard message signing:
+      { signature: await account.signMessage(message) } :
+      // eth txns (deposits) are sent immediately!:
+      { transaction_hash: await account.sendTransaction(item.transaction) }
+  }
+
+  return item.transaction ?
+    // standard txn signing:
+    { signature: await account.signTransaction(item.transaction) } :
+    // neo withdrawals don't require a second txn signature:
+    { signature: await account.signParams({ id: item.id }) }
 }

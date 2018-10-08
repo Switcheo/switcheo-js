@@ -17,7 +17,7 @@ interface SwitcheoMakeOrFillResponse extends SwitcheoResponse {
 type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoMakeOrFillResponse
 
 function isEthTransactionLike(object: any): object is EthTransactionLike {
-  return object.chainId !== undefined && object.from !== undefined
+  return object.chainId !== undefined
 }
 
 export default class TransactionContainer {

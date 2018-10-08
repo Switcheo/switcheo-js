@@ -4,8 +4,7 @@ import { wallet as neonWallet } from '@cityofzion/neon-core'
 import { Account, Config } from '../../switcheo'
 import req from '../../req'
 import { Blockchain } from '../../constants'
-import { buildSignedRequest, performMultistepRequest } from '../helpers'
-import { Request } from '../common'
+import { performMultistepRequest } from '../helpers'
 import { AssetLike } from '../../models/assets'
 import TransactionContainer from '../../models/transactionContainer'
 
@@ -57,10 +56,10 @@ export function deposit(config: Config, account: Account,
 
   return performMultistepRequest(
     config,
+    account,
     '/deposits',
     (result: TransactionContainer) => `/deposits/${result.id}/broadcast`,
-    params,
-    account
+    params
   ) as Promise<any>
 }
 
@@ -73,30 +72,11 @@ export async function withdraw(config: Config, account: Account,
     contractHash: config.getContractHash(asset.blockchain),
   }
 
-  if (asset.blockchain === Blockchain.Neo) return withdrawNeo(config, account, params)
-
-  if (asset.blockchain === Blockchain.Ethereum) return withdrawEth(config, account, params)
-
-  return Promise.reject('Invalid blockchain passed to withdraw()!')
-}
-
-async function withdrawNeo(config: Config, account: Account, params: TransferParams): Promise<any> {
-  const createRequest: Request =
-    await buildSignedRequest(config, '/withdrawals', params, account) as Request
-  const createResult: { id: string } = await req.post(createRequest.url, createRequest.payload)
-
-  const executeRequest: Request = await buildSignedRequest(
-    config, `/withdrawals/${createResult.id}/broadcast`,
-    { id: createResult.id }, account) as Request
-  return req.post(executeRequest.url, executeRequest.payload)
-}
-
-function withdrawEth(config: Config, account: Account, params: TransferParams): Promise<any> {
   return performMultistepRequest(
     config,
+    account,
     '/withdrawals',
     (result: TransactionContainer) => `/withdrawals/${result.id}/broadcast`,
-    params,
-    account
+    params
   ) as Promise<any>
 }

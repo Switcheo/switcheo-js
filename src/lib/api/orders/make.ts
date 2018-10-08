@@ -5,8 +5,8 @@ import { broadcast } from './broadcast'
 
 export type MakeOrderParams = CreateOrderParams
 
-export async function make(config: Config,
-  orderParams: MakeOrderParams, account: Account): Promise<Order> {
-  const order: Order = await create(config, orderParams, account)
-  return broadcast(config, order, account)
+export async function make(config: Config, account: Account,
+  orderParams: MakeOrderParams): Promise<Order> {
+  const order: Order = await create(config, account, orderParams)
+  return broadcast(config, account, order)
 }

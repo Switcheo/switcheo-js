@@ -66,6 +66,10 @@ export class NeoLedgerProvider implements SignatureProvider {
     }
   }
 
+  public sendTransaction(_transaction: NeoTransaction): Promise<string> {
+    return Promise.reject('sendTransaction() not implemented for NEO!')
+  }
+
   public async isConnected(): Promise<boolean> {
     const publicKey: string = await this.getPublicKey()
     return this.publicKey === publicKey

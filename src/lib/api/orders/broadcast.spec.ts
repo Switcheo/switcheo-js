@@ -10,7 +10,7 @@ const order: Order = new Order(JSON.parse(orderCreationResponse))
 
 test('broadcastOrderCreationRequest', async (t: GenericTestContext<any>) => {
   const { account, config } = createAccountAndConfig()
-  const request: OrderBroadcastRequest = await buildOrderBroadcastRequest(config, order, account)
+  const request: OrderBroadcastRequest = await buildOrderBroadcastRequest(config, account, order)
 
   const { payload } = request
 

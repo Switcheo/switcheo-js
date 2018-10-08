@@ -2,14 +2,14 @@ import { Order } from '../../models/order'
 import { Account, Config } from '../../switcheo'
 import TransactionContainer from '../../models/transactionContainer'
 
-import { buildRequest } from '../helpers'
+import { buildRequest, signItem } from '../helpers'
 import req from '../../req'
 
 export type BroadcastOrderParams = Order
 
-export async function broadcast(config: Config,
-  order: BroadcastOrderParams, account: Account): Promise<Order> {
-  const request: OrderBroadcastRequest = await buildOrderBroadcastRequest(config, order, account)
+export async function broadcast(config: Config, account: Account,
+  order: BroadcastOrderParams): Promise<Order> {
+  const request: OrderBroadcastRequest = await buildOrderBroadcastRequest(config, account, order)
   return req.post(request.url, request.payload)
 }
 
@@ -28,8 +28,8 @@ interface OrderBroadcastRequestPayload {
   }
 }
 
-export async function buildOrderBroadcastRequest(config: Config,
-  order: BroadcastOrderParams, account: Account): Promise<OrderBroadcastRequest> {
+export async function buildOrderBroadcastRequest(config: Config, account: Account,
+  order: BroadcastOrderParams): Promise<OrderBroadcastRequest> {
   const signatures: { fills: SignedTransactionMap, makes: SignedTransactionMap } = {
     fills: await buildSignedTransactionMap(order.fills, account),
     makes: await buildSignedTransactionMap(order.makes, account),
@@ -43,14 +43,14 @@ export async function buildOrderBroadcastRequest(config: Config,
 
 function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TransactionContainer>,
   account: Account): Promise<SignedTransactionMap> {
-  const promises: ReadonlyArray<Promise<string>> =
-    transactionContainers.map((item: TransactionContainer): Promise<string> =>
-      account.signTransaction(item.transaction)
+  const promises: ReadonlyArray<Promise<{ signature?: string }>> =
+    transactionContainers.map((item: TransactionContainer): Promise<{ signature?: string }> =>
+      signItem(account, item)
     )
-  return Promise.all(promises).then((result: ReadonlyArray<string>) => {
+  return Promise.all(promises).then((result: ReadonlyArray<{ signature?: string }>) => {
     const map: SignedTransactionMap = {}
-    result.forEach((value: string, index: number): void => {
-      map[transactionContainers[index].id] = value
+    result.forEach((value: { signature?: string }, index: number): void => {
+      map[transactionContainers[index].id] = value.signature!
     })
     return map
   })

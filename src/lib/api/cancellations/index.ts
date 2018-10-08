@@ -12,9 +12,9 @@ export function make(config: Config,
   cancellationParams: MakeCancellationParams, account: Account): Promise<Order> {
   return performMultistepRequest(
     config,
+    account,
     '/cancellations',
     (result: TransactionContainer) => `/cancellations/${result.id}/broadcast`,
-    cancellationParams,
-    account
+    cancellationParams
   ) as Promise<Order>
 }

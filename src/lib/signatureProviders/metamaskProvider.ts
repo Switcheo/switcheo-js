@@ -63,11 +63,11 @@ export class MetamaskProvider implements Web3Provider {
     return this.web3.eth.sign(message, this.address)
   }
 
-  // NOTE: MetaMask does not support signing of transactions without broadcasting,
-  // see: https://github.com/MetaMask/metamask-extension/issues/3475.
-  // Therefore this methods returns a *transaction hash* upon broadcasting
-  // of transaction, instead of a signature to be attached to the txn and broadcasted.
-  public signTransaction(transaction: Transaction): Promise<string> {
+  public signTransaction(_transaction: Transaction): Promise<string> {
+    return Promise.reject('signTransaction() not implemented for NEO!')
+  }
+
+  public sendTransaction(transaction: Transaction): Promise<string> {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureAccountUnchanged()
       return this.web3.eth.sendTransaction(transaction, (error: Error, hash: string): void => {

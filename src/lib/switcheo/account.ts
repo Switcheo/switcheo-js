@@ -31,4 +31,8 @@ export class Account {
   public signTransaction(transaction: Transaction): Promise<string> {
     return this.provider.signTransaction(transaction)
   }
+
+  public sendTransaction(transaction: Transaction): Promise<string> {
+    return this.provider.sendTransaction(transaction)
+  }
 }
