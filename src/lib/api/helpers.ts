@@ -33,13 +33,15 @@ export async function performMultistepRequest(config: Config, account: Account,
   const firstResult: TransactionContainer =
     new TransactionContainer(await req.post(firstRequest.url, firstRequest.payload))
 
-  const payload: object = await signItem(account, firstResult)
+  const payload: object = await signItem(config, account, firstResult)
   const secondRequest: Request =
     buildRequest(config, secondUrlPathFn(firstResult), payload) as Request
   return req.post(secondRequest.url, secondRequest.payload)
 }
 
-export async function signItem(account: Account, item: TransactionContainer):
+// Signs the result of an API request.
+// TODO: verify the transaction items before signing.
+export async function signItem(config: Config, account: Account, item: TransactionContainer):
   Promise<{ signature?: string, transaction_hash?: string }> {
   if (account.blockchain === Blockchain.Ethereum) {
     const { message } = (item.transaction as EthTransaction)
@@ -59,5 +61,5 @@ export async function signItem(account: Account, item: TransactionContainer):
     // standard txn signing:
     { signature: await account.signTransaction(item.transaction) } :
     // neo withdrawals don't require a second txn signature:
-    { signature: await account.signParams({ id: item.id }) }
+    buildSignedRequestPayload(config, account, { id: item.id })
 }

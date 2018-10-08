@@ -31,8 +31,8 @@ interface OrderBroadcastRequestPayload {
 export async function buildOrderBroadcastRequest(config: Config, account: Account,
   order: BroadcastOrderParams): Promise<OrderBroadcastRequest> {
   const signatures: { fills: SignedTransactionMap, makes: SignedTransactionMap } = {
-    fills: await buildSignedTransactionMap(order.fills, account),
-    makes: await buildSignedTransactionMap(order.makes, account),
+    fills: await buildSignedTransactionMap(config, account, order.fills),
+    makes: await buildSignedTransactionMap(config, account, order.makes),
   }
   return buildRequest(
     config,
@@ -41,11 +41,11 @@ export async function buildOrderBroadcastRequest(config: Config, account: Accoun
   ) as Promise<OrderBroadcastRequest>
 }
 
-function buildSignedTransactionMap(transactionContainers: ReadonlyArray<TransactionContainer>,
-  account: Account): Promise<SignedTransactionMap> {
+function buildSignedTransactionMap(config: Config, account: Account,
+  transactionContainers: ReadonlyArray<TransactionContainer>): Promise<SignedTransactionMap> {
   const promises: ReadonlyArray<Promise<{ signature?: string }>> =
     transactionContainers.map((item: TransactionContainer): Promise<{ signature?: string }> =>
-      signItem(account, item)
+      signItem(config, account, item)
     )
   return Promise.all(promises).then((result: ReadonlyArray<{ signature?: string }>) => {
     const map: SignedTransactionMap = {}
