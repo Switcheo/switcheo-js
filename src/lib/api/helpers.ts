@@ -54,7 +54,7 @@ export async function signItem(config: Config, account: Account, item: Transacti
       // standard message signing:
       { signature: await account.signMessage(message) } :
       // eth txns (deposits) are sent immediately!:
-      { transaction_hash: await account.sendTransaction(item.transaction) }
+      { transaction_hash: await account.sendTransaction(item.transaction!) }
   }
 
   return item.transaction ?

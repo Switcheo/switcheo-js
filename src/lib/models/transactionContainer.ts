@@ -22,14 +22,18 @@ function isEthTransactionLike(object: any): object is EthTransactionLike {
 
 export default class TransactionContainer {
   public readonly id: string
-  public readonly transaction: Transaction
+  public readonly transaction: Transaction | null
 
   constructor(tx: SwitcheoModelWithTransaction) {
     this.id = tx.id
     const transactionParams: TransactionLike =
       (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoMakeOrFillResponse).txn
-    this.transaction = isEthTransactionLike(transactionParams) ?
-      transactionParams as EthTransaction :
-      new NeoTransaction(transactionParams as NeoTransactionLike)
+    if (transactionParams) {
+      this.transaction = isEthTransactionLike(transactionParams) ?
+        transactionParams as EthTransaction :
+        new NeoTransaction(transactionParams as NeoTransactionLike)
+    } else {
+      this.transaction = null
+    }
   }
 }
