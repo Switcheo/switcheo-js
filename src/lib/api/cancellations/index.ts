@@ -8,8 +8,8 @@ export interface MakeCancellationParams {
   readonly orderId: string
 }
 
-export function make(config: Config,
-  cancellationParams: MakeCancellationParams, account: Account): Promise<Order> {
+export function make(config: Config, account: Account,
+  cancellationParams: MakeCancellationParams): Promise<Order> {
   return performMultistepRequest(
     config,
     account,

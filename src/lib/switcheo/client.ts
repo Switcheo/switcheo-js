@@ -22,7 +22,7 @@ export class Client {
 
   public cancelOrder(params: MakeCancellationParams,
     account: Account): Promise<Order> {
-    return api.cancellations.make(this.config, params, account)
+    return api.cancellations.make(this.config, account, params)
   }
 
   public getBalances(accounts:
@@ -31,7 +31,7 @@ export class Client {
   }
 
   public getOrders(params: ListOrdersParams, account: Account): Promise<object> {
-    return api.orders.get(this.config, params, account)
+    return api.orders.get(this.config, account, params)
   }
 
   public getPairs(): Promise<object> {
