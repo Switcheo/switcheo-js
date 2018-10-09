@@ -26,9 +26,14 @@ export function get(config: Config,
 
   return req.get(config.url + '/balances', { addresses, contractHashes })
 }
+interface TransferHistoryParams {
+  readonly limit: number
+  readonly offset: number
+}
 
-export function history(config: Config,
-  accounts: Account | ReadonlyArray<Account>): Promise<object> {
+export function history(config: Config, accounts: Account | ReadonlyArray<Account>,
+  params: TransferHistoryParams): Promise<object> {
+
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
     wrappedAccounts.map((account: Account) => account.address)
@@ -36,7 +41,7 @@ export function history(config: Config,
     wrappedAccounts.map((account: Account) => account.blockchain)
   const contractHashes: ReadonlyArray<string> = config.getContractHashes(blockchains)
 
-  return req.get(config.url + '/balances/history', { addresses, contractHashes })
+  return req.get(config.url + '/balances/history', { ...params, addresses, contractHashes })
 }
 
 export function getNeoAssets(config: Config, account: Account): Promise<object> {
