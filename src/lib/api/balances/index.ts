@@ -27,12 +27,12 @@ export function get(config: Config,
   return req.get(config.url + '/balances', { addresses, contractHashes })
 }
 interface TransferHistoryParams {
-  readonly limit: number
-  readonly offset: number
+  readonly limit?: number
+  readonly offset?: number
 }
 
 export function history(config: Config, accounts: Account | ReadonlyArray<Account>,
-  params: TransferHistoryParams): Promise<object> {
+  params: TransferHistoryParams = {}): Promise<object> {
 
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
