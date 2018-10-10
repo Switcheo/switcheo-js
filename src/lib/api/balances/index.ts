@@ -73,7 +73,7 @@ export async function withdraw(config: Config, account: Account,
   const params: TransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
     assetId: asset.scriptHash,
-    blockchain: Blockchain.Neo,
+    blockchain: account.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
   }
 
