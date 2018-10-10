@@ -16,7 +16,7 @@ export class MetamaskProvider implements Web3Provider {
 
   private static throwMetaMaskLockedError(): void {
     throw new Error('MetaMask locked! ' +
-        'Please click the extension icon to unlock it and try again.')
+      'Please click the extension icon to unlock it and try again.')
   }
 
   public readonly address: string
@@ -58,9 +58,25 @@ export class MetamaskProvider implements Web3Provider {
     })
   }
 
-  public async signMessage(message: string): Promise<string> {
-    await this.ensureAccountUnchanged()
-    return this.web3.eth.sign(message, this.address)
+  public signMessage(message: string): Promise<string> {
+    // return this.web3.eth.sign(this.web3.utils.hexToAscii(message), this.address)
+    return new Promise(async (resolve, reject) => { // tslint:disable-line
+      try {
+        await this.ensureAccountUnchanged()
+      } catch (err) {
+        reject(err)
+      }
+      this.web3.currentProvider.send({
+        id: new Date().getTime(),
+        jsonrpc: '2.0',
+        method: 'personal_sign',
+        params: [this.address, message],
+      }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
+        if (err) reject(err)
+        else if (res.error) reject(res.error)
+        else resolve(res.result)
+      })
+    })
   }
 
   public signTransaction(_transaction: Transaction): Promise<string> {
