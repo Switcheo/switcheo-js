@@ -29,6 +29,7 @@ export function get(config: Config,
 interface TransferHistoryParams {
   readonly limit?: number
   readonly offset?: number
+  readonly eventTypes?: ReadonlyArray<string>
 }
 
 export function history(config: Config, accounts: Account | ReadonlyArray<Account>,
