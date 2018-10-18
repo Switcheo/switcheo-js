@@ -8,12 +8,12 @@ import { Request } from './common'
 
 export type UrlPathFn = (result: TransactionContainer) => string
 
-export function buildRequest(config: Config, urlPath: string, payload: object): object {
+export function buildRequest(config: Config, urlPath: string, payload: object): Request {
   return { url: config.url + urlPath, payload }
 }
 
 export async function buildSignedRequest(config: Config, account: Account,
-  urlPath: string, params: object): Promise<object> {
+  urlPath: string, params: object): Promise<Request> {
   const payload: object = await buildSignedRequestPayload(config, account, params)
   return buildRequest(config, urlPath, payload)
 }
@@ -26,16 +26,30 @@ async function buildSignedRequestPayload(config: Config,
   return { ...signableParams, signature, address: account.address }
 }
 
+export async function performRequest(config: Config, account: Account,
+  urlPath: string, params: object): Promise<object> {
+  const request: Request = await buildSignedRequest(config, account, urlPath, params)
+  return req.post(request.url, request.payload)
+}
+
 export async function performMultistepRequest(config: Config, account: Account,
   firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: object): Promise<object> {
+  // Check whether account has an api key first if not, request it
+  const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
+    await account.refreshApiKey(config)
+
+  if (!apiKey) throw Error('Invaid API key')
+
   const firstRequest: Request =
-    await buildSignedRequest(config, account, firstUrlPath, params) as Request
+    await buildRequest(config, firstUrlPath, { ...params, address: account.address })
+
   const firstResult: TransactionContainer =
-    new TransactionContainer(await req.post(firstRequest.url, firstRequest.payload))
+    new TransactionContainer(await
+      req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }))
 
   const payload: object = await signItem(config, account, firstResult)
   const secondRequest: Request =
-    buildRequest(config, secondUrlPathFn(firstResult), payload) as Request
+    buildRequest(config, secondUrlPathFn(firstResult), payload)
   return req.post(secondRequest.url, secondRequest.payload)
 }
 

@@ -34,11 +34,12 @@ export async function buildOrderBroadcastRequest(config: Config, account: Accoun
     fills: await buildSignedTransactionMap(config, account, order.fills),
     makes: await buildSignedTransactionMap(config, account, order.makes),
   }
-  return buildRequest(
+  const request: OrderBroadcastRequest = buildRequest(
     config,
     `/orders/${order.id}/broadcast`,
     { signatures }
-  ) as Promise<OrderBroadcastRequest>
+  ) as OrderBroadcastRequest
+  return request
 }
 
 function buildSignedTransactionMap(config: Config, account: Account,

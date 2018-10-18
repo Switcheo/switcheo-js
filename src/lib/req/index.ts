@@ -27,9 +27,10 @@ export default class Req {
       .catch(this.handleError)
   }
 
-  public static async post(url: string, params: object): Promise<any> {
+  public static async post(url: string, params: object, headers: object = {}): Promise<any> {
     return axios.post(url, stringifyParams(params), {
       headers: {
+        ...headers,
         'Content-Type': 'application/json',
       },
     })

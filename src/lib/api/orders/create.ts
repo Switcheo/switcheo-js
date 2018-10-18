@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { buildSignedRequest } from '../helpers'
+import { buildRequest } from '../helpers'
 import { Request, SignedRequestPayload } from '../common'
 
 import { Order, OrderSide, OrderType } from '../../models/order'
@@ -17,9 +17,16 @@ export interface CreateOrderParams {
 
 export async function create(config: Config, account: Account,
   orderParams: CreateOrderParams): Promise<Order> {
+  // Check whether account has an api key first if not, request it
+  const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
+    await account.refreshApiKey(config)
+
+  if (!apiKey) throw Error('Invaid API key')
+
   const request: OrderCreationRequest =
-    await buildOrderCreationRequest(config, account, orderParams)
-  const response: any = await req.post(request.url, request.payload)
+    buildOrderCreationRequest(config, account, orderParams)
+  const response: any =
+      await req.post(request.url, request.payload, { Authorization: `Token ${apiKey}` })
   return new Order(response)
 }
 
@@ -39,7 +46,7 @@ interface OrderCreationRequestPayload extends SignedRequestPayload {
 }
 
 export function buildOrderCreationRequest(config: Config, account: Account,
-  orderParams: CreateOrderParams): Promise<OrderCreationRequest> {
+  orderParams: CreateOrderParams): OrderCreationRequest {
   const params: object = {
     blockchain: account.blockchain,
     contractHash: config.getContractHash(account.blockchain),
@@ -50,5 +57,6 @@ export function buildOrderCreationRequest(config: Config, account: Account,
     useNativeTokens: orderParams.useNativeTokens,
     wantAmount: orderParams.wantAmount,
   }
-  return buildSignedRequest(config, account, '/orders', params) as Promise<OrderCreationRequest>
+  return buildRequest(config, '/orders',
+                      { ...params, address: account.address }) as OrderCreationRequest
 }
