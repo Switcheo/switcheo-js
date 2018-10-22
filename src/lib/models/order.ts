@@ -2,11 +2,11 @@ import { Fill } from './fill'
 import { Make } from './make'
 
 export type OrderSide = 'buy' | 'sell'
-export type OrderType = 'limit' | 'market'
+export type OrderType = 'limit' | 'market' | 'otc'
 
 interface FillOrMake {
   id: string
-  txn: object
+  txn: {}
 }
 
 interface OrderParams {

@@ -1,6 +1,6 @@
-export interface Request {
+export interface Request<T> {
   readonly url: string
-  readonly payload: object
+  readonly payload: T
 }
 
 export interface SignedRequestPayload {

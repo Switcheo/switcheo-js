@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { buildRequest } from '../helpers'
 import { Request, SignedRequestPayload } from '../common'
 
@@ -10,9 +9,24 @@ export interface CreateOrderParams {
   readonly pair: string
   readonly side: OrderSide
   readonly price: string
-  readonly wantAmount: string
+  readonly quantity?: string
+  readonly wantAmount?: string
   readonly useNativeTokens: boolean
   readonly orderType: OrderType
+}
+
+export type OrderCreationRequest = Request<OrderCreationRequestPayload>
+
+interface OrderCreationRequestPayload extends SignedRequestPayload {
+  blockchain: string
+  pair: string
+  side: string
+  price: string
+  quantity?: string
+  wantAmount?: string
+  useNativeTokens: boolean
+  orderType: string
+  contractHash: string
 }
 
 export async function create(config: Config, account: Account,
@@ -30,33 +44,13 @@ export async function create(config: Config, account: Account,
   return new Order(response)
 }
 
-export interface OrderCreationRequest extends Request {
-  readonly payload: OrderCreationRequestPayload
-}
-
-interface OrderCreationRequestPayload extends SignedRequestPayload {
-  blockchain: string
-  pair: string
-  side: string
-  price: string
-  wantAmount: string
-  useNativeTokens: boolean
-  orderType: string
-  contractHash: string
-}
-
 export function buildOrderCreationRequest(config: Config, account: Account,
   orderParams: CreateOrderParams): OrderCreationRequest {
-  const params: object = {
+  const params: {} = {
+    address: account.address,
     blockchain: account.blockchain,
     contractHash: config.getContractHash(account.blockchain),
-    orderType: orderParams.orderType,
-    pair: orderParams.pair,
-    price: new BigNumber(orderParams.price).toFixed(8),
-    side: orderParams.side,
-    useNativeTokens: orderParams.useNativeTokens,
-    wantAmount: orderParams.wantAmount,
+    ...orderParams,
   }
-  return buildRequest(config, '/orders',
-                      { ...params, address: account.address }) as OrderCreationRequest
+  return buildRequest(config, '/orders', params) as OrderCreationRequest
 }

@@ -29,7 +29,7 @@ export class Account {
     this.displayAddress = this.provider.displayAddress
   }
 
-  public signParams(params: object): Promise<string> {
+  public signParams(params: {}): Promise<string> {
     return this.provider.signParams(params)
   }
 

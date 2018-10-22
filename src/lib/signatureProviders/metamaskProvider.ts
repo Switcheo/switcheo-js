@@ -31,7 +31,7 @@ export class MetamaskProvider implements Web3Provider {
     this.displayAddress = address
   }
 
-  public signParams(params: object): Promise<string> {
+  public signParams(params: {}): Promise<string> {
     const msgParams: ReadonlyArray<object> = [
       {
         name: 'API Request',

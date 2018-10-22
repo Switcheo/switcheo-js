@@ -8,47 +8,52 @@ import { Request } from './common'
 
 export type UrlPathFn = (result: TransactionContainer) => string
 
-export function buildRequest(config: Config, urlPath: string, payload: object): Request {
+export function buildRequest(config: Config, urlPath: string, payload: {}): Request<{}> {
   return { url: config.url + urlPath, payload }
 }
 
 export async function buildSignedRequest(config: Config, account: Account,
-  urlPath: string, params: object): Promise<Request> {
-  const payload: object = await buildSignedRequestPayload(config, account, params)
-  return buildRequest(config, urlPath, payload)
+  urlPath: string, params: {}): Promise<Request<SignedRequestPayload>> {
+  const payload: SignedRequestPayload = await buildSignedRequestPayload(config, account, params)
+  return buildRequest(config, urlPath, payload) as Request<SignedRequestPayload>
 }
 
-async function buildSignedRequestPayload(config: Config,
-  account: Account, params: object): Promise<object> {
+export interface SignedRequestPayload {
+  address: string
+  signature: string
+  timestamp: number
+}
+
+export async function buildSignedRequestPayload(config: Config,
+  account: Account, params: {}): Promise<SignedRequestPayload> {
   const timestamp: number = await req.fetchTimestamp(config)
-  const signableParams: object = { ...params, timestamp }
-  const signature: string = await account.signParams(signableParams)
-  return { ...signableParams, signature, address: account.address }
+  const signature: string = await account.signParams({ ...params, timestamp })
+  return { ...params, timestamp, signature, address: account.address }
 }
 
 export async function performRequest(config: Config, account: Account,
-  urlPath: string, params: object): Promise<object> {
-  const request: Request = await buildSignedRequest(config, account, urlPath, params)
+  urlPath: string, params: {}): Promise<{}> {
+  const request: Request<{}> = await buildSignedRequest(config, account, urlPath, params)
   return req.post(request.url, request.payload)
 }
 
 export async function performMultistepRequest(config: Config, account: Account,
-  firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: object): Promise<object> {
+  firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: {}): Promise<{}> {
   // Check whether account has an api key first if not, request it
   const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
     await account.refreshApiKey(config)
 
   if (!apiKey) throw Error('Invaid API key')
 
-  const firstRequest: Request =
+  const firstRequest: Request<{}> =
     await buildRequest(config, firstUrlPath, { ...params, address: account.address })
 
   const firstResult: TransactionContainer =
     new TransactionContainer(await
       req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }))
 
-  const payload: object = await signItem(config, account, firstResult)
-  const secondRequest: Request =
+  const payload: {} = await signItem(config, account, firstResult)
+  const secondRequest: Request<{}> =
     buildRequest(config, secondUrlPathFn(firstResult), payload)
   return req.post(secondRequest.url, secondRequest.payload)
 }

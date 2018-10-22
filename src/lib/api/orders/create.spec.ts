@@ -10,7 +10,7 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
     {
       orderType: 'limit',
       pair: 'SWTH_NEO',
-      price: '0.001',
+      price: '0.00100000',
       side: 'buy',
       useNativeTokens: true,
       wantAmount: '12000000000',
@@ -27,8 +27,6 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
   t.is(payload.pair, 'SWTH_NEO')
   t.is(payload.price, '0.00100000')
   t.is(payload.side, 'buy')
-  t.true(payload.timestamp !== undefined)
-  t.true(payload.signature !== undefined)
   t.true(payload.useNativeTokens)
   t.is(payload.wantAmount, '12000000000')
 })

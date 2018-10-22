@@ -34,7 +34,7 @@ export class NeoLedgerProvider implements SignatureProvider {
     this.displayAddress = neonWallet.getAddressFromScriptHash(this.address)
   }
 
-  public signParams(params: object): Promise<string> {
+  public signParams(params: {}): Promise<string> {
     const payload: string = stringifyParams(params)
     if (payload.length > 252) {
       throw new Error('Cannot sign a message more than 252 characters in length')

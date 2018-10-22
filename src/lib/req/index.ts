@@ -5,7 +5,7 @@ import RequestError, { RawError } from './request-error'
 
 interface Response {
   readonly status: number,
-  readonly data: object
+  readonly data: {}
 }
 
 export default class Req {
@@ -16,18 +16,18 @@ export default class Req {
     })
   }
 
-  public static handleError(error: object): never {
+  public static handleError(error: {}): never {
     const rawError: RawError = error as RawError
     throw new RequestError(rawError)
   }
 
-  public static async get(url: string, params?: object): Promise<any> {
+  public static async get(url: string, params?: {}): Promise<any> {
     return axios.get(buildGetUrl(url, params))
       .then(this.handleResponse)
       .catch(this.handleError)
   }
 
-  public static async post(url: string, params: object, headers: object = {}): Promise<any> {
+  public static async post(url: string, params: {}, headers: {} = {}): Promise<any> {
     return axios.post(url, stringifyParams(params), {
       headers: {
         ...headers,
@@ -44,7 +44,7 @@ export default class Req {
   }
 }
 
-function buildGetUrl(url: string, params?: object): string {
+function buildGetUrl(url: string, params?: {}): string {
   if (params === undefined) {
     return url
   }
@@ -55,7 +55,7 @@ interface Params {
   readonly [key: string]: ReadonlyArray<any> | any
 }
 
-function buildGetParams(params: object): string {
+function buildGetParams(params: {}): string {
   const decamelizedParams: Params = humps.decamelizeKeys(params) as Params
   const paramKeys: ReadonlyArray<string> = Object.keys(decamelizedParams)
   const urlParams: ReadonlyArray<string> =
