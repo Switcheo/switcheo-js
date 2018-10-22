@@ -1,8 +1,7 @@
-import { buildRequest } from '../helpers'
-import { Request, SignedRequestPayload } from '../common'
+import { buildRequest, Request, SignedRequestPayload } from '../helpers'
 
-import { Order, OrderSide, OrderType } from '../../models/order'
 import req from '../../req'
+import { Order, OrderSide, OrderType } from '../../models/order'
 import { Account, Config } from '../../switcheo'
 
 export interface CreateOrderParams {

@@ -1,10 +1,19 @@
 import { Account, Config } from '../switcheo'
-import TransactionContainer from '../models/transactionContainer'
-import { EthTransaction } from '../models/transaction/ethTransaction'
 import req from '../req'
 import { Blockchain } from '../constants'
+import TransactionContainer from '../models/transactionContainer'
+import { EthTransaction } from '../models/transaction/ethTransaction'
 
-import { Request } from './common'
+export interface Request<T> {
+  readonly url: string
+  readonly payload: T
+}
+
+export interface SignedRequestPayload {
+  readonly timestamp: number
+  readonly signature: string
+  readonly address: string
+}
 
 export type UrlPathFn = (result: TransactionContainer) => string
 
@@ -16,12 +25,6 @@ export async function buildSignedRequest(config: Config, account: Account,
   urlPath: string, params: {}): Promise<Request<SignedRequestPayload>> {
   const payload: SignedRequestPayload = await buildSignedRequestPayload(config, account, params)
   return buildRequest(config, urlPath, payload) as Request<SignedRequestPayload>
-}
-
-export interface SignedRequestPayload {
-  address: string
-  signature: string
-  timestamp: number
 }
 
 export async function buildSignedRequestPayload(config: Config,
