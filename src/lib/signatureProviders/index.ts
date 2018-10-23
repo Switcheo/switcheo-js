@@ -6,6 +6,7 @@ export enum SignatureProviderType {
   PrivateKey = 'privateKey',
   Ledger = 'ledger',
   Metamask = 'metamask',
+  O3 = 'o3',
 }
 
 export interface SignatureProvider {
@@ -24,4 +25,5 @@ export interface Web3Provider extends SignatureProvider {
 
 export * from './neoPrivateKeyProvider'
 export * from './neoLedgerProvider'
+export * from './neoO3Provider'
 export * from './metamaskProvider'
