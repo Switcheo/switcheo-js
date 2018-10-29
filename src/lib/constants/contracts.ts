@@ -29,7 +29,7 @@ export const CONTRACT_HASHES: ContractHashes = {
   },
   [Blockchain.Ethereum]: {
     [Network.DevNet]: {
-      V2: '0x32d43a501610ae1d03f2e57ffc58841d1c203edd',
+      V2: '0x2b25406b0000c3661e9c88890690fd4b5c7b4234',
     },
     [Network.TestNet]: {
       V2: '0xb111e946d865e9fd99d0d5c451700428bee21e21',
