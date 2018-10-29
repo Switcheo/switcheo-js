@@ -13,7 +13,7 @@ interface OrderComponent {
 interface OrderParams {
   id: string
   fills: ReadonlyArray<OrderComponent>
-  fill_groups?: ReadonlyArray<OrderComponent>
+  fillGroups?: ReadonlyArray<OrderComponent>
   makes: ReadonlyArray<OrderComponent>
 }
 export class Order {
@@ -26,7 +26,7 @@ export class Order {
     this.id = tx.id
     this.fills = tx.fills.map((f: OrderComponent) => new Fill(f))
     this.makes = tx.makes.map((m: OrderComponent) => new Make(m))
-    this.fillGroups = tx.fill_groups ?
-      tx.fill_groups.map((m: OrderComponent) => new FillGroup(m)) : []
+    this.fillGroups = tx.fillGroups ?
+      tx.fillGroups.map((m: OrderComponent) => new FillGroup(m)) : []
   }
 }
