@@ -24,20 +24,24 @@ interface SignedTransactionMap {
 interface OrderBroadcastRequestPayload {
   readonly signatures: {
     fills: SignedTransactionMap,
-    makes: SignedTransactionMap
+    fillGroups: SignedTransactionMap,
+    makes: SignedTransactionMap,
   }
 }
 
 export async function buildOrderBroadcastRequest(config: Config, account: Account,
   order: BroadcastOrderParams): Promise<OrderBroadcastRequest> {
-  const signatures: { fills: SignedTransactionMap, makes: SignedTransactionMap } = {
-    fills: await buildSignedTransactionMap(config, account, order.fills),
-    makes: await buildSignedTransactionMap(config, account, order.makes),
+  const payload: OrderBroadcastRequestPayload = {
+    signatures: {
+      fillGroups: await buildSignedTransactionMap(config, account, order.fillGroups),
+      fills: await buildSignedTransactionMap(config, account, order.fills),
+      makes: await buildSignedTransactionMap(config, account, order.makes),
+    },
   }
   const request: OrderBroadcastRequest = buildRequest(
     config,
     `/orders/${order.id}/broadcast`,
-    { signatures }
+    payload
   ) as OrderBroadcastRequest
   return request
 }

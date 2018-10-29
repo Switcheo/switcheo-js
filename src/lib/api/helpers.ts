@@ -65,6 +65,7 @@ export async function performMultistepRequest(config: Config, account: Account,
 // TODO: verify the transaction items before signing.
 export async function signItem(config: Config, account: Account, item: TransactionContainer):
   Promise<{ signature?: string, transaction_hash?: string }> {
+  if (!item.transaction) return { signature: '' }
   if (account.blockchain === Blockchain.Ethereum) {
     const { message } = (item.transaction as EthTransaction)
     // NOTE: MetaMask does not support signing of transactions without broadcasting,

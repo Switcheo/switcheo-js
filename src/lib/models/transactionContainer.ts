@@ -10,11 +10,11 @@ interface SwitcheoGenericResponse extends SwitcheoResponse {
   transaction: TransactionLike
 }
 
-interface SwitcheoMakeOrFillResponse extends SwitcheoResponse {
+interface SwitcheoOrderResponse extends SwitcheoResponse {
   txn: TransactionLike
 }
 
-type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoMakeOrFillResponse
+type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoOrderResponse
 
 function isEthTransactionLike(object: any): object is EthTransactionLike {
   return object && object.chainId !== undefined
@@ -27,7 +27,7 @@ export default class TransactionContainer {
   constructor(tx: SwitcheoModelWithTransaction) {
     this.id = tx.id
     const transactionParams: TransactionLike =
-      (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoMakeOrFillResponse).txn
+      (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoOrderResponse).txn
     if (transactionParams) {
       this.transaction = isEthTransactionLike(transactionParams) ?
         transactionParams as EthTransaction :
