@@ -1,11 +1,45 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import humps from 'humps'
 import { stringifyParams } from '../utils'
-import RequestError, { RawError } from './request-error'
+
+interface Params {
+  readonly [key: string]: ReadonlyArray<any> | any
+}
 
 interface Response {
   readonly status: number,
   readonly data: {}
+}
+
+function buildGetUrl(url: string, params?: {}): string {
+  if (params === undefined) {
+    return url
+  }
+  return url + '?' + buildGetParams(params)
+}
+
+function buildGetParams(params: {}): string {
+  const decamelizedParams: Params = humps.decamelizeKeys(params) as Params
+  const paramKeys: ReadonlyArray<string> = Object.keys(decamelizedParams)
+  const urlParams: ReadonlyArray<string> =
+    paramKeys.map((key: string) => mapPairToUrlParam(key, decamelizedParams[key]))
+  return urlParams.join('&')
+}
+
+function mapPairToUrlParam(key: string, value: ReadonlyArray<any> | any): string {
+  if (Array.isArray(value)) {
+    return value.map((v: any) => `${key}[]=${v}`).join('&')
+  }
+  return `${key}=${value}`
+}
+
+function extractErrorMessage(error: AxiosError): string {
+  if (error.response && error.response.data && error.response.data.error) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    return error.response.data.error
+  }
+  return error.message
 }
 
 export default class Req {
@@ -16,9 +50,8 @@ export default class Req {
     })
   }
 
-  public static handleError(error: {}): never {
-    const rawError: RawError = error as RawError
-    throw new RequestError(rawError)
+  public static handleError(error: AxiosError): never {
+    throw new Error(extractErrorMessage(error))
   }
 
   public static async get(url: string, params?: {}): Promise<any> {
@@ -42,30 +75,4 @@ export default class Req {
     const { timestamp } = await this.get(config.url + '/exchange/timestamp')
     return timestamp
   }
-}
-
-function buildGetUrl(url: string, params?: {}): string {
-  if (params === undefined) {
-    return url
-  }
-  return url + '?' + buildGetParams(params)
-}
-
-interface Params {
-  readonly [key: string]: ReadonlyArray<any> | any
-}
-
-function buildGetParams(params: {}): string {
-  const decamelizedParams: Params = humps.decamelizeKeys(params) as Params
-  const paramKeys: ReadonlyArray<string> = Object.keys(decamelizedParams)
-  const urlParams: ReadonlyArray<string> =
-    paramKeys.map((key: string) => mapPairToUrlParam(key, decamelizedParams[key]))
-  return urlParams.join('&')
-}
-
-function mapPairToUrlParam(key: string, value: ReadonlyArray<any> | any): string {
-  if (Array.isArray(value)) {
-    return value.map((v: any) => `${key}[]=${v}`).join('&')
-  }
-  return `${key}=${value}`
 }

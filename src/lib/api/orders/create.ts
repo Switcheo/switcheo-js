@@ -34,7 +34,7 @@ export async function create(config: Config, account: Account,
   const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
     await account.refreshApiKey(config)
 
-  if (!apiKey) throw Error('Invaid API key')
+  if (!apiKey) throw new Error('Could not create an API key.')
 
   const request: OrderCreationRequest =
     buildOrderCreationRequest(config, account, orderParams)
