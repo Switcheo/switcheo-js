@@ -32,30 +32,7 @@ export class MetamaskProvider implements Web3Provider {
   }
 
   public signParams(params: {}): Promise<string> {
-    const msgParams: ReadonlyArray<object> = [
-      {
-        name: 'API Request',
-        type: 'string',
-        value: stringifyParams(params),
-      },
-    ]
-    return new Promise(async (resolve, reject) => { // tslint:disable-line
-      try {
-        await this.ensureAccountUnchanged()
-      } catch (err) {
-        reject(err)
-      }
-      this.web3.currentProvider.send({
-        id: new Date().getTime(),
-        jsonrpc: '2.0',
-        method: 'eth_signTypedData',
-        params: [msgParams, this.address],
-      }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
-        if (err) reject(err)
-        else if (res.error) reject(res.error)
-        else resolve(res.result)
-      })
-    })
+    return this.signMessage(stringifyParams(params))
   }
 
   public signMessage(message: string): Promise<string> {
