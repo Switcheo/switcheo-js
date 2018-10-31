@@ -26,4 +26,5 @@ export interface Web3Provider extends SignatureProvider {
 export * from './neoPrivateKeyProvider'
 export * from './neoLedgerProvider'
 export * from './neoO3Provider'
+export * from './ethPrivateKeyProvider'
 export * from './metamaskProvider'
