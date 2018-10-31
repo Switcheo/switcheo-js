@@ -52,8 +52,7 @@ export class EthPrivateKeyProvider implements Web3Provider {
         else if (res.error) {
           reject(res.error)
         } else {
-          const v: string = res.result[res.result.length - 1]
-          resolve(res.result.replace(/.$/, v === '1' ? '0' : '1')) // flip v value
+          resolve(res.result)
         }
       })
     })
