@@ -32,7 +32,7 @@ export const CONTRACT_HASHES: ContractHashes = {
       V2: '0x2b25406b0000c3661e9c88890690fd4b5c7b4234',
     },
     [Network.TestNet]: {
-      V2: '0xb111e946d865e9fd99d0d5c451700428bee21e21',
+      V2: '0x607af5164d95bd293dbe2b994c7d8aef6bec03bf',
     },
     [Network.MainNet]: {
       V2: '0xa3f9592a90ecd9b3dfa17068f9eb34a46d4ae335',
