@@ -54,7 +54,7 @@ export function getNeoAssets(config: Config, account: Account): Promise<object> 
 export function deposit(config: Config, account: Account,
   asset: AssetLike, amount: BigNumber | string): Promise<any> {
   const params: TransferParams = {
-    amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
+    amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
     blockchain: asset.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
@@ -72,7 +72,7 @@ export function deposit(config: Config, account: Account,
 export async function withdraw(config: Config, account: Account,
   asset: AssetLike, amount: BigNumber | string): Promise<any> {
   const params: TransferParams = {
-    amount: new BigNumber(amount).times(10 ** asset.decimals).toString(),
+    amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
     blockchain: account.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
