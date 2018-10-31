@@ -49,8 +49,12 @@ export class EthPrivateKeyProvider implements Web3Provider {
         params: [this.address, message],
       }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
         if (err) reject(err)
-        else if (res.error) reject(res.error)
-        else resolve(res.result)
+        else if (res.error) {
+          reject(res.error)
+        } else {
+          const v: string = res.result[res.result.length - 1]
+          resolve(res.result.replace(/.$/, v === '1' ? '0' : '1')) // flip v value
+        }
       })
     })
   }
