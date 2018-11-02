@@ -65,8 +65,8 @@ export async function performMultistepRequest(config: Config, account: Account,
 // TODO: verify the transaction items before signing.
 export async function signItem(config: Config, account: Account, item: TransactionContainer):
   Promise<{ signature?: string, transaction_hash?: string }> {
-  if (!item.transaction) return { signature: '' }
   if (account.blockchain === Blockchain.Ethereum) {
+    if (!item.transaction) return { signature: '' }
     const { message } = (item.transaction as EthTransaction)
     // NOTE: MetaMask does not support signing of transactions without broadcasting,
     // see: https://github.com/MetaMask/metamask-extension/issues/3475.
@@ -79,7 +79,7 @@ export async function signItem(config: Config, account: Account, item: Transacti
       // eth txns (deposits) are sent immediately!:
       { transaction_hash: await account.sendTransaction(item.transaction!) }
   }
-
+  // else NEO blockchain
   return item.transaction ?
     // standard txn signing:
     { signature: await account.signTransaction(item.transaction) } :
