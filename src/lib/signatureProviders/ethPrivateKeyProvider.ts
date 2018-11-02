@@ -6,12 +6,12 @@ import { Web3Provider, SignatureProviderType } from '.'
 import { stringifyParams } from '../utils'
 
 export class EthPrivateKeyProvider implements Web3Provider {
-  public static async init(web3: Web3): Promise<EthPrivateKeyProvider> {
+  public static async init(web3: Web3, privateKey: string): Promise<EthPrivateKeyProvider> {
     const addresses: ReadonlyArray<string> = await web3.eth.getAccounts()
     if (addresses.length === 0) {
       this.throwNoAddressInitializedError()
     }
-    return new EthPrivateKeyProvider(web3, addresses[0].toLowerCase())
+    return new EthPrivateKeyProvider(web3, addresses[0].toLowerCase(), privateKey)
   }
 
   private static throwNoAddressInitializedError(): void {
@@ -23,12 +23,14 @@ export class EthPrivateKeyProvider implements Web3Provider {
   public readonly displayAddress: string
   public readonly web3: Web3
   public readonly type: SignatureProviderType
+  public readonly privateKey: string
 
-  private constructor(web3: Web3, address: string) {
+  private constructor(web3: Web3, address: string, privateKey: string) {
     this.type = SignatureProviderType.PrivateKey
     this.web3 = web3
     this.address = address
     this.displayAddress = address
+    this.privateKey = privateKey
   }
 
   public signParams(params: {}): Promise<string> {
