@@ -3,6 +3,7 @@ import { buildRequest, Request, SignedRequestPayload } from '../helpers'
 import req from '../../req'
 import { Order, OrderSide, OrderType } from '../../models/order'
 import { Account, Config } from '../../switcheo'
+import { SignatureProviderType } from '../../signatureProviders';
 
 export interface CreateOrderParams {
   readonly pair: string
@@ -38,8 +39,13 @@ export async function create(config: Config, account: Account,
 
   const request: OrderCreationRequest =
     buildOrderCreationRequest(config, account, orderParams)
+  const source: string | undefined =
+    account.provider.type === SignatureProviderType.O3 ? 'o3-web' : config.source
   const response: any =
-      await req.post(request.url, request.payload, { Authorization: `Token ${apiKey}` })
+      await req.post(request.url, request.payload, {
+        Authorization: `Token ${apiKey}`,
+        ...(source && { 'X-Referral-Source': source }),
+      })
   return new Order(response)
 }
 

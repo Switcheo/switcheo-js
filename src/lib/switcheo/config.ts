@@ -5,10 +5,13 @@ import { Network, NETWORKS } from '../constants/networks'
 export class Config {
   public readonly net!: Network
   public readonly url!: string
+  public readonly source?: string
 
-  constructor({ net, url }: { readonly net?: Network, readonly url?: string }) {
+  constructor({ net, url, source }: {
+    readonly net?: Network, readonly url?: string, readonly source?: string }) {
     this.net = net ? net : Network.TestNet
     this.url = url ? url : NETWORKS[this.net].V2.apiUrl
+    this.source = source
   }
 
   public getContractHash(blockchain: Blockchain): string {
