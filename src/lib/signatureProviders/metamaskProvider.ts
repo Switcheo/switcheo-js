@@ -7,7 +7,8 @@ import { stringifyParams } from '../utils'
 
 export class MetamaskProvider implements Web3Provider {
   public static async init(web3: Web3): Promise<MetamaskProvider> {
-    const addresses: ReadonlyArray<string> = await web3.eth.getAccounts()
+    // @ts-ignore we now using old version of web3 with no typescript
+    const addresses: ReadonlyArray<string> = web3.eth.accounts
     if (addresses.length === 0) {
       this.throwMetaMaskLockedError()
     }
@@ -71,7 +72,8 @@ export class MetamaskProvider implements Web3Provider {
   }
 
   private async getCurrentAccount(): Promise<string | null> {
-    const accounts: ReadonlyArray<string> = await this.web3.eth.getAccounts()
+    // @ts-ignore we now using old version of web3 with no typescript
+    const accounts: ReadonlyArray<string> = this.web3.eth.accounts
     if (!accounts) MetamaskProvider.throwMetaMaskLockedError()
     return accounts[0]
   }
