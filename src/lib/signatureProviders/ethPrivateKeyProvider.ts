@@ -7,11 +7,11 @@ import { stringifyParams } from '../utils'
 
 export class EthPrivateKeyProvider implements Web3Provider {
   public static async init(web3: Web3, privateKey: string): Promise<EthPrivateKeyProvider> {
-    const addresses: ReadonlyArray<string> = await web3.eth.getAccounts()
-    if (addresses.length === 0) {
+    const address: string = await EthPrivateKeyProvider.getWeb3Address(web3)
+    if (!address) {
       this.throwNoAddressInitializedError()
     }
-    return new EthPrivateKeyProvider(web3, addresses[0].toLowerCase(), privateKey)
+    return new EthPrivateKeyProvider(web3, address, privateKey)
   }
 
   private static throwNoAddressInitializedError(): void {
@@ -74,10 +74,20 @@ export class EthPrivateKeyProvider implements Web3Provider {
     })
   }
 
+  public static getWeb3Address(web3: Web3): Promise<string> {
+    return new Promise(async (resolve, reject) => { // tslint:disable-line
+      return web3.eth.getAccounts((error: Error, accs: ReadonlyArray<string>): void => {
+        if (error) reject(error)
+        if (accs.length < 1) reject('No accounts found')
+        if (!error) resolve(accs[0])
+      })
+    })
+  }
+
   private async getCurrentAccount(): Promise<string | null> {
-    const accounts: ReadonlyArray<string> = await this.web3.eth.getAccounts()
-    if (!accounts) EthPrivateKeyProvider.throwNoAddressInitializedError()
-    return accounts[0]
+    const address: string = await EthPrivateKeyProvider.getWeb3Address(this.web3)
+    if (!address) EthPrivateKeyProvider.throwNoAddressInitializedError()
+    return address
   }
 
   private async ensureAccountUnchanged(): Promise<void> {
