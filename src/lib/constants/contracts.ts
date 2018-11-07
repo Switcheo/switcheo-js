@@ -35,7 +35,7 @@ export const CONTRACT_HASHES: ContractHashes = {
       V2: '0x607af5164d95bd293dbe2b994c7d8aef6bec03bf',
     },
     [Network.MainNet]: {
-      V2: '0xa3f9592a90ecd9b3dfa17068f9eb34a46d4ae335',
+      V2: '0xe777047Ee330200775D7fB7e0051432f68C36821',
     },
   },
   [Blockchain.Qtum]: {
