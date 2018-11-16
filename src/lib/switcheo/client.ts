@@ -54,6 +54,10 @@ export class Client {
     return api.tickers.getLast24Hours(this.config)
   }
 
+  public getSparkline(): Promise<object> {
+    return api.tickers.getSparkline(this.config)
+  }
+
   public getCandlesticks(params: GetCandlesticksParams): Promise<object> {
     return api.tickers.getCandlesticks(this.config, params)
   }
