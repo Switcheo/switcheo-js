@@ -5,6 +5,10 @@ export function getLast24Hours(config: Config): Promise<object> {
   return req.get(config.url + '/tickers/last_24_hours')
 }
 
+export function getSparkline(config: Config): Promise<object> {
+  return req.get(config.url + '/tickers/sparkline')
+}
+
 export interface GetCandlesticksParams {
   readonly pair: string
   readonly start_time: number
