@@ -12,21 +12,6 @@ type TransportStatusError = Error & {
   message: string
 }
 
-interface TransportU2F {
-  isSupported(): boolean
-  open(): Promise<Ledger>
-  close(): Promise<void>
-  setScrambleKey(scrambleKey: string): void
-  send(
-    cla: number,
-    ins: number,
-    p1: number,
-    p2: number,
-    data: Buffer,
-    statusList: ReadonlyArray<number>
-  ): Promise<Buffer>
-}
-
 enum StatusCodes {
   Ok = 0x9000,
   TransactionTooBig = 0x6d08,

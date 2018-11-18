@@ -22,8 +22,8 @@ export class EthPrivateKeyProvider implements Web3Provider {
   public readonly address: string
   public readonly displayAddress: string
   public readonly web3: Web3
-  public readonly type: SignatureProviderType
   public readonly privateKey: string
+  public readonly type: SignatureProviderType
 
   private constructor(web3: Web3, address: string, privateKey: string) {
     this.type = SignatureProviderType.PrivateKey
