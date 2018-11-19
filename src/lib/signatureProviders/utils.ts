@@ -14,5 +14,5 @@ export function combineEthSignature({ v, r, s }:
   return '0x' +
     r.replace(/^0x/, '').padStart(64, '0') +
     s.replace(/^0x/, '').padStart(64, '0') +
-    vNum.toString(16)
+    vNum.toString(16).padStart(2, '0')
 }
