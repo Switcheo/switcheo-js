@@ -3,12 +3,20 @@ import * as balances from './balances'
 import * as cancellations from './cancellations'
 import * as fees from './fees'
 import * as network from './network'
-import { orders } from './orders'
+import { orders, Orders } from './orders'
 import * as pairs from './pairs'
 import * as tickers from './tickers'
 
-// tslint:disable-next-line typedef
-export const api = {
+export const api: {
+  announcementMessage: typeof announcementMessage;
+  balances: typeof balances;
+  cancellations: typeof cancellations;
+  fees: typeof fees;
+  network: typeof network;
+  orders: Orders;
+  pairs: typeof pairs;
+  tickers: typeof tickers;
+} = {
   announcementMessage,
   balances,
   cancellations,
