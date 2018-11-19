@@ -64,16 +64,35 @@ export class EthLedgerProvider implements SignatureProvider {
 
   public sendTransaction(transaction: EthTransaction): Promise<string> {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
-      const signedTransaction: string = await this.signTransaction(transaction)
+      await this.ensureValidConnection()
+
+      const hexTransaction: string = this.serializeTransaction(transaction)
+      const { r, s, v } = await this.ledger.signTransaction(this.bip32Path, hexTransaction)
+
+      console.log(transaction, { r, s, v })
+      const signedTransaction: string = this.serializeTransaction(
+        {
+          ...transaction,
+          gasLimit: transaction.gas,
+          r: `0x${r}`,
+          s: `0x${s}`,
+          v: `0x${v}`,
+        }
+      )
+
+      console.log(`0x${signedTransaction}`)
+
       return this.web3.eth.sendRawTransaction(
-        signedTransaction, (error: Error, hash: string): void => {
+        `0x${signedTransaction}`, (error: Error, hash: string): void => {
+          if (error) console.error(error)
+          console.log(hash)
           if (error) reject(error)
           else resolve(hash)
         })
     })
   }
 
-  private serializeTransaction(transaction: EthTransaction): string {
+  private serializeTransaction(transaction: any): string {
     return new EthereumTx(transaction).serialize().toString('hex')
   }
 
