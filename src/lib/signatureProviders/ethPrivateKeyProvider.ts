@@ -1,5 +1,4 @@
 import Web3 from 'web3'
-import { TxData } from 'ethereum-types'
 import { EthTransaction as Transaction } from '../models/transaction/ethTransaction'
 
 import { Web3Provider, SignatureProviderType } from '.'
@@ -28,7 +27,7 @@ export class EthPrivateKeyProvider implements Web3Provider {
   private constructor(web3: Web3, address: string, privateKey: string) {
     this.type = SignatureProviderType.PrivateKey
     this.web3 = web3
-    this.address = address
+    this.address = address.toLowerCase()
     this.displayAddress = address
     this.privateKey = privateKey
   }
@@ -68,7 +67,7 @@ export class EthPrivateKeyProvider implements Web3Provider {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureAccountUnchanged()
       return this.web3.eth.sendTransaction(
-        (transaction as TxData),
+        transaction,
         (error: Error, hash: string): void => {
           if (error) reject(error)
           else resolve(hash)

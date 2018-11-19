@@ -19,7 +19,7 @@ export class EthLedgerProvider implements SignatureProvider {
     if (!supported) {
       throw new Error('Your browser does not support the ledger! Please use Google Chrome.')
     }
-    const transport: Transport = await TransportU2F.create()
+    const transport: Transport = await TransportU2F.create(1000, 1000)
     const ledger: Eth = new Eth(transport, 'switcheoEth')
     const { address } = await ledger.getAddress(bip32Path, false, false)
     return new EthLedgerProvider(web3, address, bip32Path, ledger)
@@ -37,7 +37,7 @@ export class EthLedgerProvider implements SignatureProvider {
     this.type = SignatureProviderType.Ledger
     this.web3 = web3
     this.bip32Path = bip32Path
-    this.address = address
+    this.address = address.toLowerCase()
     this.displayAddress = address
     this.ledger = ledger
   }
@@ -48,12 +48,10 @@ export class EthLedgerProvider implements SignatureProvider {
 
   public async signMessage(message: string): Promise<string> {
     await this.ensureValidConnection()
-    const hexMessage: string = this.web3.fromAscii(message)
+    const hexMessage: string = Buffer.from(message).toString('hex')
 
-    console.log(this.bip32Path, hexMessage)
     const { r, s, v } = await this.ledger.signPersonalMessage(this.bip32Path, hexMessage)
-    console.log(r, s, v)
-    return combineEthSignature({ r, s, v: ((v - 27).toString(16)).padStart(2, '0') })
+    return combineEthSignature({ r, s, v: v - 27 })
   }
 
   public async signTransaction(transaction: EthTransaction): Promise<string> {
@@ -81,7 +79,7 @@ export class EthLedgerProvider implements SignatureProvider {
 
   private async ensureValidConnection(): Promise<void> {
     const { address } = await this.ledger.getAddress(this.bip32Path, false, false)
-    if (address !== this.address) {
+    if (address.toLowerCase() !== this.address) {
       throw new Error(
         'Ledger configuration changed! ' +
         'Please repeat authentication by re-connecting your ledger.'

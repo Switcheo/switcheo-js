@@ -1,5 +1,4 @@
 import Web3 from 'web3'
-import { TxData } from 'ethereum-types'
 import { EthTransaction as Transaction } from '../models/transaction/ethTransaction'
 
 import { Web3Provider, SignatureProviderType } from '.'
@@ -65,7 +64,7 @@ export class MetamaskProvider implements Web3Provider {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureAccountUnchanged()
       return this.web3.eth.sendTransaction(
-        (transaction as TxData),
+        transaction,
         (error: Error, hash: string): void => {
           if (error) reject(error)
           else resolve(hash)
