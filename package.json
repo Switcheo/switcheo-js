@@ -54,7 +54,7 @@
     "@cityofzion/neon-core": "^4.0.2",
     "@ledgerhq/hw-app-eth": "^4.24.0",
     "@ledgerhq/hw-transport": "^4.24.0",
-    "@ledgerhq/hw-transport-u2f": "^4.28.0",
+    "@liquality/hw-transport-u2f": "^4.28.0",
     "axios": "^0.18.0",
     "bignumber.js": "^7.2.1",
     "ethereumjs-tx": "^1.3.7",

@@ -197,18 +197,25 @@
   dependencies:
     "@ledgerhq/hw-transport" "^4.24.0"
 
-"@ledgerhq/hw-transport-u2f@^4.28.0":
-  version "4.28.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.28.0.tgz#5cee76c39c2972e22864992585a52b6a1fb8bc52"
-  integrity sha512-jI33imJGh+QOFbxhEIYdzkBC7HTUQ2wdkkgEZvt7ECPsGBl/75OSJGu+yebl2yz/XYVhPbZBnpSJYfXJGFBe9g==
-  dependencies:
-    "@ledgerhq/hw-transport" "^4.24.0"
-    u2f-api "0.2.7"
-
 "@ledgerhq/hw-transport@^4.24.0":
   version "4.24.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.24.0.tgz#8def925d8c2e1f73d15128d9e27ead729870be58"
   integrity sha512-L34TG1Ss7goRB+5BxtvBwUuu0CmDSIxS33oUqkpEy6rCs31k7XicV48iUGAnRnt8hNY2DvJ9WFyaOroUE9h6wQ==
+  dependencies:
+    events "^3.0.0"
+
+"@liquality/hw-transport-u2f@^4.28.0":
+  version "4.28.0"
+  resolved "https://registry.yarnpkg.com/@liquality/hw-transport-u2f/-/hw-transport-u2f-4.28.0.tgz#1bde7bc469ab0cac172641b6cc600105630b915e"
+  integrity sha512-o9ULvRjR5tNaqT/iT5ClR4QMHsAgFk/6Uraavyd9V0Y7xdzF7/uCmNTuVygfk0GQ49TIM+1P7pO1xlNGwWgDSQ==
+  dependencies:
+    "@liquality/hw-transport" "^4.24.0"
+    u2f-api "0.2.7"
+
+"@liquality/hw-transport@^4.24.0":
+  version "4.24.0"
+  resolved "https://registry.yarnpkg.com/@liquality/hw-transport/-/hw-transport-4.24.0.tgz#c3fab3f773ea9eed49742fcf58d74927d6f8a03d"
+  integrity sha512-wwznR+/gTjEzakic+fU8sk2T1ngMIuQ/IxASvP1m4wIIcsjyrd4zn5dXX2avmoUJiJErKJukkkLKNFA0ag/6UA==
   dependencies:
     events "^3.0.0"
 
