@@ -48,7 +48,7 @@ export class EthLedgerProvider implements SignatureProvider {
 
   public async signMessage(message: string): Promise<string> {
     await this.ensureValidConnection()
-    const hexMessage: string = this.web3.utils.fromUtf8(message)
+    const hexMessage: string = this.web3.fromAscii(message)
 
     const { r, s, v } = await this.ledger.signPersonalMessage(this.bip32Path, hexMessage)
     return combineEthSignature({ r, s, v: ((v - 27).toString(16)).padStart(2, '0') })
@@ -65,7 +65,7 @@ export class EthLedgerProvider implements SignatureProvider {
   public sendTransaction(transaction: EthTransaction): Promise<string> {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       const signedTransaction: string = await this.signTransaction(transaction)
-      return this.web3.eth.sendSignedTransaction(
+      return this.web3.eth.sendRawTransaction(
         signedTransaction, (error: Error, hash: string): void => {
           if (error) reject(error)
           else resolve(hash)

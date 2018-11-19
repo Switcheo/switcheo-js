@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import { tx as neonTx } from '@cityofzion/neon-core'
-import { Tx as ethTransaction } from 'web3/eth/types' //tslint:disable-line
+import { Transaction as ethTransaction } from 'ethereum-types'
 
 export enum SignatureProviderType {
   PrivateKey = 'privateKey',

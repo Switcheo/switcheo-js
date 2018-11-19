@@ -1,4 +1,4 @@
-import { Tx as ethTx } from 'web3/eth/types' // tslint:disable-line
+import { Transaction as ethTx } from 'ethereum-types'
 
 export type EthTransactionLike = ethTx
 

@@ -1,6 +1,5 @@
 import Web3 from 'web3'
-import { Tx as Transaction } from 'web3/eth/types' //tslint:disable-line
-import { JsonRPCResponse } from 'web3/providers' //tslint:disable-line
+import { Transaction, TxData } from 'ethereum-types'
 
 import { Web3Provider, SignatureProviderType } from '.'
 import { stringifyParams } from '../utils'
@@ -44,12 +43,12 @@ export class EthPrivateKeyProvider implements Web3Provider {
       } catch (err) {
         reject(err)
       }
-      this.web3.currentProvider.send({
+      this.web3.currentProvider.sendAsync({
         id: new Date().getTime(),
         jsonrpc: '2.0',
         method: 'eth_sign',
         params: [this.address, message],
-      }, (err: Error, res: JsonRPCResponse): void => { // tslint:disable-line
+      }, (err: Error | null, res: any): void => { // tslint:disable-line
         if (err) reject(err)
         else if (res.error) {
           reject(res.error)
@@ -67,10 +66,12 @@ export class EthPrivateKeyProvider implements Web3Provider {
   public sendTransaction(transaction: Transaction): Promise<string> {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureAccountUnchanged()
-      return this.web3.eth.sendTransaction(transaction, (error: Error, hash: string): void => {
-        if (error) reject(error)
-        else resolve(hash)
-      })
+      return this.web3.eth.sendTransaction(
+        (transaction as TxData),
+        (error: Error, hash: string): void => {
+          if (error) reject(error)
+          else resolve(hash)
+        })
     })
   }
 
