@@ -1,5 +1,5 @@
 import { u } from '@cityofzion/neon-core'
-import TransportU2F from '@liquality/hw-transport-u2f'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
 
 // FIXME: only included minimal set of typings to make this library work
 // as the ledger library has no typedefs
@@ -62,7 +62,6 @@ export default class Ledger {
   public async open(): Promise<Ledger> {
     try {
       this.device = await TransportU2F.open(this.path)
-      console.log(this.device)
       this.device!.setScrambleKey('NEO')
       return this
     } catch (err) {

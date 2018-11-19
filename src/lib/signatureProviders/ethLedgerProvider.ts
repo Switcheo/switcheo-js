@@ -1,6 +1,6 @@
 import Eth from '@ledgerhq/hw-app-eth'
-import TransportU2F from '@liquality/hw-transport-u2f'
 import Transport from '@ledgerhq/hw-transport'
+import TransportU2F from '../utils/transportU2F'
 import EthereumTx from 'ethereumjs-tx'
 import Web3 from 'web3'
 import { EthTransaction } from '../models/transaction'
