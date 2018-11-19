@@ -62,30 +62,37 @@ export class EthLedgerProvider implements SignatureProvider {
     return combineEthSignature({ r, s, v })
   }
 
-  public sendTransaction(transaction: EthTransaction): Promise<string> {
+  public sendTransaction(transaction: any): Promise<string> {
     return new Promise(async (resolve, reject) => { // tslint:disable-line
       await this.ensureValidConnection()
 
-      const hexTransaction: string = this.serializeTransaction(transaction)
+      const txn: any = {
+        chainId: transaction.chainId,
+        data: transaction.data,
+        gasLimit: transaction.gas,
+        gasPrice: transaction.gasPrice,
+        nonce: transaction.nonce,
+        to: transaction.to,
+        value: transaction.value,
+        r: '0x00', // tslint:disable-line:object-literal-sort-keys
+        s: '0x00',
+        v: '0x01',
+      }
+
+      const hexTransaction: string = this.serializeTransaction(txn)
       const { r, s, v } = await this.ledger.signTransaction(this.bip32Path, hexTransaction)
 
-      console.log(transaction, { r, s, v })
-      const signedTransaction: string = this.serializeTransaction(
-        {
-          ...transaction,
-          gasLimit: transaction.gas,
-          r: `0x${r}`,
-          s: `0x${s}`,
-          v: `0x${v}`,
-        }
-      )
+      const signedTxn: any = {
+        ...txn,
+        r: `0x${r}`,
+        s: `0x${s}`,
+        v: `0x${v}`,
+      }
 
-      console.log(`0x${signedTransaction}`)
+      const signedTransaction: string = this.serializeTransaction(signedTxn)
 
       return this.web3.eth.sendRawTransaction(
         `0x${signedTransaction}`, (error: Error, hash: string): void => {
-          if (error) console.error(error)
-          console.log(hash)
           if (error) reject(error)
           else resolve(hash)
         })

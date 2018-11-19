@@ -6,6 +6,8 @@ export interface EthTransaction extends TxData {
   chainId: number
   data: string
   from: string
+  to: string,
+  value: string,
   gas: string
   gasPrice: string
   sha256: string
