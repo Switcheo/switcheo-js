@@ -3,7 +3,7 @@ import { buildRequest, Request, SignedRequestPayload } from '../helpers'
 import req from '../../req'
 import { Order, OrderSide, OrderType } from '../../models/order'
 import { Account, Config } from '../../switcheo'
-import { SignatureProviderType } from '../../signatureProviders';
+import { SignatureProviderType } from '../../signatureProviders'
 
 export interface CreateOrderParams {
   readonly pair: string

@@ -4,7 +4,7 @@ import { EthTransaction } from '../models/transaction'
 import { SignatureProvider, SignatureProviderType } from '.'
 import { combineEthSignature } from './utils'
 import { stringifyParams } from '../utils'
-
+// @ts-ignore
 import TrezorConnect from 'trezor-connect'
 
 export class EthTrezorProvider implements SignatureProvider {

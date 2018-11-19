@@ -61,6 +61,7 @@
     "humps": "^2.0.1",
     "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.10",
+    "trezor-connect": "^6.0.2",
     "web3": "^0.20.6"
   },
   "devDependencies": {

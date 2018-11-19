@@ -55,6 +55,7 @@ export async function performMultistepRequest(config: Config, account: Account,
     new TransactionContainer(await
       req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }))
   const payload: {} = await signItem(config, account, firstResult)
+
   const secondRequest: Request<{}> =
     buildRequest(config, secondUrlPathFn(firstResult), payload)
   return req.post(secondRequest.url, secondRequest.payload)
