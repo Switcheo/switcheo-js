@@ -1,6 +1,6 @@
 import Web3 from 'web3'
-import { tx as neonTx } from '@cityofzion/neon-core'
-import { Transaction as ethTransaction } from 'ethereum-types'
+import { NeoTransaction } from '../models/transaction/neoTransaction'
+import { EthTransaction } from '../models/transaction/ethTransaction'
 
 export enum SignatureProviderType {
   PrivateKey = 'privateKey',
@@ -15,8 +15,8 @@ export interface SignatureProvider {
   readonly type: SignatureProviderType | string
   signParams(params: {}): Promise<string>
   signMessage(message: string): Promise<string>
-  signTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
-  sendTransaction(transaction: neonTx.Transaction | ethTransaction): Promise<string>
+  signTransaction(transaction: NeoTransaction | EthTransaction): Promise<string>
+  sendTransaction(transaction: NeoTransaction | EthTransaction): Promise<string>
 }
 
 export interface Web3Provider extends SignatureProvider {

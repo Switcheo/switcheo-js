@@ -50,7 +50,9 @@ export class EthLedgerProvider implements SignatureProvider {
     await this.ensureValidConnection()
     const hexMessage: string = this.web3.fromAscii(message)
 
+    console.log(this.bip32Path, hexMessage)
     const { r, s, v } = await this.ledger.signPersonalMessage(this.bip32Path, hexMessage)
+    console.log(r, s, v)
     return combineEthSignature({ r, s, v: ((v - 27).toString(16)).padStart(2, '0') })
   }
 

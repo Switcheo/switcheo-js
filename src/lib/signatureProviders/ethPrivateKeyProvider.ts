@@ -1,5 +1,6 @@
 import Web3 from 'web3'
-import { Transaction, TxData } from 'ethereum-types'
+import { TxData } from 'ethereum-types'
+import { EthTransaction as Transaction } from '../models/transaction/ethTransaction'
 
 import { Web3Provider, SignatureProviderType } from '.'
 import { stringifyParams } from '../utils'

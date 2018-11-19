@@ -1,5 +1,6 @@
 import Web3 from 'web3'
-import { Transaction, TxData } from 'ethereum-types'
+import { TxData } from 'ethereum-types'
+import { EthTransaction as Transaction } from '../models/transaction/ethTransaction'
 
 import { Web3Provider, SignatureProviderType } from '.'
 import { stringifyParams } from '../utils'
@@ -57,7 +58,7 @@ export class MetamaskProvider implements Web3Provider {
   }
 
   public signTransaction(_transaction: Transaction): Promise<string> {
-    return Promise.reject('signTransaction() not implemented for NEO!')
+    return Promise.reject('signTransaction() not implemented for MetaMask!')
   }
 
   public sendTransaction(transaction: Transaction): Promise<string> {
