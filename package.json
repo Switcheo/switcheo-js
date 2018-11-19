@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@cityofzion/neon-core": "^4.0.2",
-    "@ledgerhq/hw-app-eth": "^4.21.0",
+    "@ledgerhq/hw-app-eth": "4.21.0",
     "@ledgerhq/hw-transport": "4.21.0",
     "@ledgerhq/hw-transport-u2f": "4.21.0",
     "axios": "^0.18.0",
