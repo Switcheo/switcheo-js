@@ -1,5 +1,5 @@
 import { u } from '@cityofzion/neon-core'
-import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import TransportU2F from '@liquality/hw-transport-u2f'
 
 // FIXME: only included minimal set of typings to make this library work
 // as the ledger library has no typedefs
