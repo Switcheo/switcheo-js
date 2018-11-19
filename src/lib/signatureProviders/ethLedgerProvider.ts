@@ -1,5 +1,5 @@
 import Eth from '@ledgerhq/hw-app-eth'
-import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import TransportU2F from '@liquality/hw-transport-u2f'
 import Transport from '@ledgerhq/hw-transport'
 import EthereumTx from 'ethereumjs-tx'
 import Web3 from 'web3'
