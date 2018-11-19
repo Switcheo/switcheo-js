@@ -37,9 +37,7 @@ export default class Ledger {
     if (!supported) {
       throw new Error('Your browser does not support the ledger! Please use Google Chrome.')
     }
-    console.log(TransportU2F, supported)
     const paths: ReadonlyArray<any> = await Ledger.list()
-    console.log(paths)
     if (paths.length === 0) throw new Error('USB Error: No ledger device found.')
     const ledger: Ledger = new Ledger(paths[0])
     return ledger.open()
@@ -64,6 +62,7 @@ export default class Ledger {
   public async open(): Promise<Ledger> {
     try {
       this.device = await TransportU2F.open(this.path)
+      console.log(this.device)
       this.device!.setScrambleKey('NEO')
       return this
     } catch (err) {
