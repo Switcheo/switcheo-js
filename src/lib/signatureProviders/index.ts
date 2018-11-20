@@ -5,6 +5,7 @@ import { EthTransaction } from '../models/transaction/ethTransaction'
 export enum SignatureProviderType {
   PrivateKey = 'privateKey',
   Ledger = 'ledger',
+  Trezor = 'trezor',
   Metamask = 'metamask',
   O3 = 'o3',
 }

@@ -15,7 +15,7 @@ export class EthTrezorProvider implements SignatureProvider {
   public readonly type: SignatureProviderType
 
   public constructor(web3: Web3, address: string, bip32Path: string) {
-    this.type = SignatureProviderType.Ledger
+    this.type = SignatureProviderType.Trezor
     this.web3 = web3
     this.bip32Path = bip32Path
     this.address = address.toLowerCase()
