@@ -13,33 +13,57 @@ import { stringifyParams } from '../utils'
  * // Create a new EthLedgerProvider asynchronously using init(bip32Path)
  */
 export class EthLedgerProvider implements SignatureProvider {
-  // Creates a NeoLedgerProvider asynchronously
-  public static async init(web3: Web3, bip32Path: string): Promise<EthLedgerProvider> {
+
+  // Creates a EthLedgerProvider asynchronously
+  public static async init(
+    web3: Web3
+  ): Promise<EthLedgerProvider> {
     const supported: boolean = await TransportU2F.isSupported()
     if (!supported) {
       throw new Error('Your browser does not support the ledger! Please use Google Chrome.')
     }
     const transport: Transport = await TransportU2F.create(1000, 1000)
     const ledger: Eth = new Eth(transport, 'switcheoEth')
-    const { address } = await ledger.getAddress(bip32Path, false, false)
-    return new EthLedgerProvider(web3, address, bip32Path, ledger)
+    await ledger.getAddress('44\'/60\'/0\'/0', false, false) // ping something
+
+    return new EthLedgerProvider(ledger, web3)
   }
 
-  public readonly address: string
-  public readonly displayAddress: string
+  public address: string
+  public displayAddress: string
   public readonly web3: Web3
-  public readonly bip32Path: string
+  public bip32Path: string
   public readonly type: SignatureProviderType
 
   private readonly ledger: Eth
 
-  private constructor(web3: Web3, address: string, bip32Path: string, ledger: Eth) {
+  private constructor(ledger: Eth, web3: Web3) {
     this.type = SignatureProviderType.Ledger
     this.web3 = web3
+    this.ledger = ledger
+    this.bip32Path = ''
+    this.address = ''
+    this.displayAddress = ''
+  }
+
+  public async listAddresses(
+    pathPrefix: string,
+    start: number,
+    end: number
+  ): Promise<ReadonlyArray<string>> {
+    const addresses: string[] = [] // tslint:disable-line
+    for (let i: number = start; i < end; i += 1) {
+      const { address } = await this.ledger.getAddress(`${pathPrefix}/${i}`, false, false)
+      addresses.push(address)
+    }
+    return addresses
+  }
+
+  public async connect(bip32Path: string): Promise<void> {
     this.bip32Path = bip32Path
+    const { address } = await this.ledger.getAddress(bip32Path, false, false)
     this.address = address.toLowerCase()
     this.displayAddress = address
-    this.ledger = ledger
   }
 
   public signParams(params: {}): Promise<string> {
@@ -105,7 +129,7 @@ export class EthLedgerProvider implements SignatureProvider {
 
   private async ensureValidConnection(): Promise<void> {
     const { address } = await this.ledger.getAddress(this.bip32Path, false, false)
-    if (address.toLowerCase() !== this.address) {
+    if (address === '' || address.toLowerCase() !== this.address) {
       throw new Error(
         'Ledger configuration changed! ' +
         'Please repeat authentication by re-connecting your ledger.'
