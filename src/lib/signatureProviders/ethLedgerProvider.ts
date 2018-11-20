@@ -67,14 +67,15 @@ export class EthLedgerProvider implements SignatureProvider {
   }
 
   public signParams(params: {}): Promise<string> {
-    return this.signMessage(stringifyParams(params))
+    const message: string = Buffer.from(stringifyParams(params)).toString('hex')
+    return this.signMessage(message)
   }
 
   public async signMessage(message: string): Promise<string> {
     await this.ensureValidConnection()
-    const hexMessage: string = Buffer.from(message).toString('hex')
 
-    const { r, s, v } = await this.ledger.signPersonalMessage(this.bip32Path, hexMessage)
+    const { r, s, v } = await this.ledger.signPersonalMessage(
+      this.bip32Path, message.replace(/^0x/, ''))
     return combineEthSignature({ r, s, v })
   }
 
