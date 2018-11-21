@@ -46,17 +46,12 @@ export async function buildOrderBroadcastRequest(config: Config, account: Accoun
   return request
 }
 
-function buildSignedTransactionMap(config: Config, account: Account,
+async function buildSignedTransactionMap(config: Config, account: Account,
   transactionContainers: ReadonlyArray<TransactionContainer>): Promise<SignedTransactionMap> {
-  const promises: ReadonlyArray<Promise<{ signature?: string }>> =
-    transactionContainers.map((item: TransactionContainer): Promise<{ signature?: string }> =>
-      signItem(config, account, item)
-    )
-  return Promise.all(promises).then((result: ReadonlyArray<{ signature?: string }>) => {
-    const map: SignedTransactionMap = {}
-    result.forEach((value: { signature?: string }, index: number): void => {
-      map[transactionContainers[index].id] = value.signature!
-    })
-    return map
-  })
+  const signedTransactionMap: SignedTransactionMap = {}
+  for (const transactionContainer of transactionContainers) {
+    const signature: string = (await signItem(config, account, transactionContainer)).signature!
+    signedTransactionMap[transactionContainer.id.toString()] = signature
+  }
+  return signedTransactionMap
 }
