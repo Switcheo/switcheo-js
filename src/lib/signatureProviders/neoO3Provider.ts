@@ -21,7 +21,7 @@ export class NeoO3Provider implements SignatureProvider {
           if (response.error) {
             // tslint:disable-next-line no-console
             console.error(JSON.stringify(response.error)) // eslint-disable-line no-console
-            reject('Failed to connect to O3 wallet!')
+            reject(new Error('Failed to connect to O3 wallet!'))
           } else {
             const neoO3Provider: NeoO3Provider = new NeoO3Provider(
               response.data.publicKey.toLowerCase(),
