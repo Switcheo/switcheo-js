@@ -11,11 +11,15 @@ import { o3 } from '../utils/o3'
  */
 export class NeoO3Provider implements SignatureProvider {
   // Creates a NeoO3Provider asynchronously
-  public static init(): Promise<NeoO3Provider> {
+  public static init(connect: boolean = false): Promise<NeoO3Provider> {
     return new Promise((resolve: any, reject: any): any => {
       const providerCallback: (response: object) => void = (response: any): void => {
         if (response.command === 'init') {
-          o3.requestToConnect()
+          if (connect) {
+            o3.requestToConnect()
+          } else { // skip connect
+            return resolve()
+          }
         }
         if (response.command === 'requestToConnect') {
           if (response.error) {
