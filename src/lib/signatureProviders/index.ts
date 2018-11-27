@@ -8,6 +8,7 @@ export enum SignatureProviderType {
   Trezor = 'trezor',
   Metamask = 'metamask',
   O3 = 'o3',
+  Trust = 'trust',
 }
 
 export interface SignatureProvider {
@@ -31,3 +32,4 @@ export * from './ethPrivateKeyProvider'
 export * from './ethLedgerProvider'
 export * from './metamaskProvider'
 export * from './ethTrezorProvider'
+export * from './ethTrustProvider'
