@@ -18,7 +18,7 @@ export class EthIMTokenProvider implements Web3Provider {
   public readonly type: SignatureProviderType
 
   private constructor(web3: Web3, address: string) {
-    this.type = SignatureProviderType.Metamask
+    this.type = SignatureProviderType.IM
     this.web3 = web3
     this.address = address
     this.displayAddress = address
@@ -44,7 +44,7 @@ export class EthIMTokenProvider implements Web3Provider {
   }
 
   public signTransaction(_transaction: Transaction): Promise<string> {
-    return Promise.reject('signTransaction() not implemented for MetaMask!')
+    return Promise.reject('signTransaction() not implemented for IMToken!')
   }
 
   public sendTransaction(transaction: Transaction): Promise<string> {
