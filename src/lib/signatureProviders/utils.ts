@@ -16,3 +16,7 @@ export function combineEthSignature({ v, r, s }:
     s.replace(/^0x/, '').padStart(64, '0') +
     vNum.toString(16).padStart(2, '0')
 }
+
+export function toHex(message: string): string {
+  return Buffer.from(message).toString('hex')
+}
