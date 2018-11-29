@@ -10,6 +10,7 @@ export enum SignatureProviderType {
   O3 = 'o3',
   Trust = 'trust',
   IM = 'im',
+  Coinbase = 'coinbase',
 }
 
 export interface SignatureProvider {
@@ -35,3 +36,4 @@ export * from './metamaskProvider'
 export * from './ethTrezorProvider'
 export * from './ethTrustProvider'
 export * from './ethIMTokenProvider'
+export * from './ethCoinbaseProvider'
