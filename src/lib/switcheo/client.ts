@@ -3,6 +3,7 @@ import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
 import { api } from '../api'
 import { GetCandlesticksParams } from '../api/tickers'
+import { TokenParams } from '../api/tokens'
 import { Order } from '../models/order'
 import { Network } from '../constants'
 import { Account } from './account'
@@ -44,6 +45,10 @@ export class Client {
 
   public getAnnouncementMessage(): Promise<object> {
     return api.announcementMessage.get(this.config)
+  }
+
+  public getTokens(params: TokenParams): Promise<object> {
+    return api.tokens.get(this.config, params)
   }
 
   public getBestNeoNode(): Promise<object> {

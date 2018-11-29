@@ -6,6 +6,7 @@ import * as network from './network'
 import { orders, Orders } from './orders'
 import * as pairs from './pairs'
 import * as tickers from './tickers'
+import * as tokens from './tokens'
 
 export const api: {
   announcementMessage: typeof announcementMessage;
@@ -16,6 +17,7 @@ export const api: {
   orders: Orders;
   pairs: typeof pairs;
   tickers: typeof tickers;
+  tokens: typeof tokens;
 } = {
   announcementMessage,
   balances,
@@ -25,4 +27,5 @@ export const api: {
   orders,
   pairs,
   tickers,
+  tokens,
 }
