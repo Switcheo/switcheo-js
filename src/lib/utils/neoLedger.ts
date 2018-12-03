@@ -61,7 +61,7 @@ export default class Ledger {
    */
   public async open(): Promise<Ledger> {
     try {
-      this.device = await TransportU2F.open(this.path)
+      this.device = await TransportU2F.open(this.path, 1000)
       this.device!.setScrambleKey('NEO')
       return this
     } catch (err) {
