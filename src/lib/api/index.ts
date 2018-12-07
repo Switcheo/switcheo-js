@@ -7,6 +7,7 @@ import { orders, Orders } from './orders'
 import * as pairs from './pairs'
 import * as tickers from './tickers'
 import * as tokens from './tokens'
+import * as user from './user'
 
 export const api: {
   announcementMessage: typeof announcementMessage;
@@ -18,6 +19,7 @@ export const api: {
   pairs: typeof pairs;
   tickers: typeof tickers;
   tokens: typeof tokens;
+  user: typeof user;
 } = {
   announcementMessage,
   balances,
@@ -28,4 +30,5 @@ export const api: {
   pairs,
   tickers,
   tokens,
+  user,
 }
