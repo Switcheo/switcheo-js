@@ -4,7 +4,6 @@ import req from '../../req'
 export interface CreateUserParams {
   readonly email: string
   readonly passwordHash: string
-  readonly salt: string
   readonly encryptedMnemonic: string
   readonly mnemonicHash: string
 }
