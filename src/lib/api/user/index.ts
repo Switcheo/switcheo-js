@@ -13,7 +13,7 @@ export function createUser(config: Config, params: CreateUserParams): Promise<ob
 }
 
 export interface VerifyEmailParams {
-  readonly confirm_token: string
+  readonly confirmToken: string
 }
 
 export function verifyEmail(config: Config, params: VerifyEmailParams): Promise<object> {
