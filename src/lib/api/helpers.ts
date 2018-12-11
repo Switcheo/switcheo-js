@@ -40,8 +40,8 @@ export async function performRequest(config: Config, account: Account,
   return req.post(request.url, request.payload)
 }
 
-export async function performMultistepRequest(config: Config, account: Account,
-  firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: {}): Promise<{}> {
+export async function performMultistepRequest<R>(config: Config, account: Account,
+  firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: {}): Promise<R> {
   // Check whether account has an api key first if not, request it
   const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
     await account.refreshApiKey(config)

@@ -3,10 +3,13 @@ import { wallet as neonWallet } from '@cityofzion/neon-core'
 
 import { Account, Config } from '../../switcheo'
 import req from '../../req'
-import { Blockchain } from '../../constants'
+import { Blockchain, Network } from '../../constants'
 import { performMultistepRequest } from '../helpers'
-import { AssetLike } from '../../models/assets'
+import { AssetLike, AssetSymbol } from '../../models/assets'
 import TransactionContainer from '../../models/transactionContainer'
+import { Balance, History } from '../../models/balance'
+import { AssetSymbolStringObj } from '../../types'
+import { FailureResponse, SuccessResponse } from '../index'
 
 interface TransferParams {
   readonly blockchain: Blockchain
@@ -15,8 +18,14 @@ interface TransferParams {
   readonly amount: string
 }
 
+export interface BalancesGetResponse {
+  confirmed: AssetSymbolStringObj
+  confirming: AssetSymbolStringObj
+  locked: AssetSymbolStringObj
+}
+
 export function get(config: Config,
-  accounts: Account | ReadonlyArray<Account>): Promise<object> {
+  accounts: Account | ReadonlyArray<Account>): Promise<BalancesGetResponse> {
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
     wrappedAccounts.map((account: Account) => account.address)
@@ -32,8 +41,10 @@ interface TransferHistoryParams {
   readonly eventTypes?: ReadonlyArray<string>
 }
 
+export type BalancesHistoryResponse = ReadonlyArray<History>
+
 export function history(config: Config, accounts: Account | ReadonlyArray<Account>,
-  params: TransferHistoryParams = {}): Promise<object> {
+  params: TransferHistoryParams = {}): Promise<BalancesHistoryResponse> {
 
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
@@ -45,14 +56,31 @@ export function history(config: Config, accounts: Account | ReadonlyArray<Accoun
   return req.get(config.url + '/balances/history', { ...params, addresses, contractHashes })
 }
 
-export function getNeoAssets(config: Config, account: Account): Promise<object> {
+export interface Unspent {
+  index: number
+  txid: string
+  value: number
+}
+export type BalancesGetNeoAssetsResponse = {
+    [key in AssetSymbol]: {
+      balance: number
+      unspent: ReadonlyArray<Unspent>
+    }
+} & {
+  address: string
+  net: Network
+}
+export function getNeoAssets(config: Config,
+                             account: Account): Promise<BalancesGetNeoAssetsResponse> {
   const url: string =
     `${config.url}/address/balance/${neonWallet.getAddressFromScriptHash(account.address)}`
   return req.get(url)
 }
 
+export type BalancesDepositResponse = SuccessResponse | FailureResponse
+
 export function deposit(config: Config, account: Account,
-  asset: AssetLike, amount: BigNumber | string): Promise<any> {
+  asset: AssetLike, amount: BigNumber | string): Promise<BalancesDepositResponse> {
   const params: TransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
@@ -66,11 +94,14 @@ export function deposit(config: Config, account: Account,
     '/deposits',
     (result: TransactionContainer) => `/deposits/${result.id}/broadcast`,
     params
-  ) as Promise<any>
+  )
 }
 
+export type BalancesWithdrawSuccessResponse = Balance
+export type BalancesWithdrawResponse = BalancesWithdrawSuccessResponse | FailureResponse
+
 export async function withdraw(config: Config, account: Account,
-  asset: AssetLike, amount: BigNumber | string): Promise<any> {
+  asset: AssetLike, amount: BigNumber | string): Promise<BalancesWithdrawResponse> {
   const params: TransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
@@ -78,11 +109,11 @@ export async function withdraw(config: Config, account: Account,
     contractHash: config.getContractHash(asset.blockchain),
   }
 
-  return performMultistepRequest(
+  return performMultistepRequest<BalancesWithdrawResponse>(
     config,
     account,
     '/withdrawals',
     (result: TransactionContainer) => `/withdrawals/${result.id}/broadcast`,
     params
-  ) as Promise<any>
+  )
 }

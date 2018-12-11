@@ -8,6 +8,7 @@ import * as pairs from './pairs'
 import * as tickers from './tickers'
 import * as tokens from './tokens'
 import * as user from './user'
+export * from './responses'
 
 export const api: {
   announcementMessage: typeof announcementMessage;
@@ -31,4 +32,12 @@ export const api: {
   tickers,
   tokens,
   user,
+}
+
+export interface SuccessResponse {
+  result: 'ok'
+}
+
+export interface FailureResponse {
+  error: string
 }

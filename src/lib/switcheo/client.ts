@@ -1,7 +1,18 @@
 import { MakeOrderParams } from '../api/orders/make'
 import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
-import { api } from '../api'
+import {
+  AnnoucementMessageGetResponse,
+  api,
+  BalancesGetResponse,
+  FeesGetResponse,
+  NetworkGetBestNeoNodeResponse,
+  PairsGetResponse,
+  TickersGetCandlesticksResponse,
+  TickersGetLast24HoursResponse,
+  TickersGetSparklineResponse,
+  TokensGetResponse
+} from '../api'
 import { GetCandlesticksParams } from '../api/tickers'
 import { TokenParams } from '../api/tokens'
 import { Order } from '../models/order'
@@ -27,7 +38,7 @@ export class Client {
   }
 
   public getBalances(accounts:
-    Account | ReadonlyArray<Account>): Promise<object> {
+    Account | ReadonlyArray<Account>): Promise<BalancesGetResponse> {
     return api.balances.get(this.config, accounts)
   }
 
@@ -35,35 +46,35 @@ export class Client {
     return api.orders.get(this.config, account, params)
   }
 
-  public getPairs(): Promise<object> {
+  public getPairs(): Promise<PairsGetResponse> {
     return api.pairs.get(this.config)
   }
 
-  public getFees(): Promise<object> {
+  public getFees(): Promise<FeesGetResponse> {
     return api.fees.get(this.config)
   }
 
-  public getAnnouncementMessage(): Promise<object> {
+  public getAnnouncementMessage(): Promise<AnnoucementMessageGetResponse> {
     return api.announcementMessage.get(this.config)
   }
 
-  public getTokens(params: TokenParams): Promise<object> {
+  public getTokens(params: TokenParams): Promise<TokensGetResponse> {
     return api.tokens.get(this.config, params)
   }
 
-  public getBestNeoNode(): Promise<object> {
+  public getBestNeoNode(): Promise<NetworkGetBestNeoNodeResponse> {
     return api.network.getBestNeoNode(this.config)
   }
 
-  public getLast24Hours(): Promise<object> {
+  public getLast24Hours(): Promise<TickersGetLast24HoursResponse> {
     return api.tickers.getLast24Hours(this.config)
   }
 
-  public getSparkline(): Promise<object> {
+  public getSparkline(): Promise<TickersGetSparklineResponse> {
     return api.tickers.getSparkline(this.config)
   }
 
-  public getCandlesticks(params: GetCandlesticksParams): Promise<object> {
+  public getCandlesticks(params: GetCandlesticksParams): Promise<TickersGetCandlesticksResponse> {
     return api.tickers.getCandlesticks(this.config, params)
   }
 }

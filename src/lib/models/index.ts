@@ -1,3 +1,4 @@
+export * from './balance'
 export * from './fill'
 export * from './fillGroup'
 export * from './make'
