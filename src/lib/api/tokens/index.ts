@@ -3,9 +3,9 @@ import req from '../../req'
 import { AssetSymbol } from '../../models/assets'
 
 export interface TokenParams {
-  readonly showInactive: string
-  readonly showListingDetails: string
-  readonly showUsdValue: string
+  readonly showInactive: boolean
+  readonly showListingDetails: boolean
+  readonly showUsdValue: boolean
 }
 export type TokensGetResponse = {
   [key in AssetSymbol]: {
