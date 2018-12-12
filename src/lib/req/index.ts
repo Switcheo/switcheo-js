@@ -33,13 +33,35 @@ function mapPairToUrlParam(key: string, value: ReadonlyArray<any> | any): string
   return `${key}=${value}`
 }
 
-function extractErrorMessage(error: AxiosError): string {
+interface SwitcheoError extends Error {
+  errorMessage?: string
+  errorCode?: number
+}
+
+interface AxiosSwitcheoError {
+  error: string
+  error_message: string
+  error_code: number
+}
+
+function formSwitcheoError(error: AxiosSwitcheoError): SwitcheoError {
+  const switcheoError: SwitcheoError = new Error() as SwitcheoError
+
+  switcheoError.message = error.error
+  switcheoError.errorMessage = error.error_message
+  switcheoError.errorCode = error.error_code
+
+  return switcheoError
+}
+
+function extractSwitcheoError(error: AxiosError): SwitcheoError {
   if (error.response && error.response.data && error.response.data.error) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    return error.response.data.error
+    return formSwitcheoError(error.response.data)
   }
-  return error.message
+
+  return new Error(error.message)
 }
 
 export default class Req {
@@ -51,7 +73,7 @@ export default class Req {
   }
 
   public static handleError(error: AxiosError): never {
-    throw new Error(extractErrorMessage(error))
+    throw extractSwitcheoError(error)
   }
 
   public static async get(url: string, params?: {}): Promise<any> {
