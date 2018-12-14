@@ -7,6 +7,7 @@ export interface TokenParams {
   readonly showListingDetails: boolean
   readonly showUsdValue: boolean
 }
+
 export type TokensGetResponse = {
   [key in AssetSymbol]: {
     symbol: AssetSymbol

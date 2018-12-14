@@ -1,6 +1,7 @@
 import { MakeOrderParams } from '../api/orders/make'
 import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
+import { PairsParams } from '../api/pairs'
 import {
   AnnoucementMessageGetResponse,
   api,
@@ -46,8 +47,8 @@ export class Client {
     return api.orders.get(this.config, account, params)
   }
 
-  public getPairs(): Promise<PairsGetResponse> {
-    return api.pairs.get(this.config)
+  public getPairs(params: PairsParams): Promise<PairsGetResponse> {
+    return api.pairs.get(this.config, params)
   }
 
   public getFees(): Promise<FeesGetResponse> {
