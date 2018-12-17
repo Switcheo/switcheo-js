@@ -18,6 +18,7 @@ export type TokensGetResponse = {
     precision: number
     minimumQuantity: string
     tradingActive: boolean
+    isStablecoin: boolean
   }
 }
 
