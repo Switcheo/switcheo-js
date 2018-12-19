@@ -40,7 +40,7 @@ export async function create(config: Config, account: Account,
   const request: OrderCreationRequest =
     buildOrderCreationRequest(config, account, orderParams)
   const source: string | undefined =
-    account.provider.type === SignatureProviderType.O3 ? 'o3-web' : config.source
+    getProviderSourceOrDefault(account.provider.type as SignatureProviderType, config.source)
   const response: any =
       await req.post(request.url, request.payload, {
         Authorization: `Token ${apiKey}`,
@@ -58,4 +58,15 @@ export function buildOrderCreationRequest(config: Config, account: Account,
     ...orderParams,
   }
   return buildRequest(config, '/orders', params) as OrderCreationRequest
+}
+
+function getProviderSourceOrDefault(type: SignatureProviderType,
+                                    defaultSource?: string): string | undefined {
+  switch (type) {
+    case SignatureProviderType.Coinbase: return 'coinbase-web'
+    case SignatureProviderType.IM: return 'imtoken-web'
+    case SignatureProviderType.O3: return 'o3-web'
+    case SignatureProviderType.Trust: return 'trust-web'
+    default: return defaultSource
+  }
 }
