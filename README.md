@@ -1,8 +1,8 @@
-# Switcheo API Client for Javascript
+# Switcheo JS
 
-Switcheo JS is a JS library for interfacing with the Switcheo Exchange API.
+Switcheo JS is a Javascript client library for interfacing with the Switcheo Exchange API.
 
-As the library is written in Typescript, Typescript annotations are available by default.
+As the library is written in TypeScript, TypeScript annotations are available by default.
 
 # Usage
 
