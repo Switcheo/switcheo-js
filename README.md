@@ -8,16 +8,14 @@ As the library is written in TypeScript, TypeScript annotations are available by
 
 ## Getting started
 
-Import the Client to call any available Switcheo API [endpoint](https://docs.switcheo.network):
+Import the `Client` object to call any available Switcheo API [endpoint](https://docs.switcheo.network):
 
 ```js
 import { Client, Network } from 'switcheo-js'
 
-const switcheo: Client = new Client({
-  net: Network.TestNet,
-})
+const switcheo: Client = new Client({ net: Network.TestNet })
 
-const Pairs = switcheo.listPairs()
+const pairs: Pairs = switcheo.listPairs()
 ```
 
 An alternative way of accessing the functions is through the lower level `api` and `Config` objects:
@@ -29,7 +27,7 @@ const config: Config = new Config({ net: Network.TestNet, source: 'my-api' })
 const params: CreateOrderParams = { ... }
 const account: Account = new Account(...)
 
-const Order = await api.orders.make(config, account, params)
+const order: Order = await api.orders.make(config, account, params)
 ```
 
 ### Development
