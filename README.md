@@ -1,35 +1,43 @@
-# switcheo-js
+# Switcheo API Client for Javascript
 
-Switcheo Library
+Switcheo JS is a JS library for interfacing with the Switcheo Exchange API.
 
-https://github.com/bitjson/typescript-starter
-
-### Develop
-- `yarn info`: "Display information about the package scripts",
-- `yarn watch`: "Watch and rebuild the project on save, then rerun relevant tests",
-- `yarn build`: "Clean and rebuild the project",
-
-- `yarn fix`: "Try to automatically fix any linting problems",
-- `yarn test`: "Lint and unit test the project",
-- `yarn cov`: "Rebuild, run tests, then create and open the coverage report",
-- `yarn doc`: "Generate HTML API documentation and open it in a browser",
-- `yarn doc:json`: "Generate API documentation in typedoc JSON format",
-- `yarn version`: "Bump package.json version, update CHANGELOG.md, tag release",
-- `yarn reset`: "Delete all untracked files and reset the repo to the last commit",
-- `yarn prepare-release`: "One-step: clean, build, test, publish docs, and prep a release"
-
-
-NOTE: `"prepare": "yarn run build",` is needed for projects targeting this lib as a git repo
+As the library is written in Typescript, Typescript annotations are available by default.
 
 # Usage
 
-Getting started
+## Getting started
+
+Import the Client to call any available Switcheo API [endpoint](https://docs.switcheo.network):
+
 ```js
-import { Client } from 'switcheo-js'
+import { Client, Network } from 'switcheo-js'
 
 const switcheo: Client = new Client({
   net: Network.TestNet,
 })
 
-switcheo.listPairs()
+const Pairs = switcheo.listPairs()
 ```
+
+An alternative way of accessing the functions is through the lower level `api` and `Config` objects:
+
+```ts
+import { Account, api, Config, Network } from 'switcheo-js'
+
+const config: Config = new Config({ net: Network.TestNet, source: 'my-api' })
+const params: CreateOrderParams = { ... }
+const account: Account = new Account(...)
+
+const Order = await api.orders.make(config, account, params)
+```
+
+### Development
+
+- `yarn build`: "Clean and rebuild the project",
+- `yarn lint`: "Lint the project",
+- `yarn test`: "Lint and unit test the project",
+- `yarn reset`: "Delete all untracked files and reset the repo to the last commit",
+- `yarn prepare-release`: "One-step: clean, build, test, publish docs, and prep a release"
+
+NOTE: `"prepare": "yarn run build",` is needed for projects targeting this lib as a git repo
