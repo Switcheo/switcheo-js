@@ -3,7 +3,7 @@ import req from '../../req'
 import { AssetSymbol } from '../../models/assets'
 import { History } from '../../models/rebate'
 
-export interface RebatesGetResponse {
+export type RebatesGetResponse = {
   [key in AssetSymbol]: { paid: number, unpaid: number }
 }
 
