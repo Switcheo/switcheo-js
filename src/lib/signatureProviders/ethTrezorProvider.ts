@@ -4,8 +4,13 @@ import { EthTransaction } from '../models/transaction'
 import { SignatureProvider, SignatureProviderType } from '.'
 import { combineEthSignature } from './utils'
 import { stringifyParams } from '../utils'
+import { isNodeJS } from '../utils/detect'
 // @ts-ignore
-import TrezorConnect from 'trezor-connect'
+import * as _TrezorConnect from 'trezor-connect'
+
+// trezor currently only supports browser
+let TrezorConnect: typeof _TrezorConnect = {} // tslint:disable-line
+if (!isNodeJS) TrezorConnect = require('trezor-connect') // tslint:disable-line
 
 export class EthTrezorProvider implements SignatureProvider {
   public readonly address: string
