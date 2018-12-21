@@ -38,6 +38,11 @@ export interface SuccessResponse {
   result: 'ok'
 }
 
+export interface SuccessDepositResponse {
+  result: 'ok'
+  transactionHash: string
+}
+
 export interface FailureResponse {
   error: string
 }

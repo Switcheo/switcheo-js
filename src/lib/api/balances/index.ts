@@ -9,7 +9,7 @@ import { AssetLike, AssetSymbol } from '../../models/assets'
 import TransactionContainer from '../../models/transactionContainer'
 import { Balance, History } from '../../models/balance'
 import { AssetSymbolStringObj } from '../../types'
-import { FailureResponse, SuccessResponse } from '../index'
+import { FailureResponse, SuccessDepositResponse } from '../index'
 
 interface TransferParams {
   readonly blockchain: Blockchain
@@ -77,7 +77,7 @@ export function getNeoAssets(config: Config,
   return req.get(url)
 }
 
-export type BalancesDepositResponse = SuccessResponse | FailureResponse
+export type BalancesDepositResponse = SuccessDepositResponse | FailureResponse
 
 export function deposit(config: Config, account: Account,
   asset: AssetLike, amount: BigNumber | string): Promise<BalancesDepositResponse> {
