@@ -10,7 +10,7 @@ import * as _TrezorConnect from 'trezor-connect'
 
 // trezor currently only supports browser
 let TrezorConnect: typeof _TrezorConnect = {} // tslint:disable-line
-if (!isNodeJS()) TrezorConnect = require('trezor-connect') // tslint:disable-line
+if (!isNodeJS) TrezorConnect = require('trezor-connect') // tslint:disable-line
 
 export class EthTrezorProvider implements SignatureProvider {
   public readonly address: string

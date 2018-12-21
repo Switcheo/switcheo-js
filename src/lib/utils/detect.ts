@@ -1,3 +1,2 @@
-export function isNodeJS(): boolean {
-  return (typeof process !== 'undefined') && (process.release.name === 'node')
-}
+export const isNodeJS: boolean =
+  (typeof process !== 'undefined') && (process.release.name === 'node')
