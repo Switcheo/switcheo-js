@@ -7,7 +7,7 @@ export type RebatesGetResponse = {
   [key in AssetSymbol]: { paid: number, unpaid: number }
 }
 
-export function get(config: Config,
+export function getRebateBalance(config: Config,
   accounts: Account | ReadonlyArray<Account>): Promise<RebatesGetResponse> {
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
@@ -18,7 +18,7 @@ export function get(config: Config,
 
 export type RebatesHistoryResponse = ReadonlyArray<History>
 
-export function history(config: Config, accounts: Account | ReadonlyArray<Account>):
+export function getRebateHistory(config: Config, accounts: Account | ReadonlyArray<Account>):
 Promise<RebatesHistoryResponse> {
   const wrappedAccounts: ReadonlyArray<Account> = Array.isArray(accounts) ? accounts : [accounts]
   const addresses: ReadonlyArray<string> =
