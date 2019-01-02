@@ -46,7 +46,9 @@ export class Account {
   }
 
   public hasValidApiKey(): boolean {
-    return this.apiKey && (new Date(this.apiKey.expiresAt * 1000) > new Date())
+    return this.apiKey &&
+      // treated as expired 60s before expiry date
+      (new Date((this.apiKey.expiresAt - 60) * 1000) > new Date())
   }
 
   public async refreshApiKey(config: Config): Promise<string> {

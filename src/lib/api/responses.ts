@@ -32,3 +32,7 @@ export {
 export {
   TokensGetResponse
 } from './tokens'
+
+export {
+  WalletTransfersIncompleteWithdrawalsSuccessResponse,
+} from './walletTransfers'

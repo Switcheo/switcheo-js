@@ -9,6 +9,7 @@ import * as rebates from './rebates'
 import * as tickers from './tickers'
 import * as tokens from './tokens'
 import * as user from './user'
+import * as walletTransfers from './walletTransfers'
 export * from './responses'
 
 export const api: {
@@ -23,6 +24,7 @@ export const api: {
   tickers: typeof tickers;
   tokens: typeof tokens;
   user: typeof user;
+  walletTransfers: typeof walletTransfers;
 } = {
   announcementMessage,
   balances,
@@ -35,6 +37,7 @@ export const api: {
   tickers,
   tokens,
   user,
+  walletTransfers,
 }
 
 export interface SuccessResponse {
