@@ -37,3 +37,8 @@ export default class TransactionContainer {
     }
   }
 }
+
+export interface EthSignTransactionResponse {
+  raw: string,
+  tx: EthTransaction
+}

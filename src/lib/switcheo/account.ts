@@ -3,6 +3,7 @@ import { Blockchain } from '../constants/blockchains'
 import { SignatureProvider } from '../signatureProviders'
 import { Config } from './config'
 import { performRequest } from '../api/helpers'
+import { EthSignTransactionResponse } from '../models/transactionContainer'
 
 export interface AccountParams {
   provider: SignatureProvider
@@ -37,12 +38,19 @@ export class Account {
     return this.provider.signMessage(message)
   }
 
-  public signTransaction(transaction: Transaction): Promise<string> {
+  public signTransaction(transaction: Transaction): Promise<string | EthSignTransactionResponse> {
     return this.provider.signTransaction(transaction)
   }
 
   public sendTransaction(transaction: Transaction): Promise<string> {
     return this.provider.sendTransaction(transaction)
+  }
+
+  public async getApiKey(config: Config): Promise<string> {
+    const apiKey: string = this.hasValidApiKey() ? this.apiKey.key :
+      await this.refreshApiKey(config)
+    if (!apiKey) throw new Error('Could not create an API key.')
+    return apiKey
   }
 
   public hasValidApiKey(): boolean {

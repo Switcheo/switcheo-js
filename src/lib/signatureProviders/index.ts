@@ -1,6 +1,6 @@
 import Web3 from 'web3'
-import { NeoTransaction } from '../models/transaction/neoTransaction'
-import { EthTransaction } from '../models/transaction/ethTransaction'
+import { Transaction } from '../models/transaction'
+import { EthSignTransactionResponse } from '../models/transactionContainer'
 
 export enum SignatureProviderType {
   PrivateKey = 'privateKey',
@@ -19,8 +19,8 @@ export interface SignatureProvider {
   readonly type: SignatureProviderType | string
   signParams(params: {}): Promise<string>
   signMessage(message: string): Promise<string>
-  signTransaction(transaction: NeoTransaction | EthTransaction): Promise<string>
-  sendTransaction(transaction: NeoTransaction | EthTransaction): Promise<string>
+  signTransaction(transaction: Transaction): Promise<string | EthSignTransactionResponse>
+  sendTransaction(transaction: Transaction): Promise<string>
 }
 
 export interface Web3Provider extends SignatureProvider {

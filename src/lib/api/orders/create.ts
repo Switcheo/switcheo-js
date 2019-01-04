@@ -31,11 +31,7 @@ interface OrderCreationRequestPayload extends SignedRequestPayload {
 
 export async function create(config: Config, account: Account,
   orderParams: CreateOrderParams): Promise<Order> {
-  // Check whether account has an api key first if not, request it
-  const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
-    await account.refreshApiKey(config)
-
-  if (!apiKey) throw new Error('Could not create an API key.')
+  const apiKey: string = await account.getApiKey(config)
 
   const request: OrderCreationRequest =
     buildOrderCreationRequest(config, account, orderParams)

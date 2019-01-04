@@ -43,10 +43,7 @@ export async function performRequest(config: Config, account: Account,
 export async function performMultistepRequest<R>(config: Config, account: Account,
   firstUrlPath: string, secondUrlPathFn: UrlPathFn, params: {}): Promise<R> {
   // Check whether account has an api key first if not, request it
-  const apiKey: string = account.hasValidApiKey() ? account.apiKey.key :
-    await account.refreshApiKey(config)
-
-  if (!apiKey) throw new Error('Could not create an API key.')
+  const apiKey: string = await account.getApiKey(config)
 
   const firstRequest: Request<{}> =
     await buildRequest(config, firstUrlPath, { ...params, address: account.address })
@@ -82,7 +79,7 @@ export async function signItem(config: Config, account: Account, item: Transacti
   // else NEO blockchain
   return item.transaction ?
     // standard txn signing:
-    { signature: await account.signTransaction(item.transaction) } :
+    { signature: await account.signTransaction(item.transaction) as string } :
     // neo withdrawals don't require a second txn signature:
     buildSignedRequestPayload(config, account, { id: item.id })
 }

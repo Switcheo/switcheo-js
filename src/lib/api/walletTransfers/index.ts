@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
+import { pick } from 'lodash'
 
-import { buildRequest, performMultistepRequest, Request } from '../helpers'
+import { buildRequest, performMultistepRequest, Request, UrlPathFn, signItem } from '../helpers'
 import { BalancesWithdrawResponse } from '../balances'
 import { FailureResponse, SuccessResponse } from '..'
 
@@ -8,8 +9,9 @@ import { Account, Config } from '../../switcheo'
 import req from '../../req'
 import { Blockchain } from '../../constants'
 import { AssetLike } from '../../models/assets'
-import TransactionContainer from '../../models/transactionContainer'
+import TransactionContainer, { EthSignTransactionResponse } from '../../models/transactionContainer'
 import { WalletTransfer } from '../../models/walletTransfer'
+import { EthTransaction } from '../../models'
 
 export interface WalletTransferParams {
   readonly fromAddress: string
@@ -72,13 +74,36 @@ export async function getIncompleteWithdrawals(config: Config, accounts:
 
 export type WalletTransfersTransferResponse = SuccessResponse | FailureResponse
 
-export function transfer(config: Config, account: Account,
-id: string): Promise<WalletTransfersTransferResponse> {
-  return performMultistepRequest(
-    config,
-    account,
-    `/wallet_transfers/${id}/create_transfer`,
-    (result: TransactionContainer) => `/wallet_transfers/${result.id}/broadcast_transfer`,
-    {}
-  )
+export async function transfer(config: Config, account: Account,
+id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
+  const apiKey: string = await account.getApiKey(config)
+
+  const firstUrlPath: string = `/wallet_transfers/${id}/create_transfer`
+  const secondUrlPathFn: UrlPathFn =
+    (result: TransactionContainer): string => `/wallet_transfers/${result.id}/broadcast_transfer`
+
+  const firstRequest: Request<{}> =
+    await buildRequest(config, firstUrlPath, { address: account.address })
+
+  const firstResult: TransactionContainer =
+    new TransactionContainer(await
+      req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }))
+
+  let payload: {} = {}
+
+  if (blockchain === Blockchain.Neo) {
+    payload = await signItem(config, account, firstResult)
+  } else if (blockchain === Blockchain.Ethereum) {
+    const signTransactionParams: EthTransaction = pick(
+      firstResult.transaction as EthTransaction,
+      'chainId', 'data', 'from', 'gas', 'gasPrice', 'nonce', 'to', 'value')
+    const { raw: rawTransaction } =
+      await account.signTransaction(signTransactionParams) as EthSignTransactionResponse
+
+    payload = { rawTransaction }
+  }
+
+  const secondRequest: Request<{}> =
+    buildRequest(config, secondUrlPathFn(firstResult), payload)
+  return req.post(secondRequest.url, secondRequest.payload)
 }
