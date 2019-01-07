@@ -3,6 +3,7 @@ import req from '../../req'
 
 export interface PairsParams {
   readonly showDetails: boolean
+  readonly showInactive: boolean
 }
 
 export type PairsGetResponse = ReadonlyArray<string> |
