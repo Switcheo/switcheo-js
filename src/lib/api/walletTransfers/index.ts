@@ -9,7 +9,7 @@ import { Account, Config } from '../../switcheo'
 import req from '../../req'
 import { Blockchain } from '../../constants'
 import { AssetLike } from '../../models/assets'
-import TransactionContainer, { EthSignTransactionResponse } from '../../models/transactionContainer'
+import TransactionContainer from '../../models/transactionContainer'
 import { WalletTransfer } from '../../models/walletTransfer'
 import { EthTransaction } from '../../models'
 
@@ -97,10 +97,9 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
     const signTransactionParams: EthTransaction = pick(
       firstResult.transaction as EthTransaction,
       'chainId', 'data', 'from', 'gas', 'gasPrice', 'nonce', 'to', 'value')
-    const { raw: rawTransaction } =
-      await account.signTransaction(signTransactionParams) as EthSignTransactionResponse
+    const signature: string = await account.signTransaction(signTransactionParams)
 
-    payload = { rawTransaction }
+    payload = { signature }
   }
 
   const secondRequest: Request<{}> =

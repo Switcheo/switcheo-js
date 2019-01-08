@@ -3,7 +3,6 @@ import { Blockchain } from '../constants/blockchains'
 import { SignatureProvider } from '../signatureProviders'
 import { Config } from './config'
 import { performRequest } from '../api/helpers'
-import { EthSignTransactionResponse } from '../models/transactionContainer'
 
 export interface AccountParams {
   provider: SignatureProvider
@@ -38,7 +37,7 @@ export class Account {
     return this.provider.signMessage(message)
   }
 
-  public signTransaction(transaction: Transaction): Promise<string | EthSignTransactionResponse> {
+  public signTransaction(transaction: Transaction): Promise<string> {
     return this.provider.signTransaction(transaction)
   }
 

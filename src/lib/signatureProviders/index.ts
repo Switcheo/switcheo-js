@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 import { Transaction } from '../models/transaction'
-import { EthSignTransactionResponse } from '../models/transactionContainer'
 
 export enum SignatureProviderType {
   PrivateKey = 'privateKey',
@@ -19,7 +18,7 @@ export interface SignatureProvider {
   readonly type: SignatureProviderType | string
   signParams(params: {}): Promise<string>
   signMessage(message: string): Promise<string>
-  signTransaction(transaction: Transaction): Promise<string | EthSignTransactionResponse>
+  signTransaction(transaction: Transaction): Promise<string>
   sendTransaction(transaction: Transaction): Promise<string>
 }
 

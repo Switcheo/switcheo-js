@@ -7,10 +7,12 @@ export function encodeNeoMessage(message: string): string {
   return encodedMessage
 }
 
+// subtractV = true for sign message
+// subtractV = false for sign transaction
 export function combineEthSignature({ v, r, s }:
-    { v: string | number, r: string, s: string }): string {
+    { v: string | number, r: string, s: string }, subtractV: boolean = true): string {
   let vNum: number = typeof(v) === 'number' ? v : parseInt(v, 16)
-  if (vNum >= 27) vNum -= 27
+  if (subtractV && vNum >= 27) vNum -= 27
   return '0x' +
     r.replace(/^0x/, '').padStart(64, '0') +
     s.replace(/^0x/, '').padStart(64, '0') +

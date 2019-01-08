@@ -1,8 +1,9 @@
 import Web3 from 'web3'
+import EthereumTx from 'ethereumjs-tx'
 import { Web3Provider, SignatureProviderType } from '.'
 import { stringifyParams } from '../utils'
 import { EthTransaction as Transaction } from '../models/transaction/ethTransaction'
-import { EthSignTransactionResponse } from '../models/transactionContainer'
+import { combineEthSignature } from './utils'
 
 export class EthPrivateKeyProvider implements Web3Provider {
   public static async init(web3: Web3, privateKey: string): Promise<EthPrivateKeyProvider> {
@@ -59,27 +60,16 @@ export class EthPrivateKeyProvider implements Web3Provider {
     })
   }
 
-  public signTransaction(transaction: Transaction): Promise<EthSignTransactionResponse> {
-    return new Promise(async (resolve, reject) => { // tslint:disable-line
-      try {
-        await this.ensureAccountUnchanged()
-      } catch (err) {
-        reject(err)
-      }
-      this.web3.currentProvider.sendAsync({
-        id: new Date().getTime(),
-        jsonrpc: '2.0',
-        method: 'eth_signTransaction',
-        params: [transaction],
-      }, (err: Error | null, res: any): void => { // tslint:disable-line
-        if (err) reject(err)
-        else if (res.error) {
-          reject(res.error)
-        } else {
-          resolve(res.result)
-        }
-      })
-    })
+  public async signTransaction(transaction: Transaction): Promise<string> {
+    const privateKey: Buffer = new Buffer(this.privateKey.replace(/^0x/, ''), 'hex')
+    const tx: EthereumTx = new EthereumTx(transaction)
+    tx.sign(privateKey)
+    const v: string = tx.v.toString('hex')
+    const s: string = tx.s.toString('hex')
+    const r: string = tx.r.toString('hex')
+    const encodedSignature: string = combineEthSignature({ v, s, r }, false)
+
+    return encodedSignature
   }
 
   public sendTransaction(transaction: Transaction): Promise<string> {
