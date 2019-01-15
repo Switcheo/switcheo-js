@@ -1,6 +1,14 @@
 import { Config } from '../../switcheo/config'
 import req from '../../req'
 
+export interface ValidateUserParams {
+  readonly email: string
+}
+
+export function validateUser(config: Config, params: ValidateUserParams): Promise<object> {
+  return req.post(config.url + '/users/validate', params)
+}
+
 export interface CreateUserParams {
   readonly email: string
   readonly passwordHash: string
