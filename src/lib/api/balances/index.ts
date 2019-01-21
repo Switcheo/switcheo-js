@@ -16,6 +16,7 @@ interface TransferParams {
   readonly contractHash: string
   readonly assetId: string
   readonly amount: string
+  readonly balance?: string
 }
 
 export interface BalancesGetResponse {
@@ -77,15 +78,28 @@ export function getNeoAssets(config: Config,
   return req.get(url)
 }
 
+export interface BalancesDepositParams {
+  balance?: string
+}
+
 export type BalancesDepositResponse = SuccessDepositResponse | FailureResponse
 
-export function deposit(config: Config, account: Account,
-  asset: AssetLike, amount: BigNumber | string): Promise<BalancesDepositResponse> {
-  const params: TransferParams = {
+export function deposit(
+  config: Config, account: Account, asset: AssetLike, amount: BigNumber | string,
+  params: BalancesDepositParams
+): Promise<BalancesDepositResponse> {
+  const { balance } = params
+  let transferParams: TransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
     blockchain: asset.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
+  }
+  if (balance) {
+    transferParams = {
+      ...transferParams,
+      balance: new BigNumber(balance).times(10 ** asset.decimals).toFixed(0),
+    }
   }
 
   return performMultistepRequest(
@@ -93,7 +107,7 @@ export function deposit(config: Config, account: Account,
     account,
     '/deposits',
     (result: TransactionContainer) => `/deposits/${result.id}/broadcast`,
-    params
+    transferParams
   )
 }
 
