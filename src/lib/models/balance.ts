@@ -36,6 +36,9 @@ export interface History {
   assetSymbol: AssetSymbol
   blockchain: Blockchain
   eventType: EventType
+  feeAssetSymbol: AssetSymbol
+  feeAssetId: string
+  feeAmount: string
   id: string
   status: Status
   timestamp: number
