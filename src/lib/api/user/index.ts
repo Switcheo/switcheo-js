@@ -14,6 +14,7 @@ export interface CreateUserParams {
   readonly passwordHash: string
   readonly encryptedMnemonic: string
   readonly mnemonicHash: string
+  readonly newsletter: boolean
 }
 
 export function createUser(config: Config, params: CreateUserParams): Promise<object> {
