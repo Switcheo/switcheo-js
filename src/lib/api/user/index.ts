@@ -14,6 +14,8 @@ export interface CreateUserParams {
   readonly passwordHash: string
   readonly encryptedMnemonic: string
   readonly mnemonicHash: string
+  readonly neoAddress: string
+  readonly ethAddress: string
   readonly newsletter: boolean
 }
 
