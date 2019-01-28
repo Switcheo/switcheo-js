@@ -106,3 +106,12 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
     buildRequest(config, secondUrlPathFn(firstResult), payload)
   return req.post(secondRequest.url, secondRequest.payload)
 }
+
+export interface VerifyWithdrawalParams {
+  readonly passwordHash: string
+  readonly confirmToken: string
+}
+
+export function verifyWithdrawal(config: Config, params: VerifyWithdrawalParams): Promise<object> {
+  return req.post(config.url + '/wallet_transfers/verify_transfer', params)
+}
