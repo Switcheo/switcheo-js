@@ -3,6 +3,7 @@ import * as balances from './balances'
 import * as cancellations from './cancellations'
 import * as fees from './fees'
 import * as network from './network'
+import * as offers from './offers'
 import { orders, Orders } from './orders'
 import * as pairs from './pairs'
 import * as rebates from './rebates'
@@ -18,6 +19,7 @@ export const api: {
   cancellations: typeof cancellations;
   fees: typeof fees;
   network: typeof network;
+  offers: typeof offers
   orders: Orders;
   pairs: typeof pairs;
   rebates: typeof rebates
@@ -31,6 +33,7 @@ export const api: {
   cancellations,
   fees,
   network,
+  offers,
   orders,
   pairs,
   rebates,

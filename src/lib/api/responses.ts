@@ -20,6 +20,10 @@ export {
 } from './network'
 
 export {
+  OffersGetOtcResponse
+} from './offers'
+
+export {
   PairsGetResponse
 } from './pairs'
 

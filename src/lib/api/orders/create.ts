@@ -1,9 +1,12 @@
+import { wallet as neonWallet } from '@cityofzion/neon-core'
+
 import { buildRequest, Request, SignedRequestPayload } from '../helpers'
 
-import req from '../../req'
+import { Blockchain } from '../../constants'
 import { Order, OrderSide, OrderType } from '../../models/order'
-import { Account, Config } from '../../switcheo'
+import req from '../../req'
 import { SignatureProviderType } from '../../signatureProviders'
+import { Account, Config } from '../../switcheo'
 
 export interface CreateOrderParams {
   readonly pair: string
@@ -13,6 +16,8 @@ export interface CreateOrderParams {
   readonly wantAmount?: string
   readonly useNativeTokens: boolean
   readonly orderType: OrderType
+  readonly otcAddress?: string
+  readonly otcMakeId?: string
 }
 
 export type OrderCreationRequest = Request<OrderCreationRequestPayload>
@@ -27,6 +32,8 @@ interface OrderCreationRequestPayload extends SignedRequestPayload {
   useNativeTokens: boolean
   orderType: string
   contractHash: string
+  otcAddress?: string
+  otcMakeId?: string
 }
 
 export async function create(config: Config, account: Account,
@@ -47,11 +54,21 @@ export async function create(config: Config, account: Account,
 
 export function buildOrderCreationRequest(config: Config, account: Account,
   orderParams: CreateOrderParams): OrderCreationRequest {
-  const params: {} = {
+  let params: {
+    address: string
+    blockchain: string
+    contractHash: string
+  } & CreateOrderParams = {
     address: account.address,
     blockchain: account.blockchain,
     contractHash: config.getContractHash(account.blockchain),
     ...orderParams,
+  }
+  if (params.otcAddress && params.blockchain === Blockchain.Neo) {
+    params = {
+      ...params,
+      otcAddress: neonWallet.getScriptHashFromAddress(params.otcAddress),
+    }
   }
   return buildRequest(config, '/orders', params) as OrderCreationRequest
 }
