@@ -1,4 +1,5 @@
 export * from './lib/api'
+export * from './lib/req'
 export * from './lib/switcheo'
 export * from './lib/constants'
 export * from './lib/models'

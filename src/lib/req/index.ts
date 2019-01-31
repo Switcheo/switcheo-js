@@ -33,15 +33,17 @@ function mapPairToUrlParam(key: string, value: ReadonlyArray<any> | any): string
   return `${key}=${value}`
 }
 
-interface SwitcheoError extends Error {
+export interface SwitcheoError extends Error {
   errorMessage?: string
   errorCode?: number
+  errorObject?: object
 }
 
 interface AxiosSwitcheoError {
   error: string
   error_message: string
   error_code: number
+  error_object: object
 }
 
 function formSwitcheoError(error: AxiosSwitcheoError): SwitcheoError {
@@ -50,6 +52,7 @@ function formSwitcheoError(error: AxiosSwitcheoError): SwitcheoError {
   switcheoError.message = error.error
   switcheoError.errorMessage = error.error_message
   switcheoError.errorCode = error.error_code
+  switcheoError.errorObject = error.error_object
 
   return switcheoError
 }
