@@ -38,7 +38,40 @@ export const CONTRACT_HASHES: ContractHashes = {
       V2: '0xba3ed686cc32ffa8664628b1e96d8022e40543de',
     },
   },
+  [Blockchain.Eos]: {
+    [Network.DevNet]: {
+      V2: '',
+    },
+    [Network.TestNet]: {
+      V2: '',
+    },
+    [Network.MainNet]: {
+      V2: '',
+    },
+  },
   [Blockchain.Qtum]: {
+    [Network.DevNet]: {
+      V2: '',
+    },
+    [Network.TestNet]: {
+      V2: '',
+    },
+    [Network.MainNet]: {
+      V2: '',
+    },
+  },
+  [Blockchain.Ontology]: {
+    [Network.DevNet]: {
+      V2: '',
+    },
+    [Network.TestNet]: {
+      V2: '',
+    },
+    [Network.MainNet]: {
+      V2: '',
+    },
+  },
+  [Blockchain.Zilliqa]: {
     [Network.DevNet]: {
       V2: '',
     },

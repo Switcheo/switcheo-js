@@ -1,39 +1,40 @@
-import { Transaction, TransactionLike, NeoTransaction, EthTransaction } from './transaction'
-import { EthTransactionLike } from './transaction/ethTransaction'
-import { NeoTransactionLike } from './transaction/neoTransaction'
+import { Transaction, NeoTransaction } from './transaction'
+import { Blockchain } from '../constants'
 
 interface SwitcheoResponse {
   id: string
 }
 
 interface SwitcheoGenericResponse extends SwitcheoResponse {
-  transaction: TransactionLike
+  transaction: Partial<Transaction>
 }
 
 interface SwitcheoOrderResponse extends SwitcheoResponse {
-  txn: TransactionLike
+  txn: Partial<Transaction>
 }
 
 type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoOrderResponse
 
-function isEthTransactionLike(object: any): object is EthTransactionLike {
-  return object && object.chainId !== undefined
+function formatTransaction(transactionParams: Partial<Transaction>,
+  blockchain: Blockchain): Transaction | null {
+  if (!transactionParams) return null
+
+  switch (blockchain) {
+    case Blockchain.Neo: return new NeoTransaction(transactionParams as Partial<NeoTransaction>)
+    default: return transactionParams as Transaction
+  }
 }
 
 export default class TransactionContainer {
   public readonly id: string
   public readonly transaction: Transaction | null
 
-  constructor(tx: SwitcheoModelWithTransaction) {
+  constructor(tx: SwitcheoModelWithTransaction, blockchain: Blockchain) {
     this.id = tx.id
-    const transactionParams: TransactionLike =
+
+    const transactionParams: Partial<Transaction> =
       (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoOrderResponse).txn
-    if (transactionParams) {
-      this.transaction = isEthTransactionLike(transactionParams) ?
-        transactionParams as EthTransaction :
-        new NeoTransaction(transactionParams as NeoTransactionLike)
-    } else {
-      this.transaction = null
-    }
+
+    this.transaction = formatTransaction(transactionParams, blockchain)
   }
 }

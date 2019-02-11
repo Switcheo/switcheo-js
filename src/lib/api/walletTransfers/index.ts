@@ -86,8 +86,9 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
     await buildRequest(config, firstUrlPath, { address: account.address })
 
   const firstResult: TransactionContainer =
-    new TransactionContainer(await
-      req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }))
+    new TransactionContainer(
+      await req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }),
+      blockchain)
 
   let payload: {} = {}
 

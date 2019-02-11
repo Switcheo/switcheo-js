@@ -10,6 +10,7 @@ export enum SignatureProviderType {
   Trust = 'trust',
   IM = 'im',
   Coinbase = 'coinbase',
+  Scatter = 'scatter',
 }
 
 export interface SignatureProvider {
@@ -29,10 +30,13 @@ export interface Web3Provider extends SignatureProvider {
 export * from './neoPrivateKeyProvider'
 export * from './neoLedgerProvider'
 export * from './neoO3Provider'
+export * from './eosScatterProvider'
 export * from './ethPrivateKeyProvider'
 export * from './ethLedgerProvider'
-export * from './metamaskProvider'
 export * from './ethTrezorProvider'
 export * from './ethTrustProvider'
 export * from './ethIMTokenProvider'
 export * from './ethCoinbaseProvider'
+export * from './metamaskProvider'
+export * from './ontPrivateKeyProvider'
+export * from './qtumPrivateKeyProvider'

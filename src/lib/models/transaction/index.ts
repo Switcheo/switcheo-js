@@ -1,8 +1,10 @@
-import { EthTransaction, EthTransactionLike } from './ethTransaction'
-import { NeoTransaction, NeoTransactionLike } from './neoTransaction'
+import { EthTransaction } from './ethTransaction'
+import { EosTransaction } from './eosTransaction'
+import { NeoTransaction } from './neoTransaction'
+import { OntTransaction } from './ontTransaction'
+import { QtumTransaction } from './qtumTransaction'
 
-export type Transaction = NeoTransaction | EthTransaction
+export type Transaction = NeoTransaction | EthTransaction | EosTransaction
+  | QtumTransaction | OntTransaction
 
-export type TransactionLike = NeoTransactionLike | EthTransactionLike
-
-export { EthTransaction, NeoTransaction }
+export { EthTransaction, EosTransaction, NeoTransaction, QtumTransaction, OntTransaction }
