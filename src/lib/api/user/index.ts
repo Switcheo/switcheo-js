@@ -31,14 +31,14 @@ export function verifyEmail(config: Config, params: VerifyEmailParams): Promise<
   return req.post(config.url + '/users/verify_email', params)
 }
 
-export interface GetEncryptedMnemonicParams {
+export interface RetrieveKeyWithUserParams {
   readonly email: string
   readonly passwordHash: string
 }
 
-export function getEncryptedMnemonic(
-  config: Config, params: GetEncryptedMnemonicParams): Promise<object> {
-  return req.post(config.url + '/users/retrieve_key', params)
+export function retrieveKeyWithUser(
+  config: Config, params: RetrieveKeyWithUserParams): Promise<object> {
+  return req.post(config.url + '/users/retrieve_key_with_user', params)
 }
 
 export interface ResetPasswordParams {
