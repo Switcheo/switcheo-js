@@ -52,3 +52,33 @@ export function resetPassword(
   config: Config, params: ResetPasswordParams): Promise<object> {
   return req.post(config.url + '/users/reset_password', params)
 }
+
+export interface GenerateOtpParams {
+  readonly email: string
+  readonly passwordHash: string
+}
+
+export function generateOtp(
+  config: Config, params: GenerateOtpParams): Promise<object> {
+  return req.post(config.url + '/users/generate_otp', params)
+}
+
+export interface EnableOtpParams {
+  readonly email: string
+  readonly passwordHash: string
+  readonly otp: string
+}
+
+export function enableOtp(
+  config: Config, params: EnableOtpParams): Promise<object> {
+  return req.post(config.url + '/users/enable_otp', params)
+}
+
+export interface OtpIsEnabledParams {
+  readonly email: string
+}
+
+export function otpIsEnabled(
+  config: Config, params: OtpIsEnabledParams): Promise<object> {
+  return req.get(config.url + '/users/otp_is_enabled', params)
+}
