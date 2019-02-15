@@ -76,8 +76,7 @@ export function enableOtp(
 
 export interface DisableOtpParams {
   readonly email: string
-  readonly passwordHash: string
-  readonly otp: string
+  readonly mnemonicHash: string
 }
 
 export function disableOtp(
