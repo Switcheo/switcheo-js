@@ -74,6 +74,17 @@ export function enableOtp(
   return req.post(config.url + '/users/enable_otp', params)
 }
 
+export interface DisableOtpParams {
+  readonly email: string
+  readonly passwordHash: string
+  readonly otp: string
+}
+
+export function disableOtp(
+  config: Config, params: DisableOtpParams): Promise<object> {
+  return req.post(config.url + '/users/disable_otp', params)
+}
+
 export interface OtpIsEnabledParams {
   readonly email: string
 }
