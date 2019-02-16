@@ -14,23 +14,24 @@ export enum Status {
 }
 
 export interface Balance {
+  id: string
+  status: Status
+  blockchain: Blockchain
+  eventType: EventType
+  contractHash: string
   address: string
   amount: number
-  approvalTransactionHash: string
   assetId: string
-  blockchain: Blockchain
-  contractHash: string
-  createdAt: string
-  eventType: EventType
   groupIndex: number
-  id: string
   reasonCode: number
-  status: Status
   transactionHash: string
+  approvalTransactionHash: string
+  createdAt: string
   updatedAt: string
 }
-
 export interface History {
+  id: string
+  status: Status
   amount: string
   assetId: string
   assetSymbol: AssetSymbol
@@ -39,8 +40,9 @@ export interface History {
   feeAssetSymbol: AssetSymbol
   feeAssetId: string
   feeAmount: string
-  id: string
-  status: Status
-  timestamp: number
+  networkFeeAssetSymbol: AssetSymbol
+  networkFeeAssetId: string
+  networkFeeAmount: string
   transactionHash: string
+  timestamp: number
 }
