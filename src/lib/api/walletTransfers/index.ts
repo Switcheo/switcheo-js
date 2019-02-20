@@ -105,7 +105,7 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
 
   const secondRequest: Request<{}> =
     buildRequest(config, secondUrlPathFn(firstResult), payload)
-  return req.post(secondRequest.url, secondRequest.payload)
+  return req.post(secondRequest.url, secondRequest.payload, { Authorization: `Token ${apiKey}` })
 }
 
 export interface VerifyWithdrawalParams {
