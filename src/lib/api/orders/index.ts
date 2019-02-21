@@ -1,6 +1,6 @@
 import { broadcast } from './broadcast'
 import { create, CreateOrderParams } from './create'
-import { get, ListOrdersParams } from './get'
+import { get, getOtc, ListOrdersParams, OrdersGetOtcParams, OrdersGetOtcResponse } from './get'
 import { make } from './make'
 
 import { Order } from '../../models/order'
@@ -10,7 +10,9 @@ export interface Orders {
   broadcast: (config: Config, account: Account, order: Order) => Promise<Order>
   create: (config: Config, account: Account, orderParams: CreateOrderParams) => Promise<Order>
   get: (config: Config, account: Account, listOrdersParams: ListOrdersParams) => Promise<object>
+  getOtc: (config: Config, accounts: Account | ReadonlyArray<Account>,
+           params: OrdersGetOtcParams) => Promise<OrdersGetOtcResponse>
   make: (config: Config, account: Account, orderParams: CreateOrderParams) => Promise <Order>
 }
 
-export const orders: Orders = { broadcast, create, get, make }
+export const orders: Orders = { broadcast, create, get, getOtc, make }

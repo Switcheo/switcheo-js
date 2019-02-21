@@ -24,6 +24,10 @@ export {
 } from './offers'
 
 export {
+  OrdersGetOtcResponse
+} from './orders/get'
+
+export {
   PairsGetResponse
 } from './pairs'
 

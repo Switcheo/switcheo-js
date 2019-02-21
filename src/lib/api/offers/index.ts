@@ -25,8 +25,11 @@ export async function getOtc(config: Config, accounts: Account | ReadonlyArray<A
   })
   return offers.map((offer: OtcOffer): OtcOffer => ({
     ...offer,
-    address: offer.blockchain === Blockchain.Neo
-      ? neonWallet.getAddressFromScriptHash(offer.address)
-      : offer.address,
+    makerAddress: offer.blockchain === Blockchain.Neo
+      ? neonWallet.getAddressFromScriptHash(offer.makerAddress)
+      : offer.makerAddress,
+    takerAddress: offer.blockchain === Blockchain.Neo
+      ? neonWallet.getAddressFromScriptHash(offer.takerAddress)
+      : offer.takerAddress,
   }))
 }

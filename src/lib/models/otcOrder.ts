@@ -1,8 +1,7 @@
-export interface OtcOffer {
+export interface OtcOrder {
   baseAsset: string
   blockchain: string
   id: string
-  makeId: string
   makerAddress: string
   price: string
   proceeds: string
