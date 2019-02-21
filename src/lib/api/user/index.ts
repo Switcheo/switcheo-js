@@ -31,14 +31,25 @@ export function verifyEmail(config: Config, params: VerifyEmailParams): Promise<
   return req.post(config.url + '/users/verify_email', params)
 }
 
-export interface RetrieveKeyWithUserParams {
+export interface LoginUserParams {
   readonly email: string
   readonly passwordHash: string
+  readonly otp: string
 }
 
-export function retrieveKeyWithUser(
-  config: Config, params: RetrieveKeyWithUserParams): Promise<object> {
-  return req.post(config.url + '/users/retrieve_key_with_user', params)
+export function loginUser(
+  config: Config, params: LoginUserParams): Promise<object> {
+  return req.post(config.url + '/users/login', params)
+}
+
+export interface LogoutUserParams {
+  readonly email: string
+  readonly token: string
+}
+
+export function logoutUser(
+  config: Config, params: LogoutUserParams): Promise<object> {
+  return req.post(config.url + '/users/logout', params)
 }
 
 export interface ResetPasswordParams {
