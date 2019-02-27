@@ -13,7 +13,7 @@ interface SwitcheoOrderResponse extends SwitcheoResponse {
   txn: Partial<Transaction>
 }
 
-type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoOrderResponse
+export type SwitcheoModelWithTransaction = SwitcheoGenericResponse | SwitcheoOrderResponse
 
 function formatTransaction(transactionParams: Partial<Transaction>,
   blockchain: Blockchain): Transaction | null {
@@ -29,11 +29,11 @@ export default class TransactionContainer {
   public readonly id: string
   public readonly transaction: Transaction | null
 
-  constructor(tx: SwitcheoModelWithTransaction, blockchain: Blockchain) {
-    this.id = tx.id
+  constructor(model: SwitcheoModelWithTransaction, blockchain: Blockchain) {
+    this.id = model.id
 
     const transactionParams: Partial<Transaction> =
-      (tx as SwitcheoGenericResponse).transaction || (tx as SwitcheoOrderResponse).txn
+      (model as SwitcheoGenericResponse).transaction || (model as SwitcheoOrderResponse).txn
 
     this.transaction = formatTransaction(transactionParams, blockchain)
   }
