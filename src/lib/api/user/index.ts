@@ -23,12 +23,31 @@ export function createUser(config: Config, params: CreateUserParams): Promise<ob
   return req.post(config.url + '/users', params)
 }
 
-export interface VerifyEmailParams {
+export interface ValidateEmailTokenParams {
   readonly confirmToken: string
 }
 
-export function verifyEmail(config: Config, params: VerifyEmailParams): Promise<object> {
-  return req.post(config.url + '/users/verify_email', params)
+export function validateEmailToken(config: Config, params: ValidateEmailTokenParams):
+Promise<object> {
+  return req.post(config.url + '/users/validate_email_token', params)
+}
+
+export interface NewPhoneParams {
+  readonly confirmToken: string
+  readonly phone: string
+}
+
+export function newPhone(config: Config, params: NewPhoneParams): Promise<object> {
+  return req.post(config.url + '/users/new_phone', params)
+}
+
+export interface VerifyPhoneParams {
+  readonly confirmToken: string
+  readonly phoneVerifyToken: string
+}
+
+export function verifyPhone(config: Config, params: VerifyPhoneParams): Promise<object> {
+  return req.post(config.url + '/users/verify_phone', params)
 }
 
 export interface LoginUserParams {
