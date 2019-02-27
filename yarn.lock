@@ -197,41 +197,47 @@
     pretty-ms "^0.2.1"
     text-table "^0.2.0"
 
-"@ledgerhq/devices@^4.39.0":
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.39.0.tgz#47d23a1a58004da162e007e0c456ab2119038c7d"
-  integrity sha512-2Jd7CVvMJDZxxaSpQpfOMeGWf7M0f6nZqZQWfjsUDQHw45Kunck101pXr6U/5UejJiLl/fhyLqvaXz0X0cs+1A==
+"@ledgerhq/devices@^4.41.1":
+  version "4.41.1"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.41.1.tgz#a5bfa17aa9d0f0dc48506d765356d36edeef1fd9"
+  integrity sha512-8WDj38iR1Fow2JoEG9w8rJouJcXXObw3KeTrh3fUzZ0qap4o8Q3HIc8i1Hr6XGxAjX64YmtebTJil3HjiNNMtQ==
   dependencies:
-    "@ledgerhq/errors" "^4.39.0"
+    "@ledgerhq/errors" "^4.41.1"
 
-"@ledgerhq/errors@^4.39.0":
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-4.39.0.tgz#10b9889f78df94ce36a4b34d9a3a45aac77be0e9"
-  integrity sha512-kBr2rnoYDACRCxTLtEufE4oCvYj6vx2oFWVVjwskBxYsF5LC9R8Mbg5C4GgvDweiWW4Io8HA9p9jCsOfdCDygg==
+"@ledgerhq/errors@^4.41.1":
+  version "4.41.1"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-4.41.1.tgz#8047464bf81c755dc7239b0ffb73fbf17a1c97aa"
+  integrity sha512-MKYzYNT5AKKZu2Ss0QrMXUS7Zri1F0HpNI3yKGjnhXEVxtr2fvxFXKgqdw7sdo+cLtkbNTJhiclemt0e0HtL0Q==
 
-"@ledgerhq/hw-app-eth@4.39.0":
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.39.0.tgz#3cbba1f1650665c4c29c7b9fa246cb2360495867"
-  integrity sha512-IKPcLTcGohh/S6Z1LaAfn2pGyxfT6xu958/xV+5H4a3Ej0CWKaxcno4FkhaxH4OiViF0F5SEFzxtH+UntH2jdg==
+"@ledgerhq/hw-app-eth@4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.21.0.tgz#2d8bfbe5f09b92e8d6951ae685036d9d5aea96ff"
+  integrity sha1-LYv75fCbkujWlRrmhQNtnVrqlv8=
   dependencies:
-    "@ledgerhq/hw-transport" "^4.39.0"
+    "@ledgerhq/hw-transport" "^4.21.0"
 
-"@ledgerhq/hw-transport-u2f@4.39.0":
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.39.0.tgz#f91da2d8791d343db455991ceae55218182c00b6"
-  integrity sha512-nGvf409m2W5xIuUZklCnyf7ZrFGNCKhHgXwBAZAEk37qCvM7NueC25TgQKcphe88S/dbU/arC8Z3mpVoArLTGg==
+"@ledgerhq/hw-transport-u2f@4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.21.0.tgz#85695d7e853a5c21af7e7dcb0ce3919f2b65cdd9"
+  integrity sha1-hWldfoU6XCGvfn3LDOORnytlzdk=
   dependencies:
-    "@ledgerhq/errors" "^4.39.0"
-    "@ledgerhq/hw-transport" "^4.39.0"
+    "@ledgerhq/hw-transport" "^4.21.0"
     u2f-api "0.2.7"
 
-"@ledgerhq/hw-transport@4.39.0", "@ledgerhq/hw-transport@^4.39.0":
-  version "4.39.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.39.0.tgz#602c6ea3fef56d1df205274ea742b4cf85613f6c"
-  integrity sha512-XkVAy2SFRDdE3qQGGVxB7RQdsdIx1fcoRNReU7NQXK59fYqxue+ZoiGtynEoHq9RKMg8EBG2kBXSVEh1iPdOlA==
+"@ledgerhq/hw-transport@4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.21.0.tgz#50f85cfe115ba3f9d5bf94755c701e927175794f"
+  integrity sha1-UPhc/hFbo/nVv5R1XHAeknF1eU8=
   dependencies:
-    "@ledgerhq/devices" "^4.39.0"
-    "@ledgerhq/errors" "^4.39.0"
+    events "^2.0.0"
+
+"@ledgerhq/hw-transport@^4.21.0":
+  version "4.41.1"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.41.1.tgz#1c5cfa38a87d58bbb9fcc9fa0b4e8763365afeb9"
+  integrity sha512-0Q4djKCebQ0EAtkrYtD5vN7az580RY0LG3hzDwUabN8EqLWdSJElgB6OfYJk+wHUZAnVNFwXKRZ15cCFdbXExw==
+  dependencies:
+    "@ledgerhq/devices" "^4.41.1"
+    "@ledgerhq/errors" "^4.41.1"
     events "^3.0.0"
 
 "@ont-community/hdkey-secp256r1@^1.0.1":
@@ -2660,6 +2666,11 @@ events@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
   integrity sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ=
+
+events@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/events/-/events-2.1.0.tgz#2a9a1e18e6106e0e812aa9ebd4a819b3c29c0ba5"
+  integrity sha512-3Zmiobend8P9DjmKAty0Era4jV8oJ0yGYe2nJJAxgymF9+N8F2m0hhZiMoWtcfepExzNKZumFU3ksdQbInGWCg==
 
 events@^3.0.0:
   version "3.0.0"

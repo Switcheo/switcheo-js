@@ -52,9 +52,9 @@
   },
   "dependencies": {
     "@cityofzion/neon-core": "^4.0.2",
-    "@ledgerhq/hw-app-eth": "4.39.0",
-    "@ledgerhq/hw-transport": "4.39.0",
-    "@ledgerhq/hw-transport-u2f": "4.39.0",
+    "@ledgerhq/hw-app-eth": "4.21.0",
+    "@ledgerhq/hw-transport": "4.21.0",
+    "@ledgerhq/hw-transport-u2f": "4.21.0",
     "@types/bip39": "^2.4.1",
     "@types/bitcoinjs-lib": "^3.2.2",
     "@types/hdkey": "^0.7.0",
