@@ -41,13 +41,34 @@ export function newPhone(config: Config, params: NewPhoneParams): Promise<object
   return req.post(config.url + '/users/new_phone', params)
 }
 
-export interface VerifyPhoneParams {
+export interface VerifyNewPhoneParams {
   readonly confirmToken: string
   readonly phoneVerifyToken: string
 }
 
-export function verifyPhone(config: Config, params: VerifyPhoneParams): Promise<object> {
-  return req.post(config.url + '/users/verify_phone', params)
+export function verifyNewPhone(config: Config, params: VerifyNewPhoneParams): Promise<object> {
+  return req.post(config.url + '/users/verify_new_phone', params)
+}
+
+export interface ChangePhoneParams {
+  readonly email: string
+  readonly token: string
+  readonly phone: string
+}
+
+export function changePhone(config: Config, params: ChangePhoneParams): Promise<object> {
+  return req.post(config.url + '/users/change_phone', params)
+}
+
+export interface VerifyChangePhoneParams {
+  readonly email: string
+  readonly token: string
+  readonly phoneVerifyToken: string
+}
+
+export function verifyChangePhone(config: Config, params: VerifyChangePhoneParams):
+Promise<object> {
+  return req.post(config.url + '/users/verify_change_phone', params)
 }
 
 export interface LoginUserParams {
