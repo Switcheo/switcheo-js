@@ -29,4 +29,5 @@ export interface WalletTransfer {
   transactionHash: string
   updatedAt: string
   isConfirmed: boolean
+  confirmationSentAt: string
 }
