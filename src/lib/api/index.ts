@@ -1,5 +1,5 @@
 import * as announcementMessage from './announcementMessage'
-import * as approvedSpenders from './approvedSpenders';
+import * as approvedSpenders from './approvedSpenders'
 import * as balances from './balances'
 import * as cancellations from './cancellations'
 import * as fees from './fees'

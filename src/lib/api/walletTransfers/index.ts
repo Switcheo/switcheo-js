@@ -14,6 +14,9 @@ import { WalletTransfer } from '../../models/walletTransfer'
 import { EthTransaction } from '../../models'
 
 export interface WalletTransferParams {
+  readonly email: string
+  readonly token: string
+  readonly otp: string
   readonly fromAddress: string
   readonly toAddress: string
   readonly amount: string
@@ -22,15 +25,29 @@ export interface WalletTransferParams {
   readonly contractHash: string
 }
 
-export async function create(config: Config, account: Account, address: string,
-  asset: AssetLike, amount: BigNumber | string): Promise<BalancesWithdrawResponse> {
+export interface WalletTransferCreateParams {
+  readonly email: string
+  readonly token: string
+  readonly otp: string
+  readonly account: Account
+  readonly address: string
+  readonly asset: AssetLike
+  readonly amount: BigNumber | string
+}
+
+export async function create(config: Config, _params: WalletTransferCreateParams):
+Promise<BalancesWithdrawResponse> {
+  const { email, token, otp, account, address, asset, amount } = _params
   const params: WalletTransferParams = {
     amount: new BigNumber(amount).times(10 ** asset.decimals).toFixed(0),
     assetId: asset.scriptHash,
     blockchain: account.blockchain,
     contractHash: config.getContractHash(asset.blockchain),
+    email,
     fromAddress: account.address,
+    otp,
     toAddress: address,
+    token,
   }
 
   return performMultistepRequest<BalancesWithdrawResponse>(
