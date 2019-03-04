@@ -126,6 +126,7 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
 }
 
 export interface VerifyWithdrawalParams {
+  readonly email: string
   readonly passwordHash: string
   readonly confirmToken: string
 }
