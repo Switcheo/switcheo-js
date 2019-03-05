@@ -134,3 +134,14 @@ export interface VerifyWithdrawalParams {
 export function verifyWithdrawal(config: Config, params: VerifyWithdrawalParams): Promise<object> {
   return req.post(config.url + '/wallet_transfers/verify_transfer', params)
 }
+
+export interface ResendWithdrawalVerificationParams {
+  readonly email: string
+  readonly token: string
+  readonly id: string
+}
+
+export function resendWithdrawalVerification(
+  config: Config, params: ResendWithdrawalVerificationParams): Promise<object> {
+  return req.post(config.url + `/wallet_transfers/${params.id}/new_confirm_token`, params)
+}
