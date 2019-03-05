@@ -141,5 +141,7 @@ export interface OtpIsEnabledParams {
 
 export function otpIsEnabled(
   config: Config, params: OtpIsEnabledParams): Promise<object> {
-  return req.get(config.url + '/users/otp_is_enabled', params)
+  return req.get(
+    config.url + '/users/otp_is_enabled',
+    { ...params, email: encodeURIComponent(params.email) })
 }
