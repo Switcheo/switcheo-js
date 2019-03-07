@@ -91,8 +91,15 @@ export async function getIncompleteWithdrawals(config: Config, accounts:
 
 export type WalletTransfersTransferResponse = SuccessResponse | FailureResponse
 
-export async function transfer(config: Config, account: Account,
-id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
+export interface TransferParams {
+  readonly email: string
+  readonly token: string
+  readonly id: string
+  readonly blockchain: Blockchain
+}
+export async function transfer(config: Config, account: Account, params: TransferParams
+): Promise<WalletTransfersTransferResponse> {
+  const { email, token, id, blockchain } = params
   const apiKey: string = await account.getApiKey(config)
 
   const firstUrlPath: string = `/wallet_transfers/${id}/create_transfer`
@@ -100,24 +107,24 @@ id: string, blockchain: Blockchain): Promise<WalletTransfersTransferResponse> {
     (result: TransactionContainer): string => `/wallet_transfers/${result.id}/broadcast_transfer`
 
   const firstRequest: Request<{}> =
-    await buildRequest(config, firstUrlPath, { address: account.address })
+    await buildRequest(config, firstUrlPath, { address: account.address, email, token })
 
   const firstResult: TransactionContainer =
     new TransactionContainer(
       await req.post(firstRequest.url, firstRequest.payload, { Authorization: `Token ${apiKey}` }),
       blockchain)
 
-  let payload: {} = {}
+  let payload: {} = { email, token }
 
   if (blockchain === Blockchain.Neo) {
-    payload = await signItem(config, account, firstResult)
+    payload = { ...payload, ...await signItem(config, account, firstResult) }
   } else if (blockchain === Blockchain.Ethereum) {
     const signTransactionParams: EthTransaction = pick(
       firstResult.transaction as EthTransaction,
       'chainId', 'data', 'from', 'gas', 'gasPrice', 'nonce', 'to', 'value')
     const signature: string = await account.signTransaction(signTransactionParams)
 
-    payload = { signature }
+    payload = { ...payload, signature }
   }
 
   const secondRequest: Request<{}> =
