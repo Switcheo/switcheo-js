@@ -152,3 +152,14 @@ export function resendWithdrawalVerification(
   config: Config, params: ResendWithdrawalVerificationParams): Promise<object> {
   return req.post(config.url + `/wallet_transfers/${params.id}/new_confirm_token`, params)
 }
+
+export interface CancelWithdrawalParams {
+  readonly email: string
+  readonly token: string
+  readonly id: string
+}
+
+export function cancelWithdrawal(
+  config: Config, params: CancelWithdrawalParams): Promise<object> {
+  return req.post(config.url + `/wallet_transfers/${params.id}/cancel`, params)
+}
