@@ -3,6 +3,7 @@ import { Blockchain } from '../constants/blockchains'
 import { SignatureProvider } from '../signatureProviders'
 import { Config } from './config'
 import { performRequest } from '../api/helpers'
+import { EosProvider } from '../signatureProviders/eosProvider';
 
 export interface AccountParams {
   provider: SignatureProvider
@@ -59,11 +60,14 @@ export class Account {
   }
 
   public async refreshApiKey(config: Config): Promise<string> {
-    const result: ApiKey =
-      await performRequest(config, this, '/api_keys', {
-        blockchain: this.blockchain,
-        message: 'Create API Key for the next 30 minutes',
-      }) as ApiKey
+    const params: { blockchain: Blockchain, message: string, public_key?: string } = {
+      blockchain: this.blockchain,
+      message: 'Create API Key for the next 30 minutes',
+    }
+    if (this.blockchain === Blockchain.Eos) {
+      params.public_key = (this.provider as EosProvider).publicKey
+    }
+    const result: ApiKey = await performRequest(config, this, '/api_keys', params) as ApiKey
 
     this.apiKey.key = result.key
     this.apiKey.expiresAt = result.expiresAt

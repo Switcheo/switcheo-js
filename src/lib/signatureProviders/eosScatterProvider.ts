@@ -2,12 +2,13 @@ import ScatterJS from 'scatterjs-core'
 import ScatterEOS from 'scatterjs-plugin-eosjs2'
 import { JsonRpc, Api } from 'eosjs2'
 import { EosTransaction } from '../models/transaction'
-import { SignatureProvider, SignatureProviderType } from '.'
 import { Network } from '../constants/networks'
+import { SignatureProvider, SignatureProviderType } from '.'
+import { EosProvider } from './eosProvider'
 
 ScatterJS.plugins(new ScatterEOS())
 
-export class EosScatterProvider implements SignatureProvider {
+export class EosScatterProvider implements SignatureProvider, EosProvider {
   // Checks if the Scatter wallet is present
   public static async isPresent(_network: Network): Promise<boolean> {
     const network: ScatterJS.Network = EosScatterProvider.getScatterNetwork(_network)
@@ -53,6 +54,7 @@ export class EosScatterProvider implements SignatureProvider {
     })
   }
 
+  public readonly publicKey: string
   public readonly address: string
   public readonly displayAddress: string
   public readonly type: SignatureProviderType
@@ -63,12 +65,16 @@ export class EosScatterProvider implements SignatureProvider {
     this.account = account
     this.provider = provider
     this.type = SignatureProviderType.Scatter
-    this.address = `${account.name}@${account.authority}`
-    this.displayAddress = account.name
+    this.address = account.name
+    this.displayAddress = `${account.name}@${account.authority}`
+    this.publicKey = account.publicKey
   }
 
-  public signParams(_params: {}): Promise<string> {
-    return Promise.reject('signParams() is not implemented for EOS!')
+  public signParams(params: { message?: string }): Promise<string> {
+    if (params.message) {
+      return ScatterJS.scatter.getArbitrarySignature(this.account.publicKey, params.message)
+    }
+    return Promise.reject(new Error('signParams() is not implemented for EOS!'))
   }
 
   public signMessage(message: string): Promise<string> {
@@ -76,19 +82,32 @@ export class EosScatterProvider implements SignatureProvider {
   }
 
   public signTransaction(transaction: EosTransaction): Promise<string> {
-    return this.provider.transact(transaction, { ...this.options(), broadcast: false })
+    return this.provider.transact(
+      this.insertAuth(transaction),
+      { ...this.options(), broadcast: false }
+    )
   }
 
   public sendTransaction(transaction: EosTransaction): Promise<string> {
-    return this.provider.transact(transaction, { ...this.options(), broadcast: true })
+    return this.provider.transact(
+      this.insertAuth(transaction),
+      { ...this.options(), broadcast: true }
+    )
   }
 
   private options(): {} {
     return {
-      authorization: [this.address],
       blocksBehind: 3,
       expireSeconds: 30,
       sign: true,
     }
+  }
+
+  private insertAuth(transaction: EosTransaction): EosTransaction {
+    transaction.actions[0].authorization = [{
+      actor: this.account.name,
+      permission: this.account.authority,
+    }]
+    return transaction
   }
 }

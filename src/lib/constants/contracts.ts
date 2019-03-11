@@ -40,13 +40,13 @@ export const CONTRACT_HASHES: ContractHashes = {
   },
   [Blockchain.Eos]: {
     [Network.DevNet]: {
-      V2: '',
+      V2: 'obolusswitc4',
     },
     [Network.TestNet]: {
-      V2: '',
+      V2: 'obolusswitc4',
     },
     [Network.MainNet]: {
-      V2: '',
+      V2: 'obolusswitc4',
     },
   },
   [Blockchain.Qtum]: {
