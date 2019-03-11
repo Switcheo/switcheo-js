@@ -82,6 +82,17 @@ export function loginUser(
   return req.post(config.url + '/users/login', params)
 }
 
+export interface VerifyWithdrawalParams {
+  readonly email: string
+  readonly passwordHash: string
+  readonly otp: string
+  readonly confirmToken: string
+}
+
+export function verifyWithdrawal(config: Config, params: VerifyWithdrawalParams): Promise<object> {
+  return req.post(config.url + '/users/verify_transfer', params)
+}
+
 export interface LogoutUserParams {
   readonly email: string
   readonly token: string

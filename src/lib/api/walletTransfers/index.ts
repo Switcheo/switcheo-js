@@ -132,16 +132,6 @@ export async function transfer(config: Config, account: Account, params: Transfe
   return req.post(secondRequest.url, secondRequest.payload, { Authorization: `Token ${apiKey}` })
 }
 
-export interface VerifyWithdrawalParams {
-  readonly email: string
-  readonly passwordHash: string
-  readonly confirmToken: string
-}
-
-export function verifyWithdrawal(config: Config, params: VerifyWithdrawalParams): Promise<object> {
-  return req.post(config.url + '/wallet_transfers/verify_transfer', params)
-}
-
 export interface ResendWithdrawalVerificationParams {
   readonly email: string
   readonly token: string
