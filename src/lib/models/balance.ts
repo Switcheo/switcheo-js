@@ -11,6 +11,7 @@ export enum Status {
     Expired = 'expired',
     Pending = 'pending',
     Success = 'success',
+    Cancelled = 'cancelled', // WalletTransfer
 }
 
 export interface Balance {
