@@ -25,7 +25,6 @@ export interface WalletTransfer {
   id: string
   balanceId: string
   status: WalletTransferStatus
-  isBalanceStatusActive: boolean
   transactionHash: string
   updatedAt: string
   isConfirmed: boolean

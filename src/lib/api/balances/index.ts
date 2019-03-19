@@ -20,9 +20,9 @@ interface TransferParams {
 }
 
 export interface BalancesGetResponse {
-  confirmed: AssetSymbolStringObj
-  confirming: AssetSymbolStringObj
-  locked: AssetSymbolStringObj
+  readonly confirmed: AssetSymbolStringObj
+  readonly confirming: AssetSymbolStringObj
+  readonly locked: AssetSymbolStringObj
 }
 
 export function get(config: Config,
@@ -58,18 +58,18 @@ export function history(config: Config, accounts: Account | ReadonlyArray<Accoun
 }
 
 export interface Unspent {
-  index: number
-  txid: string
-  value: number
+  readonly index: number
+  readonly txid: string
+  readonly value: number
 }
 export type BalancesGetNeoAssetsResponse = {
     [key in AssetSymbol]: {
-      balance: number
-      unspent: ReadonlyArray<Unspent>
+      readonly balance: number
+      readonly unspent: ReadonlyArray<Unspent>
     }
 } & {
-  address: string
-  net: Network
+  readonly address: string
+  readonly net: Network
 }
 export function getNeoAssets(config: Config,
                              account: Account): Promise<BalancesGetNeoAssetsResponse> {
@@ -79,7 +79,7 @@ export function getNeoAssets(config: Config,
 }
 
 export interface BalancesDepositParams {
-  balance?: string
+  readonly balance?: string
 }
 
 export type BalancesDepositResponse = SuccessDepositResponse | FailureResponse
@@ -109,6 +109,24 @@ export function deposit(
     (result: TransactionContainer) => `/deposits/${result.id}/broadcast`,
     transferParams
   )
+}
+
+export interface BalancesSwitcheoDepositParams {
+  readonly email: string
+  readonly token: string
+  readonly balance?: string
+}
+
+export async function switcheoDeposit(
+  config: Config, account: Account, asset: AssetLike, amount: BigNumber | string,
+  params: BalancesSwitcheoDepositParams
+): Promise<BalancesDepositResponse> {
+  const { email, token } = params
+  const contractHash: string = config.getContractHash(asset.blockchain)
+  await req.post(
+    config.url + '/users/deposit_lock',
+    { email, token, assetId: asset.scriptHash, blockchain: asset.blockchain, contractHash })
+  return deposit(config, account, asset, amount, params)
 }
 
 export type BalancesWithdrawSuccessResponse = Balance
