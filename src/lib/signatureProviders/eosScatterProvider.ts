@@ -84,11 +84,18 @@ export class EosScatterProvider implements SignatureProvider, EosProvider {
     return ScatterJS.scatter.getArbitrarySignature(this.account.publicKey, message)
   }
 
-  public signTransaction(transaction: EosTransaction): Promise<string> {
-    return this.provider.transact(
+  public async signTransaction(transaction: EosTransaction): Promise<string> {
+    const txn: {
+      serializedTransaction: Uint8Array
+      signatures: ReadonlyArray<string>,
+    } = await this.provider.transact(
       this.insertAuth(transaction),
       { ...this.options(), broadcast: false }
     )
+    return {
+      serializedTransaction: (txn.serializedTransaction as any).toString('hex'),
+      signatures: txn.signatures,
+    } as any // not sure why signTransaction method signature returns string
   }
 
   public sendTransaction(transaction: EosTransaction): Promise<string> {
