@@ -18,7 +18,7 @@ interface VersionedContractsByNetwork {
 export const CONTRACT_HASHES: ContractHashes = {
   [Blockchain.Neo]: {
     [Network.DevNet]: {
-      V2: 'c7327ee3ddcc7e547f20d939be6091e44cbf3397',
+      V2: '8474dcdc497f3a49cda749915f00bd258541d6e2',
     },
     [Network.TestNet]: {
       V2: 'a195c1549e7da61b8da315765a790ac7e7633b82',
