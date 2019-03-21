@@ -93,6 +93,17 @@ export function verifyWithdrawal(config: Config, params: VerifyWithdrawalParams)
   return req.post(config.url + '/users/verify_transfer', params)
 }
 
+export interface VerifyWithdrawalTokenParams {
+  readonly email: string
+  readonly token: string
+  readonly confirmToken: string
+}
+
+export function verifyWithdrawalToken(config: Config, params: VerifyWithdrawalTokenParams):
+Promise<object> {
+  return req.post(config.url + '/users/verify_transfer_token', params)
+}
+
 export interface LogoutUserParams {
   readonly email: string
   readonly token: string
