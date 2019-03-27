@@ -12,6 +12,7 @@ import { sweeps, Sweeps } from './sweeps'
 import * as tickers from './tickers'
 import * as tokens from './tokens'
 import * as user from './user'
+import * as lockups from './lockups'
 import * as walletTransfers from './walletTransfers'
 export * from './responses'
 
@@ -20,6 +21,7 @@ export const api: {
   approvedSpenders: typeof approvedSpenders
   balances: typeof balances
   cancellations: typeof cancellations
+  lockups: typeof lockups
   fees: typeof fees
   network: typeof network
   offers: typeof offers
@@ -37,6 +39,7 @@ export const api: {
   balances,
   cancellations,
   fees,
+  lockups,
   network,
   offers,
   orders,
