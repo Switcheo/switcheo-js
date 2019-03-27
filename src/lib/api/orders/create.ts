@@ -65,10 +65,10 @@ export function buildOrderCreationRequest(config: Config, account: Account,
     contractHash: config.getContractHash(account.blockchain),
     ...orderParams,
   }
-  if (params.otcAddress && params.blockchain === Blockchain.Neo) {
+  if (params.otcAddress) {
     params = {
       ...params,
-      otcAddress: neonWallet.getScriptHashFromAddress(params.otcAddress),
+      otcAddress: getScriptHashFromAddress(params.blockchain, params.otcAddress),
     }
   }
   return buildRequest(config, '/orders', params) as OrderCreationRequest
@@ -82,5 +82,13 @@ function getProviderSourceOrDefault(type: SignatureProviderType,
     case SignatureProviderType.O3: return 'o3-web'
     case SignatureProviderType.Trust: return 'trust-web'
     default: return defaultSource
+  }
+}
+
+export function getScriptHashFromAddress(blockchain: string, address: string): string {
+  switch (blockchain) {
+    case Blockchain.Neo: return neonWallet.getScriptHashFromAddress(address)
+    case Blockchain.Ethereum: return address.toLowerCase()
+    default: return address
   }
 }
