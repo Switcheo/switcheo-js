@@ -21,7 +21,7 @@ export const CONTRACT_HASHES: ContractHashes = {
       V2: 'd524fbb2f83f396368bc0183f5e543cae54ef532',
     },
     [Network.TestNet]: {
-      V2: 'aff38ca20ef96a7b86618d86f1bd3879db78c8bb',
+      V2: '58efbb3cca7f436a55b1a05c0f36788d2d9a032e',
     },
     [Network.MainNet]: {
       V2: 'a32bcf5d7082f740a4007b16e812cf66a457c3d4',
