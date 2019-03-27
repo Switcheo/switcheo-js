@@ -22,7 +22,7 @@ test('buildOrderCreationRequest', async (t: GenericTestContext<any>) => {
   t.is(request.url, 'https://test-api.switcheo.network/v2/orders')
   t.is(payload.address, '87cf67daa0c1e9b6caa1443cf5555b09cb3f8e5f')
   t.is(payload.blockchain, 'neo')
-  t.is(payload.contractHash, 'a195c1549e7da61b8da315765a790ac7e7633b82')
+  t.is(payload.contractHash, '58efbb3cca7f436a55b1a05c0f36788d2d9a032e')
   t.is(payload.orderType, 'limit')
   t.is(payload.pair, 'SWTH_NEO')
   t.is(payload.price, '0.00100000')

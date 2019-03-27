@@ -3,7 +3,7 @@ import { Blockchain } from '../constants/blockchains'
 import { SignatureProvider } from '../signatureProviders'
 import { Config } from './config'
 import { performRequest } from '../api/helpers'
-import { EosProvider } from '../signatureProviders/eosProvider';
+import { EosProvider } from '../signatureProviders/eosProvider'
 
 export interface AccountParams {
   provider: SignatureProvider

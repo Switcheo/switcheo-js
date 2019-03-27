@@ -4,7 +4,7 @@ interface ApprovedSpenderParams {
 }
 export class ApprovedSpender {
   public readonly address: string
-  public readonly spender: string 
+  public readonly spender: string
 
   constructor(tx: ApprovedSpenderParams) {
     this.address = tx.address
