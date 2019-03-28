@@ -1,6 +1,6 @@
 {
   "name": "switcheo-js",
-  "version": "1.1.45",
+  "version": "1.1.46",
   "description": "Switcheo Library",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
