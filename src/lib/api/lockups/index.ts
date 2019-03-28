@@ -63,3 +63,9 @@ export async function withdraw(config: Config, account: Account, id: string): Pr
     Authorization: `Token ${apiKey}`,
   })
 }
+
+export async function stats(config: Config, asset: AssetLike, lockupType: LockupType):
+Promise<object> {
+  return req.get(config.url + `/lockups/stats`, {
+    assetId: asset.scriptHash, contractHash: config.getContractHash(asset.blockchain), lockupType })
+}
