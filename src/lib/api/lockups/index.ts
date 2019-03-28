@@ -16,7 +16,7 @@ interface LockupCreationRequestPayload {
 }
 
 export async function create(config: Config, account: Account,
-  asset: AssetLike, amount: BigNumber | string): Promise<{}> {
+  asset: AssetLike, amount: BigNumber | string): Promise<object> {
   const apiKey: string = await account.getApiKey(config)
   const request: LockupCreationRequest = buildLockupCreationRequest(config, account, asset, amount)
   return req.post(request.url, request.payload, {
@@ -42,8 +42,8 @@ export function buildLockupCreationRequest(config: Config, account: Account,
   return buildRequest(config, '/lockups', params) as LockupCreationRequest
 }
 
-export async function history(config: Config, account: Account,
-  asset: AssetLike, lockupType: LockupType): Promise<{}> {
+export function history(config: Config, account: Account,
+  asset: AssetLike, lockupType: LockupType): Promise<object> {
   const historyParams: {
     address: string
     blockchain: string
