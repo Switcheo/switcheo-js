@@ -59,3 +59,11 @@ export function history(config: Config, account: Account,
   }
   return req.get(config.url + '/lockups/history', historyParams)
 }
+
+export async function withdraw(config: Config, account: Account, id: string): Promise<object> {
+  const apiKey: string = await account.getApiKey(config)
+  const address: string = account.address
+  return req.post(config.url + `/lockups/${id}/withdraw`, { address }, {
+    Authorization: `Token ${apiKey}`,
+  })
+}
