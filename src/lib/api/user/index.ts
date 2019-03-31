@@ -50,6 +50,14 @@ export function verifyNewPhone(config: Config, params: VerifyNewPhoneParams): Pr
   return req.post(config.url + '/users/verify_new_phone', params)
 }
 
+export interface VerifyEmailParams {
+  readonly confirmToken: string
+}
+
+export function verifyEmail(config: Config, params: VerifyEmailParams): Promise<object> {
+  return req.post(config.url + '/users/verify_email', params)
+}
+
 export interface ChangePhoneParams {
   readonly email: string
   readonly token: string
