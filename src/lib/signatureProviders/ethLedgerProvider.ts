@@ -47,13 +47,14 @@ export class EthLedgerProvider implements SignatureProvider {
   }
 
   public async listAddresses(
-    pathPrefix: string,
+    pathDerivation: string,
     start: number,
     end: number
   ): Promise<ReadonlyArray<string>> {
     const addresses: string[] = [] // tslint:disable-line
     for (let i: number = start; i < end; i += 1) {
-      const { address } = await this.ledger.getAddress(`${pathPrefix}/${i}`, false, false)
+      const { address } = await this.ledger.getAddress(
+        pathDerivation.replace('x', i.toString()), false, false)
       addresses.push(address)
     }
     return addresses
