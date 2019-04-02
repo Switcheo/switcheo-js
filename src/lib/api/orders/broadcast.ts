@@ -26,7 +26,6 @@ interface OrderBroadcastRequestPayload {
     fills: SignedTransactionMap,
     fillGroups: SignedTransactionMap,
     makes: SignedTransactionMap,
-    txn: { signature?: string, transaction_hash?: string },
   }
 }
 
@@ -37,7 +36,6 @@ export async function buildOrderBroadcastRequest(config: Config, account: Accoun
       fillGroups: await buildSignedTransactionMap(config, account, order.fillGroups),
       fills: await buildSignedTransactionMap(config, account, order.fills),
       makes: await buildSignedTransactionMap(config, account, order.makes),
-      txn: await signItem(config, account, order.txn),
     },
   }
   const request: OrderBroadcastRequest = buildRequest(
