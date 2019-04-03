@@ -7,6 +7,7 @@ import * as network from './network'
 import * as offers from './offers'
 import { orders, Orders } from './orders'
 import * as pairs from './pairs'
+import * as prices from './prices'
 import * as rebates from './rebates'
 import { sweeps, Sweeps } from './sweeps'
 import * as tickers from './tickers'
@@ -27,6 +28,7 @@ export const api: {
   offers: typeof offers
   orders: Orders
   pairs: typeof pairs
+  prices: typeof prices
   rebates: typeof rebates
   sweeps: Sweeps
   tickers: typeof tickers
@@ -44,6 +46,7 @@ export const api: {
   offers,
   orders,
   pairs,
+  prices,
   rebates,
   sweeps,
   tickers,

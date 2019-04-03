@@ -2,6 +2,7 @@ import { MakeOrderParams } from '../api/orders/make'
 import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
 import { PairsParams } from '../api/pairs'
+import { GetSwapPricingParams, SwapPricingGetResponse } from '../api/prices'
 import {
   AnnoucementMessageGetResponse,
   api,
@@ -77,5 +78,9 @@ export class Client {
 
   public getCandlesticks(params: GetCandlesticksParams): Promise<TickersGetCandlesticksResponse> {
     return api.tickers.getCandlesticks(this.config, params)
+  }
+
+  public getSwapPricing(params: GetSwapPricingParams): Promise<SwapPricingGetResponse> {
+    return api.prices.getSwapPricing(this.config, params)
   }
 }
