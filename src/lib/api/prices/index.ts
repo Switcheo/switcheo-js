@@ -14,5 +14,5 @@ export interface SwapPricingGetResponse {
 
 export function getSwapPricing(config: Config,
   params: GetSwapPricingParams): Promise<SwapPricingGetResponse> {
-  return req.get(config.url + '/swap_pricing', params)
+  return req.get(config.url + 'exchange/swap_pricing', params)
 }
