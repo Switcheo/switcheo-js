@@ -2,7 +2,7 @@ import { MakeOrderParams } from '../api/orders/make'
 import { ListOrdersParams } from '../api/orders/get'
 import { MakeCancellationParams } from '../api/cancellations'
 import { PairsParams } from '../api/pairs'
-import { GetSwapPricingParams, SwapPricingGetResponse } from '../api/prices'
+import { GetSwapPricingParams } from '../api/prices'
 import {
   AnnoucementMessageGetResponse,
   api,
@@ -13,7 +13,8 @@ import {
   TickersGetCandlesticksResponse,
   TickersGetLast24HoursResponse,
   TickersGetSparklineResponse,
-  TokensGetResponse
+  TokensGetResponse,
+  SwapPricingGetResponse,
 } from '../api'
 import { GetCandlesticksParams } from '../api/tickers'
 import { TokenParams } from '../api/tokens'

@@ -44,3 +44,7 @@ export {
 export {
   WalletTransfersIncompleteWithdrawalsSuccessResponse,
 } from './walletTransfers'
+
+export {
+  SwapPricingGetResponse,
+} from './prices'
