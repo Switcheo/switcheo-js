@@ -7,6 +7,11 @@ export interface GetSwapPricingParams {
 }
 
 export interface SwapPricingGetResponse {
+  buy: SwapPricingXYKValues
+  sell: SwapPricingXYKValues
+}
+
+export interface SwapPricingXYKValues {
   x: string
   y: string
   k: string
