@@ -46,7 +46,7 @@ export class EosScatterProvider implements SignatureProvider, EosProvider {
       'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473' // jungle
     const host: string = network === Network.MainNet ?
       'nodes.get-scatter.com' : // mainnet
-      'jungle2.cryptolions.io' // jungle
+      'jungle.obolus.com' // jungle
 
     return ScatterJS.Network.fromJson({
       blockchain: 'eos',
