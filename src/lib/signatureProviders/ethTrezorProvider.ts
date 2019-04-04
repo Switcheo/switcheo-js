@@ -6,11 +6,9 @@ import { combineEthSignature } from './utils'
 import { stringifyParams } from '../utils'
 import { isNodeJS } from '../utils/detect'
 import { TREZOR_CONNECT_MANIFEST } from '../constants'
-// @ts-ignore
-import * as _TrezorConnect from 'trezor-connect'
 
 // trezor currently only supports browser
-let TrezorConnect: typeof _TrezorConnect = {} // tslint:disable-line
+let TrezorConnect: any // tslint:disable-line
 if (!isNodeJS) {
   TrezorConnect = require('trezor-connect').default // tslint:disable-line
   TrezorConnect.manifest(TREZOR_CONNECT_MANIFEST)
