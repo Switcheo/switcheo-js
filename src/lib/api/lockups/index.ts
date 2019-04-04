@@ -39,6 +39,17 @@ export function buildLockupCreationRequest(config: Config, account: Account,
   return buildRequest(config, '/lockups', params) as LockupCreationRequest
 }
 
+export async function withdraw(config: Config, account: Account, id: string): Promise<object> {
+  const apiKey: string = await account.getApiKey(config)
+  return req.post(config.url + `/lockups/${id}/withdraw`, {}, {
+    Authorization: `Token ${apiKey}`,
+  })
+}
+
+export async function get(config: Config): Promise<object> {
+  return req.get(config.url + '/lockups')
+}
+
 export function history(config: Config, account: Account,
   asset: AssetLike, lockupType: LockupType): Promise<object> {
   const historyParams: {
@@ -55,17 +66,4 @@ export function history(config: Config, account: Account,
     lockupType,
   }
   return req.get(config.url + '/lockups/history', historyParams)
-}
-
-export async function withdraw(config: Config, account: Account, id: string): Promise<object> {
-  const apiKey: string = await account.getApiKey(config)
-  return req.post(config.url + `/lockups/${id}/withdraw`, {}, {
-    Authorization: `Token ${apiKey}`,
-  })
-}
-
-export async function stats(config: Config, asset: AssetLike, lockupType: LockupType):
-Promise<object> {
-  return req.get(config.url + `/lockups/stats`, {
-    assetId: asset.scriptHash, contractHash: config.getContractHash(asset.blockchain), lockupType })
 }
