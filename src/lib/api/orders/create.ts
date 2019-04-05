@@ -19,6 +19,7 @@ export interface CreateOrderParams {
   readonly otcAddress?: string
   readonly otcMakeId?: string
   readonly receivingAddress?: string
+  readonly worstAcceptablePrice?: string
 }
 
 export type OrderCreationRequest = Request<OrderCreationRequestPayload>
