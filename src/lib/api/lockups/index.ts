@@ -39,9 +39,10 @@ export function buildLockupCreationRequest(config: Config, account: Account,
   return buildRequest(config, '/lockups', params) as LockupCreationRequest
 }
 
-export async function withdraw(config: Config, account: Account, id: string): Promise<object> {
+export async function unlock(config: Config, account: Account, id: string): Promise<object> {
   const apiKey: string = await account.getApiKey(config)
-  return req.post(config.url + `/lockups/${id}/withdraw`, {}, {
+  const params: { id: string } = { id }
+  return req.post(config.url + '/lockups/unlock', params, {
     Authorization: `Token ${apiKey}`,
   })
 }
