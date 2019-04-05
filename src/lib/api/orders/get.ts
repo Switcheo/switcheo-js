@@ -9,6 +9,10 @@ export interface ListOrdersParams {
   readonly pair?: string
 }
 
+export interface ShowOrderParams {
+  readonly include_txns?: boolean
+}
+
 export function get(config: Config, account: Account,
   listOrdersParams: ListOrdersParams): Promise<object> {
   const contractHash: string = config.getContractHash(account.blockchain)
@@ -45,4 +49,9 @@ export async function getOtc(config: Config, accounts: Account | ReadonlyArray<A
       ? neonWallet.getAddressFromScriptHash(offer.takerAddress)
       : offer.takerAddress,
   }))
+}
+
+export async function show(config: Config, id: string, params: ShowOrderParams):
+  Promise<object> {
+  return req.get(config.url + '/orders/' + id + '/', params)
 }
