@@ -7,6 +7,7 @@ import { Order, OrderSide, OrderType } from '../../models/order'
 import req from '../../req'
 import { SignatureProviderType } from '../../signatureProviders'
 import { Account, Config } from '../../switcheo'
+import { approveSpender } from '../approvedSpenders'
 
 export interface CreateOrderParams {
   readonly pair: string
@@ -20,6 +21,7 @@ export interface CreateOrderParams {
   readonly otcMakeId?: string
   readonly receivingAddress?: string
   readonly worstAcceptablePrice?: string
+  readonly handleApprovalProcess?: boolean
 }
 
 export type OrderCreationRequest = Request<OrderCreationRequestPayload>
@@ -46,12 +48,30 @@ export async function create(config: Config, account: Account,
     buildOrderCreationRequest(config, account, orderParams)
   const source: string | undefined =
     getProviderSourceOrDefault(account.provider.type as SignatureProviderType, config.source)
-  const response: any =
-      await req.post(request.url, request.payload, {
-        Authorization: `Token ${apiKey}`,
-        ...(source && { 'X-Referral-Source': source }),
-      })
-  return new Order(response)
+  try {
+    const response: any =
+        await req.post(request.url, request.payload, {
+          Authorization: `Token ${apiKey}`,
+          ...(source && { 'X-Referral-Source': source }),
+        })
+    return new Order(response)
+  } catch (error) {
+    const { errorCode, errorObject } = error
+    if (orderParams.handleApprovalProcess && errorCode === 10208) {
+      const { spender_address: spenderAddress } = errorObject
+      try {
+        await approveSpender(config, account, {
+          address: account.address,
+          contractHash: config.getContractHash(account.blockchain),
+          spenderAddress,
+        })
+        return create(config, account, orderParams)
+      } catch (err) {
+        throw err
+      }
+    }
+    throw error
+  }
 }
 
 export function buildOrderCreationRequest(config: Config, account: Account,

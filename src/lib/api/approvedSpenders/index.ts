@@ -7,6 +7,7 @@ import TransactionContainer from '../../models/transactionContainer'
 export interface ApproveSpenderParams {
   readonly address: string
   readonly spenderAddress: string
+  readonly contractHash: string
 }
 
 export function approveSpender(config: Config, account: Account,
