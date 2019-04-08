@@ -10,7 +10,7 @@ export interface ListOrdersParams {
 }
 
 export interface ShowOrderParams {
-  readonly include_txns?: boolean
+  readonly includeTxns?: boolean
 }
 
 export function get(config: Config, account: Account,
