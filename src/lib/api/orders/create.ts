@@ -67,6 +67,11 @@ export async function create(config: Config, account: Account,
         })
         return create(config, account, orderParams)
       } catch (err) {
+        if (err.message === 'insufficient funds for gas * price + value') {
+          throw new Error(
+            'Not enough ETH found in your wallet to approve spender. ' +
+            'Please deposit more ETH in your wallet balance. ')
+        }
         throw err
       }
     }
