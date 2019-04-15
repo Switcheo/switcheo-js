@@ -139,7 +139,7 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@cityofzion/neon-core@^4.0.2":
+"@cityofzion/neon-core@~4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-4.0.2.tgz#f1c8d07d445c23d2aa513523b7f4778a45e020c1"
   integrity sha512-guQeEziYms96Msa1c2qUIzMsdDDFX9pb0AfmTYIue2TToox2+/WV1w+xQOK/QQLUJSPxpfsNhCIdIq9Ena6pEg==
