@@ -33,3 +33,14 @@ export async function getOtc(config: Config, accounts: Account | ReadonlyArray<A
       : offer.takerAddress,
   }))
 }
+
+type BookParams = ReadonlyArray<{ price: string, quantity: string }>
+
+export interface OrderBookParams {
+  bids: BookParams,
+  asks: BookParams,
+}
+
+export async function getOrderBook(config: Config, pair: string): Promise<OrderBookParams> {
+  return req.get(config.url + '/offers/book', { pair })
+}
