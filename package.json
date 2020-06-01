@@ -95,7 +95,7 @@
     "ethereum-types": "^1.1.2",
     "gh-pages": "^1.2.0",
     "npm-run-all": "^4.1.3",
-    "nyc": "^12.0.2",
+    "nyc": "^15.1.0",
     "opn-cli": "^3.1.0",
     "standard-version": "^4.4.0",
     "trash-cli": "^1.4.0",
