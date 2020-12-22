@@ -60,7 +60,7 @@
     "@types/hdkey": "^0.7.0",
     "@types/long": "^4.0.0",
     "@types/node": "^10.12.18",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bignumber.js": "^7.2.1",
     "bip39": "^2.5.0",
     "bip44-constants": "^7.0.0",
